@@ -1,0 +1,6 @@
+$out_root/
+{
+  include mkl/
+}
+
+export $out_root/mkl/$import.target

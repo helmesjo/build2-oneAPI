@@ -1,0 +1,3 @@
+import libs = liboneapi-mkl%lib{oneapi-mkl}
+
+exe{driver}: {hxx ixx txx cxx}{**} $libs testscript{**}

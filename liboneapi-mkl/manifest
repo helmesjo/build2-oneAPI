@@ -1,0 +1,14 @@
+: 1
+name: liboneapi-mkl
+version: 0.1.0-a.0.z
+language: c++
+project: oneAPI
+summary: oneapi-mkl C++ library
+license: other: proprietary ; Not free/open source.
+package-description-file: PACKAGE-README.md
+url: https://example.org/upstream
+email: upstream@example.org
+package-url: https://github.com/build2-packaging/oneAPI
+package-email: packaging@build2.org ; Mailing list.
+depends: * build2 >= 0.17.0
+depends: * bpkg >= 0.17.0
