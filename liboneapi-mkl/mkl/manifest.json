@@ -1,0 +1,14 @@
+{
+  "baseUrl": "https://installer.repos.intel.com/oneapi/mkl",
+  "version": "2025.3.0+453",
+  "liboneapi-mkl":
+  {
+    "windows":
+    {
+      "subdir":    "win",
+      "basename":  "intel.oneapi.win.onemkl.content",
+      "verSuffix": ",v=",
+      "extension": "json"
+    }
+  }
+}

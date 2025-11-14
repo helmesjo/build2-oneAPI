@@ -1,0 +1,36 @@
+define redist: file
+redist{*}: extension = json
+
+define archive: file
+archive{*}: extension = tar
+
+define extract: group
+
+archive{~'/(.+)/'}:
+{{
+  tar  = $out_root/$leaf($path($>))
+  part = $(tar).part
+
+  # extract details from redist.json
+  json     = ($<[0])
+  meta     = [json] $json.load($path($json))
+  pkg      = [json] ($meta["$cc.target.class-$cc.target.cpu"])
+  base_url = [string] ($meta["base_url"])
+  url      = [path] "$base_url/([string] $pkg["relative_path"])"
+
+  depdb hash $json
+  diag curl $url -> $>
+
+  # curl --netrc -c $c "https://developer.nvidia.com/login" <| &$c
+  # curl -b $c -O "$url" <|
+
+  # download if missing or broken
+  bsdtar -tf $tar >- 2>&1 || \
+    curl -\# --netrc --fail --output $part "$url"
+  test -f $part && \
+    rm -f $tar && mv $part $tar &!$tar || true
+  test -f $path($>) || \
+    ln --symbolic $tar $path($>)
+  touch $path($>)
+}}
+
