@@ -1,11 +1,9 @@
 intf_libs = # Interface dependencies.
 impl_libs = # Implementation dependencies.
 
-# --- Common config -------------------------------------------------
-
 name = $string.replace($project, 'liboneapi-', '')
-mkl.version        = 2025.2.0
-mkl.short_version  = 2025.2
+mkl.version        = 2025.3.0
+mkl.short_version  = 2025.3
 # Full MKL version with + as in the manifests/ids.
 mkl.version_full = 2025.3.0+453
 # Intel’s repo uses %2B for '+' in the URL.
@@ -22,7 +20,7 @@ mkl.package_infix  = ($mkl.class == 'windows' ? 'win' : 'lin')
 mkl.runtime_dir    = ($mkl.class == 'windows' ? 'bin' : 'lib')
 
 # vcpkg URLs / filenames / SHA512, verbatim.
-print $mkl.class
+# print $mkl.class
 if ($mkl.class == 'windows')
 {
   mkl.filename = 'intel-onemkl-2025.2.0.630_offline.exe'
@@ -71,190 +69,22 @@ text "mkl.install_prog      $mkl.install_prog"
 # text "mkl.install_prog      $mkl.install_prog"
 # text "mkl.install_args      $mkl.install_args"
 
-# --- Download target -----------------------------------------------
+source redist.build
 
-# Uses curl; adjust if you prefer something else.
-# alias{mkl-download}:
-# {{
-#   diag "Downloading Intel oneMKL $mkl.version from $mkl.url"
-#   mkdir -p $out_root
-#   curl -fL -o "$mkl.archive" "$mkl.url"
-# }}
+lib{oneapi-mkl}: {hxx ixx txx cxx}{**} $impl_libs $intf_libs
 
-# -------------------------------
-# Ad-hoc recipe
-# -------------------------------
+json{$name-manifest}: $src_root/manifest manifest.json
+json{mkl.devel...}: json{$name-manifest}
+json{mkl.runtime...}: json{$name-manifest}
 
-# Run:
-#   b mkl-install
-#
-# This will install:
-#   $out_base/mkl/...       (includes mkl_rt.* and headers)
-#   $out_base/compiler/...  (OpenMP runtime used by MKL when intel_thread is enabled)
-# source redist.build
-# define [see_through] import: group
-
-# ./: libs{$name}: $intf_libs import{$name}
-
-define json: file
-json{*}: extension = json
-
-./: json{$name-manifest}: $src_root/manifest manifest.json
-json{$name-manifest}:
-{{
-  n        = $name($>)
-  manifest = ($<[0])
-  redist   = ($<[1])
-  package_infix  = ($cc.target.class == 'windows' ? 'win' : 'lin')
-
-  # 'b dist' may cap width, so join escaped lines.
-  cat $path($manifest) \
-    | set m [strings]
-  m = $regex.apply($m, '\\\n', '')
-
-  cat $path($manifest) \
-    | sed -n -e 's/^name:\s*(.+)$/\1/p' \
-    | set comp [string]
-
-  cat $path($manifest) \
-    | sed -n -e 's/^upstream-version:\s*(.*).*$/\1/p' \
-    | set version_full [string]
-  version_url  = $string.replace($version_full, '+', '%2B')
-
-  json       = [json] $json.load($path($redist))
-  base_url   = [string] ($json["baseUrl"])
-  comp       = [json] ($json["$comp"])
-  comp       = [json] ($comp["$cc.target.class"])
-  subdir     = [string] ($comp["subdir"])
-  basename   = [string] ($comp["basename"])
-  ver_suffix = [string] ($comp["verSuffix"])
-  extension  = [string] ($comp["extension"])
-  manifest_url = \
-    [path] "$(base_url)/$(subdir)/$(basename)$(ver_suffix)$(version_url).$(extension)"
-
-  depdb hash $json
-  diag curl $manifest_url -> $>
-
-  curl -\# --fail --output $path($>) "$manifest_url"
-}}
-
-./: json{intel.oneapi.win.mkl.devel...}
-json{intel.oneapi.win.mkl.devel...}: json{$name-manifest}
-{{
-  n        = $name($>[0])
-  json     = ($<[0])
-  json     = [json] $json.load($path($json))
-  packages = [json_array] ($json["packages"])
-  depdb hash $json
-  diag curl $>
-
-  res = [json_array]
-  for p : $packages
-    id = ($p["id"])
-    if($id == $n)
-      for j : ($p["payloads"])
-        file = ($j["fileName"])
-        url = [path] ($j["url"])
-        if($string.ends_with($file, 'manifest.json'))
-          curl -\# --fail --output $path($>) "$url"
-          exit 0
-        end
-      end
-    end
-  end
-  echo "Failed to find id '$n' with payload file 'manifest.json' in json:$\n$json.serialize($packages)" >&2
-  exit 1
-}}
-
-define archive: file
-archive{*}: extension = tar
-
-./: archive{$name-$(mkl.version_full)-intel.oneapi.win.mkl.devel...}
-archive{$name-$(mkl.version_full)-intel.oneapi.win.mkl.devel...}: json{intel.oneapi.win.mkl.devel...}
-{{
-  tar  = [path] $out_root/$leaf($path($>))
-  part = [path] $(tar).part
-
-  # extract details from redist.json
-  json     = ($<[0])
-  meta     = [json] $json.load($path($json))
-  payloads = [json_array] ($meta["payloads"])
-
-  for p : [json_array] $payloads
-    file = [string] ($p["fileName"])
-    if ($file == 'cupPayload.cup')
-      url = [path] ($p["url"])
-    end
-  end
-
-  depdb hash $meta
-  diag curl $url -> $path($>)
-
-  # download if missing or broken
-  bsdtar -tf $tar >- 2>&1 || \
-    curl -\# --fail --output $part "$url"
-  test -f $part && \
-    rm -f $tar && mv $part $tar &!$tar || true
-  test -f $path($>) || \
-    ln --symbolic $tar $path($>)
-  touch $path($>)
-}}
-
-# extract{packages}: json{packages}
-# {{
-#   o = $posix_representation($directory($>[0]))
-#   a = $posix_representation($path($<[0]))
-#   d = "$(a).files"
-# bsdtar -xf ./windows-x86_64-0.1.0-a.0.20251114115906-archive.exe -C ./derp --include "*packages/intel.oneapi.win*mkl*" --strip-components=1
-#   pattern = [cmdline] \
-#     --include "*packages/intel.oneapi.win*mkl*"
-
-#   # extract paths for all relevant files
-#   depdb dyndep \
-#     --dyn-target \
-#     --target-cwd "$o" \
-#     --target-what 'fetched binaries' \
-#     --target-default-type 'file' \
-#     --target-extension-type '=file' \
-#     --target-extension-type 'h=file' \
-#     --target-extension-type 'hpp=file' \
-#     --target-extension-type 'cuh=file' \
-#     --target-extension-type 'inl=file' \
-#     --target-extension-type 'a=file' \
-#     --target-extension-type 'so=file' \
-#     --target-extension-type 'dylib=file' \
-#     --target-extension-type 'dll=file' \
-#     --target-extension-type 'lib=file' \
-#     --target-extension-type 'exe=file' \
-#     --format lines \
-#     --file "$d" \
-#     -- \
-#       bsdtar --fast-read -tf "$a" $pattern \
-#       | sed -n -e 's%^.*?/%%p' \
-#       | sed -n -e 's%^(.*)/?$%\1%p' \
-#       | sed -e "s%.+/\$%$d%g" >$d
-
-#   # extract all files
-#   diag bsdtar $< $filter_out($>, group)
-
-#   bsdtar -C "$o" -xmf "$a" --strip-components=1 $pattern
-#   touch $d
-# }}
+archive{$name-$(mkl.version_full)-intel.oneapi.win.mkl.devel...}: json{mkl.devel...}
+archive{$name-$(mkl.version_full)-intel.oneapi.win.mkl.runtime...}: json{mkl.runtime...}
+./: extract{$name-devel}: archive{$name-$(mkl.version_full)-intel.oneapi.win.mkl.devel...}
+./: extract{$name-runtime}: archive{$name-$(mkl.version_full)-intel.oneapi.win.mkl.runtime...}
 
 # archive{$cc.target.class-$cc.target.cpu-$version-archive.tar}: redist{lib$name}
 # extract{archive}: archive{$cc.target.class-$cc.target.cpu-$version-archive.tar}
 # import{$name}: extract{archive}: update = match
-
-# ./: file{hello}
-# file{hello}:
-# {{
-#   cmd = [cmdline] $mkl.install_prog $mkl.install_args
-#   diag install $>
-#   echo $cmd
-#   $cmd
-# }}
-
-lib{oneapi-mkl}: {hxx ixx txx cxx}{**} $impl_libs $intf_libs
 
 # Build options.
 #
