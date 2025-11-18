@@ -6,7 +6,7 @@ archive{*}: extension = tar
 
 define extract: group
 
-json{~'/(.+-manifest)/'}:
+json{~'/(.+-manifest.*)/'}:
 {{
   n        = $name($>)
   manifest = ($<[0])
@@ -44,7 +44,7 @@ json{~'/(.+-manifest)/'}:
   curl -\# --fail --output $path($>) "$manifest_url"
 }}
 
-json{~'/([a-z]+\.[a-z]+.+)/'}:
+json{~'/([a-z]+\.[a-z]+.*)/'}:
 {{
   n        = $name($>[0])
   json     = ($<[0])
@@ -116,7 +116,7 @@ extract{~'/(.+)/'}:
   depdb dyndep \
     --dyn-target \
     --target-cwd "$o" \
-    --target-what 'fetched binaries' \
+    --target-what 'extracted files' \
     --target-default-type 'file' \
     --target-extension-type '=file' \
     --target-extension-type 'h=file' \
@@ -133,7 +133,7 @@ extract{~'/(.+)/'}:
     --file $d \
     -- \
       bsdtar -tf "$a" $pattern >$d \
-      && sed -n -e "s%^.*/$mkl.short_version/\(.*\)\$%$(n)/\1%p" -i $d \
+      && sed -n -e "s%^.*/[0-9.]+/\(.*\)\$%$(n)/\1%p" -i $d \
       && sed -e 's%^.*/$%%p' -i $d \
       && sed -e "s%\$%$d%g" -i $d \
       && echo '' >>$d && echo $path.representation([dir_path] $o$n) >>$d &!$d

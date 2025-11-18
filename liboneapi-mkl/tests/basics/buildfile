@@ -1,3 +1,3 @@
-import libs = liboneapi-mkl%lib{oneapi-mkl}
+import libs = liboneapi-mkl%libs{mkl-thread-seq mkl-core mkl-rt}
 
 exe{driver}: {hxx ixx txx cxx}{**} $libs testscript{**}

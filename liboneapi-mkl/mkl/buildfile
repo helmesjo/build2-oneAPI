@@ -1,117 +1,95 @@
 intf_libs = # Interface dependencies.
 impl_libs = # Implementation dependencies.
 
+define [see_through] import: group
+
 name = $string.replace($project, 'liboneapi-', '')
-mkl.version        = 2025.3.0
-mkl.short_version  = 2025.3
-# Full MKL version with + as in the manifests/ids.
-mkl.version_full = 2025.3.0+453
-# Intel’s repo uses %2B for '+' in the URL.
-mkl.version_url = $string.replace($mkl.version_full, '+', '%2B')
-
-mkl.class = $cc.target.class        # 'windows', 'linux'
-mkl.cpu   = $cc.target.cpu          # 'x86_64'
-
-# Only x86_64 Windows/Linux like the vcpkg port.
-if (!($mkl.cpu == 'x86_64' && ($mkl.class == 'windows' || $mkl.class == 'linux')))
-  fail "intel-mkl: only windows/linux x86_64 supported"
-
-mkl.package_infix  = ($mkl.class == 'windows' ? 'win' : 'lin')
-mkl.runtime_dir    = ($mkl.class == 'windows' ? 'bin' : 'lib')
-
-# vcpkg URLs / filenames / SHA512, verbatim.
-# print $mkl.class
-if ($mkl.class == 'windows')
-{
-  mkl.filename = 'intel-onemkl-2025.2.0.630_offline.exe'
-  mkl.magic    = '307bccae-8631-4712-8999-02a8abf51994'
-  mkl.sha512   = '13d6c1ab943d2a3a16ee29be995215ef14eb469215c24633d9fdff1f0e1b3e78225ed92780b9a20d90812160da5a4969e16f0e9df36df45389c4fab4b5ecac3d'
-  mkl.ext      = '.exe'
-}
-else
-{
-  mkl.filename = 'intel-onemkl-2025.2.0.629_offline.sh'
-  mkl.magic    = '47c7d946-fca1-441a-b0df-b094e3f045ea'
-  mkl.sha512   = '60e0b86b2e63da1becb527db0d912d19e2a664671e1e6cf54ac6fad35ced3bb791e490d4b7d1a555231a0b553a32652d1c6c41869222c88f30e17fee5c436cd3'
-  mkl.ext      = '.sh'
-}
-
-mkl.url      = "https://registrationcenter-download.intel.com/akdlm/IRC_NAS/$mkl.magic/$mkl.filename"
-mkl.archive  = "$out_root/$mkl.class-$mkl.cpu-$mkl.version-archive$mkl.ext"
-
-mkl.extract_0 = "$out_root/$mkl.class-$mkl.cpu-$mkl.version-extract-0"
-mkl.extract_1 = "$out_root/$mkl.class-$mkl.cpu-$mkl.version-extract-1"
-
-# Final JSON URL:
-#   https://installer.repos.intel.com/oneapi/mkl/win/intel.oneapi.win.onemkl.content,v=2025.3.0%2B453.json
-mkl.json = "https://installer.repos.intel.com/oneapi/mkl/$(mkl.package_infix)/intel.oneapi.$(mkl.package_infix).onemkl.content,v=$(mkl.version_url).json"
-
-# Where you want the final, flattened MKL layout.
-mkl.root = $out_base                 # -> $out_base/include, lib, bin, compiler
-text "mkl.filename          $mkl.filename"
-text mkl.json              $mkl.json
-text "mkl.magic             $mkl.magic"
-text "mkl.sha512            $mkl.sha512"
-text "mkl.ext               $mkl.ext"
-text "mkl.dir               $mkl.dir"
-text "mkl.version           $mkl.version"
-text "mkl.package_infix     $mkl.package_infix"
-text "mkl.archive           $mkl.archive"
-text "mkl.extract_0         $mkl.extract_0"
-text "mkl.extract_1         $mkl.extract_1"
-text "mkl.component_prefix  $mkl.component_prefix"
-text "mkl.component.runtime $mkl.component.runtime"
-text "mkl.component.devel   $mkl.component.devel"
-text "mkl.component.openmp  $mkl.component.openmp"
-text "mkl.components        $mkl.components"
-text "mkl.install_prog      $mkl.install_prog"
-# text "mkl.install_args      $mkl.install_args"
-# text "mkl.install_prog      $mkl.install_prog"
-# text "mkl.install_args      $mkl.install_args"
 
 source redist.build
-
-lib{oneapi-mkl}: {hxx ixx txx cxx}{**} $impl_libs $intf_libs
 
 json{$name-manifest}: $src_root/manifest manifest.json
 json{mkl.devel...}: json{$name-manifest}
 json{mkl.runtime...}: json{$name-manifest}
 
-archive{$name-$(mkl.version_full)-intel.oneapi.win.mkl.devel...}: json{mkl.devel...}
-archive{$name-$(mkl.version_full)-intel.oneapi.win.mkl.runtime...}: json{mkl.runtime...}
-./: extract{$name-devel}: archive{$name-$(mkl.version_full)-intel.oneapi.win.mkl.devel...}
-./: extract{$name-runtime}: archive{$name-$(mkl.version_full)-intel.oneapi.win.mkl.runtime...}
+archive{$name-intel.oneapi.win.mkl.devel...}: json{mkl.devel...}
+archive{$name-intel.oneapi.win.mkl.runtime...}: json{mkl.runtime...}
+extract{$name-devel}: archive{$name-intel.oneapi.win.mkl.devel...}
+extract{$name-runtime}: archive{$name-intel.oneapi.win.mkl.runtime...}
 
-# archive{$cc.target.class-$cc.target.cpu-$version-archive.tar}: redist{lib$name}
-# extract{archive}: archive{$cc.target.class-$cc.target.cpu-$version-archive.tar}
-# import{$name}: extract{archive}: update = match
+import{$name-headers}: extract{$name-devel} extract{$name-runtime}: update = match
+import{$name-headers}:
+{{
+  o = $directory($>[0])
+  d = $o/$name($>[0]).files
 
-# Build options.
-#
-cxx.poptions =+ "-I$out_root" "-I$src_root"
+  hdrs = [paths]
+  for g : $filter($<, group)
+    if test -d $o/$name($g)/include
+      find "$o/$name($g)/include" -type f -name "*.h*" \
+        | set -n f [paths]
+      hdrs += $f
+    end
+  end
 
-#obja{*}: cxx.poptions += -DMKL_STATIC_BUILD
-#objs{*}: cxx.poptions += -DMKL_SHARED_BUILD
+  depdb dyndep \
+    --dyn-target \
+    --target-cwd "$o" \
+    --target-what 'imported headers' \
+    --target-extension-type 'h=h' \
+    --target-extension-type 'hpp=hxx' \
+    --format lines \
+    --file $d \
+    -- \
+      echo $regex.merge($hdrs, '(.+)', '\1\n') >$d
 
-# Export options.
-#
-lib{oneapi-mkl}:
+  diag import $>
+
+  for t : $filter_out($>, group)
+    touch $path($t)
+  end
+}}
+
+pub_hdrs = [strings] "-I$out_base/mkl-devel/include" "-I$out_base/mkl-devel/include/oneapi"
+
+for m: [json_object] $json.load($src_base/package.json)
 {
-  cxx.export.poptions = "-I$out_root" "-I$src_root"
-  cxx.export.libs = $intf_libs
+  n = $member_name($m)
+  v = $member_value($m)
+  libs = [paths]
+  libi = [paths]
+  for x: [json_array] ($v["libs"])
+  {
+    libs += [paths] $x
+  }
+  for x: [json_array] ($v["libi"])
+  {
+    libi += [paths] $x
+  }
+
+  libs_dir = [dir_path] $out_base/mkl-runtime/bin
+  libi_dir = [dir_path] $out_base/mkl-devel/lib
+
+  libs{$n}: import{$name-headers} $libs_dir/libs{$libs}
+  $libs_dir/libs{$libs}: extract{$name-devel} extract{$name-runtime}
+  <$libs_dir/libs{$libs} $libi_dir/libi{$libi}>: extract{$name-devel} extract{$name-runtime}
+
+  # Export options.
+  #
+  libs{$n}:
+  {
+    cc.export.libs     = $libs_dir/libs{$libs}
+    cc.export.poptions = $pub_hdrs
+  }
+
+  # For pre-releases use the complete version to make sure they cannot
+  # be used in place of another pre-release or the final version. See
+  # the version module for details on the version.* variable values.
+  #
+  if $version.pre_release
+    lib{$name}: bin.lib.version = "-$version.project_id"
+  else
+    lib{$name}: bin.lib.version = "-$version.major.$version.minor"
 }
-
-#liba{oneapi-mkl}: cxx.export.poptions += -DMKL_STATIC
-#libs{oneapi-mkl}: cxx.export.poptions += -DMKL_SHARED
-
-# For pre-releases use the complete version to make sure they cannot
-# be used in place of another pre-release or the final version. See
-# the version module for details on the version.* variable values.
-#
-if $version.pre_release
-  lib{oneapi-mkl}: bin.lib.version = "-$version.project_id"
-else
-  lib{oneapi-mkl}: bin.lib.version = "-$version.major.$version.minor"
 
 # Install into the mkl/ subdirectory of, say, /usr/include/
 # recreating subdirectories.
