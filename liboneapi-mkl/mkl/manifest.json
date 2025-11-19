@@ -14,7 +14,7 @@
     {
       "version": "2025.3.0+461",
       "subdir":    "lin",
-      "basename":  "intel.oneapi.win.onemkl.content",
+      "basename":  "intel.oneapi.lin.onemkl.content",
       "verSuffix": ",v=",
       "extension": "json"
     }
