@@ -7,12 +7,36 @@
     "libs": ["mkl_core.2.dll", "libimalloc.dll"],
     "libi": ["mkl_core_dll.lib"]
   },
+  "mkl-dispatch": {
+    "libs": [
+      "mkl_avx2.2.dll",
+      "mkl_avx512.2.dll",
+      "mkl_def.2.dll",
+      "mkl_mc3.2.dll",
+      "mkl_vml_avx2.2.dll",
+      "mkl_vml_avx512.2.dll",
+      "mkl_vml_def.2.dll",
+      "mkl_vml_mc3.2.dll",
+      "mkl_vml_cmpt.2.dll"
+    ],
+    "libi": []
+  },
   "mkl-lp64": {
-    "libs": ["mkl_core.2.dll", "mkl_intel_thread.2.dll", "mkl_sequential.2.dll", "mkl_tbb_thread.2.dll"],
+    "libs": [
+      "mkl_core.2.dll",
+      "mkl_intel_thread.2.dll",
+      "mkl_sequential.2.dll",
+      "mkl_tbb_thread.2.dll"
+    ],
     "libi": ["mkl_intel_lp64_dll.lib"]
   },
   "mkl-ilp64": {
-    "libs": ["mkl_core.2.dll", "mkl_intel_thread.2.dll", "mkl_sequential.2.dll", "mkl_tbb_thread.2.dll"],
+    "libs": [
+      "mkl_core.2.dll",
+      "mkl_intel_thread.2.dll",
+      "mkl_sequential.2.dll",
+      "mkl_tbb_thread.2.dll"
+    ],
     "libi": ["mkl_intel_ilp64_dll.lib"]
   },
   "mkl-thread-seq": {
@@ -54,11 +78,27 @@
     "libi": ["mkl_cdft_core_dll.lib"]
   },
   "mkl-cluster-lp64": {
-    "libs": ["mkl_blacs_lp64.2.dll", "mkl_scalapack_lp64.2.dll"],
-    "libi": ["mkl_blacs_lp64_dll.lib", "mkl_scalapack_lp64_dll.lib"]
+    "libs": [
+      "mkl_blacs_lp64.2.dll",
+      "mkl_blacs_intelmpi_lp64.2.dll",
+      "mkl_blacs_msmpi_lp64.2.dll",
+      "mkl_scalapack_lp64.2.dll"
+    ],
+    "libi": [
+      "mkl_blacs_lp64_dll.lib",
+      "mkl_scalapack_lp64_dll.lib"
+    ]
   },
   "mkl-cluster-ilp64": {
-    "libs": ["mkl_blacs_ilp64.2.dll", "mkl_scalapack_ilp64.2.dll"],
-    "libi": ["mkl_blacs_ilp64_dll.lib", "mkl_scalapack_ilp64_dll.lib"]
+    "libs": [
+      "mkl_blacs_ilp64.2.dll",
+      "mkl_blacs_intelmpi_ilp64.2.dll",
+      "mkl_blacs_msmpi_ilp64.2.dll",
+      "mkl_scalapack_ilp64.2.dll"
+    ],
+    "libi": [
+      "mkl_blacs_ilp64_dll.lib",
+      "mkl_scalapack_ilp64_dll.lib"
+    ]
   }
 }

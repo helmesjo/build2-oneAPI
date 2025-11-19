@@ -49,6 +49,8 @@ import{$name-headers}:
   end
 }}
 
+libs_dir = [dir_path] $out_base/mkl-runtime/bin
+libi_dir = [dir_path] $out_base/mkl-devel/lib
 pub_hdrs = [strings] "-I$out_base/mkl-devel/include" "-I$out_base/mkl-devel/include/oneapi"
 
 for m: [json_object] $json.load($src_base/package.json)
@@ -66,19 +68,30 @@ for m: [json_object] $json.load($src_base/package.json)
     libi += [paths] $x
   }
 
-  libs_dir = [dir_path] $out_base/mkl-runtime/bin
-  libi_dir = [dir_path] $out_base/mkl-devel/lib
-
-  libs{$n}: import{$name-headers} $libs_dir/libs{$libs}
-  $libs_dir/libs{$libs}: extract{$name-devel} extract{$name-runtime}
-  <$libs_dir/libs{$libs} $libi_dir/libi{$libi}>: extract{$name-devel} extract{$name-runtime}
-
-  # Export options.
+  # The "bundles" are either both shared & import libs (Windows),
+  # or shared-only (implicitly loaded, just needs to respect RPATH).
   #
-  libs{$n}:
+  libs{$n}: import{$name-headers}
+  if (!$empty($libs) && !$empty($libi))
   {
-    cc.export.libs     = $libs_dir/libs{$libs}
-    cc.export.poptions = $pub_hdrs
+    libs{$n}: $libs_dir/libs{$libs}: extract{$name-devel} extract{$name-runtime}
+    <$libs_dir/libs{$libs} $libi_dir/libi{$libi}>: extract{$name-devel} extract{$name-runtime}
+
+    # Export options.
+    #
+    libs{$n}:
+    {
+      cc.export.libs = $libs_dir/libs{$libs}
+      cc.export.poptions = $pub_hdrs
+    }
+  }
+  elif (!$empty($libs))
+  {
+    libs{$n}: $libs_dir/libs{$libs}: extract{$name-devel} extract{$name-runtime}
+  }
+  else
+  {
+    fail "libs{$n}: No shared library specified. See '$src_base/packages.json'."
   }
 
   # For pre-releases use the complete version to make sure they cannot
