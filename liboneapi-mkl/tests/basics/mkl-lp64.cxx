@@ -1,5 +1,5 @@
 // mkl-lp64 smoke test
-#include <mkl_service.h>
+#include <mkl.h>
 #undef NDEBUG
 #include <cassert>
 

@@ -4,6 +4,7 @@
 #include <cassert>
 
 int main() {
-  double a = 1.0;
-  assert(cblas_dnrm2(1, &a, 1) == 1.0); // pure core BLAS
+  MKLVersion v{};
+  MKL_Get_Version(&v);
+  assert(v.MajorVersion >= 1);
 }

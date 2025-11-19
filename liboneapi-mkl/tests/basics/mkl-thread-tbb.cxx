@@ -3,4 +3,7 @@
 #undef NDEBUG
 #include <cassert>
 
-int main() { assert(MKL_Get_Max_Threads() >= 1); }
+int main() {
+  int prev = MKL_Set_Threading_Layer(MKL_THREADING_TBB);
+  assert(prev == MKL_THREADING_TBB || prev == MKL_THREADING_INTEL);
+}
