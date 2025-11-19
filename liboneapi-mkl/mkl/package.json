@@ -1,6 +1,5 @@
 {
-  "x86_64-windows":
-  {
+  "x86_64-windows": {
     "mkl-rt": {
       "libs": ["mkl_rt.2.dll"],
       "libi": ["mkl_rt.lib"]
@@ -24,28 +23,18 @@
       "libi": []
     },
     "mkl-lp64": {
-      "libs": [
-        "mkl_core.2.dll",
-        "mkl_intel_thread.2.dll",
-        "mkl_sequential.2.dll",
-        "mkl_tbb_thread.2.dll"
-      ],
+      "libs": [],
       "libi": ["mkl_intel_lp64_dll.lib"]
     },
     "mkl-ilp64": {
-      "libs": [
-        "mkl_core.2.dll",
-        "mkl_intel_thread.2.dll",
-        "mkl_sequential.2.dll",
-        "mkl_tbb_thread.2.dll"
-      ],
+      "libs": [],
       "libi": ["mkl_intel_ilp64_dll.lib"]
     },
     "mkl-thread-seq": {
       "libs": ["mkl_sequential.2.dll"],
       "libi": ["mkl_sequential_dll.lib"]
     },
-    "mkl-thread-openmp": {
+    "mkl-thread-intel": {
       "libs": ["mkl_intel_thread.2.dll"],
       "libi": ["mkl_intel_thread_dll.lib"]
     },
@@ -110,7 +99,7 @@
       "libi": []
     },
     "mkl-core": {
-      "libs": ["libmkl_core.so.2", "libimalloc.so"],
+      "libs": ["libmkl_core.so.2"],
       "libi": []
     },
     "mkl-dispatch": {
@@ -123,34 +112,28 @@
         "libmkl_vml_avx512.so.2",
         "libmkl_vml_def.so.2",
         "libmkl_vml_mc3.so.2",
-        "libmkl_vml_cmpt.so"
+        "libmkl_vml_cmpt.so.2"
       ],
       "libi": []
     },
     "mkl-lp64": {
-      "libs": [
-        "libmkl_core.so.2",
-        "libmkl_intel_thread.so.2",
-        "libmkl_sequential.so.2",
-        "libmkl_tbb_thread.so.2"
-      ],
+      "libs": ["libmkl_intel_lp64.so.2"],
       "libi": []
     },
     "mkl-ilp64": {
-      "libs": [
-        "libmkl_core.so.2",
-        "libmkl_intel_thread.so.2",
-        "libmkl_sequential.so.2",
-        "libmkl_tbb_thread.so.2"
-      ],
+      "libs": ["libmkl_intel_ilp64.so.2"],
       "libi": []
     },
     "mkl-thread-seq": {
       "libs": ["libmkl_sequential.so.2"],
       "libi": []
     },
-    "mkl-thread-openmp": {
+    "mkl-thread-intel": {
       "libs": ["libmkl_intel_thread.so.2"],
+      "libi": []
+    },
+    "mkl-thread-openmp": {
+      "libs": ["libmkl_gnu_thread.so.2"],
       "libi": []
     },
     "mkl-thread-tbb": {
@@ -162,6 +145,7 @@
         "libmkl_sycl_blas.so.5",
         "libmkl_sycl_data_fitting.so.5",
         "libmkl_sycl_dft.so.5",
+        "libmkl_sycl_distributed_dft.so.1",
         "libmkl_sycl_lapack.so.5",
         "libmkl_sycl_rng.so.5",
         "libmkl_sycl_sparse.so.5",
@@ -176,18 +160,16 @@
     },
     "mkl-cluster-lp64": {
       "libs": [
-        "libmkl_blacs_lp64.so.2",
         "libmkl_blacs_intelmpi_lp64.so.2",
-        "libmkl_blacs_msmpi_lp64.so.2",
+        "libmkl_blacs_openmpi_lp64.so.2",
         "libmkl_scalapack_lp64.so.2"
       ],
       "libi": []
     },
     "mkl-cluster-ilp64": {
       "libs": [
-        "libmkl_blacs_ilp64.so.2",
         "libmkl_blacs_intelmpi_ilp64.so.2",
-        "libmkl_blacs_msmpi_ilp64.so.2",
+        "libmkl_blacs_openmpi_ilp64.so.2",
         "libmkl_scalapack_ilp64.so.2"
       ],
       "libi": []
