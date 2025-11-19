@@ -122,6 +122,56 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
     lib{$name}: bin.lib.version = "-$version.major.$version.minor"
 }
 
+libs{mkl-core}: libs{mkl-dispatch}
+{
+  cc.export.libs += libs{mkl-dispatch}
+}
+libs{mkl-thread-seq}: libs{mkl-core}
+{
+  cc.export.libs += libs{mkl-core}
+}
+libs{mkl-thread-openmp}: libs{mkl-core}: include = ($cc.target.class == 'linux')
+libs{mkl-thread-openmp}:
+{
+  cc.export.libs += libs{mkl-core}
+}
+libs{mkl-thread-tbb}: libs{mkl-core}
+{
+  cc.export.libs += libs{mkl-core}
+}
+libs{mkl-lp64}: libs{mkl-core}
+{
+  cc.export.libs += libs{mkl-core}
+}
+libs{mkl-ilp64}: libs{mkl-core}
+{
+  cc.export.libs += libs{mkl-core}
+}
+libs{mkl-sycl}: libs{mkl-core}
+{
+  cc.export.libs += libs{mkl-core}
+}
+libs{mkl-cluster-core}: libs{mkl-core}
+{
+  cc.export.libs += libs{mkl-core}
+}
+libs{mkl-cluster-lp64}: libs{mkl-cluster-core}
+{
+  cc.export.libs += libs{mkl-cluster-core}
+}
+libs{mkl-cluster-lp64}: libs{mkl-lp64}
+{
+  cc.export.libs += libs{mkl-lp64}
+}
+libs{mkl-cluster-ilp64}: libs{mkl-cluster-core}
+{
+  cc.export.libs += libs{mkl-cluster-core}
+}
+libs{mkl-cluster-ilp64}: libs{mkl-ilp64}
+{
+  cc.export.libs += libs{mkl-ilp64}
+}
+
 # Install into the mkl/ subdirectory of, say, /usr/include/
 # recreating subdirectories.
 #
