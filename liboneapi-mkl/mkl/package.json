@@ -24,13 +24,13 @@
     },
     "mkl-lp64": {
       "libs": [
-        "mkl_core.2.dll"
+        "mkl_blacs_lp64.2.dll"
       ],
       "libi": ["mkl_intel_lp64_dll.lib"]
     },
     "mkl-ilp64": {
       "libs": [
-        "mkl_core.2.dll"
+        "mkl_blacs_lp64.2.dll"
       ],
       "libi": ["mkl_intel_ilp64_dll.lib"]
     },

@@ -1,4 +1,4 @@
-import libs = liboneapi-mkl%libs{mkl-lp64 mkl-thread-intel mkl-rt}
+import libs = liboneapi-mkl%libs{mkl-lp64 mkl-rt}
 
 for t : cxx{* -mkl-sycl -mkl-thread-openmp}
 {
