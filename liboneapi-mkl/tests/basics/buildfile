@@ -1,6 +1,6 @@
-import libs = liboneapi-mkl%libs{mkl-lp64 mkl-thread-seq mkl-rt}
+import libs = liboneapi-mkl%libs{mkl-lp64 mkl-thread-intel mkl-rt}
 
-for t : cxx{* -mkl-sycl}
+for t : cxx{* -mkl-sycl -mkl-thread-openmp}
 {
   n = $name($t)
   import l = liboneapi-mkl%libs{$n}

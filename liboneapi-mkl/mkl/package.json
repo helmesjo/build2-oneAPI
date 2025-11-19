@@ -23,11 +23,15 @@
       "libi": []
     },
     "mkl-lp64": {
-      "libs": [],
+      "libs": [
+        "mkl_core.2.dll"
+      ],
       "libi": ["mkl_intel_lp64_dll.lib"]
     },
     "mkl-ilp64": {
-      "libs": [],
+      "libs": [
+        "mkl_core.2.dll"
+      ],
       "libi": ["mkl_intel_ilp64_dll.lib"]
     },
     "mkl-thread-seq": {
