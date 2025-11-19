@@ -11,10 +11,12 @@ json{$name-manifest}: $src_root/manifest manifest.json
 json{mkl.devel...}: json{$name-manifest}
 json{mkl.runtime...}: json{$name-manifest}
 
-archive{$name-intel.oneapi.win.mkl.devel...}: json{mkl.devel...}
-archive{$name-intel.oneapi.win.mkl.runtime...}: json{mkl.runtime...}
-extract{$name-devel}: archive{$name-intel.oneapi.win.mkl.devel...}
-extract{$name-runtime}: archive{$name-intel.oneapi.win.mkl.runtime...}
+package_infix  = ($cc.target.class == 'windows' ? 'win' : 'lin')
+
+archive{$name-intel.oneapi.mkl.devel...}: json{mkl.devel...}
+archive{$name-intel.oneapi.mkl.runtime...}: json{mkl.runtime...}
+extract{$name-devel}: archive{$name-intel.oneapi.mkl.devel...}
+extract{$name-runtime}: archive{$name-intel.oneapi.mkl.runtime...}
 
 import{$name-headers}: extract{$name-devel} extract{$name-runtime}: update = match
 import{$name-headers}:
@@ -53,7 +55,8 @@ libs_dir = [dir_path] $out_base/mkl-runtime/bin
 libi_dir = [dir_path] $out_base/mkl-devel/lib
 pub_hdrs = [strings] "-I$out_base/mkl-devel/include" "-I$out_base/mkl-devel/include/oneapi"
 
-for m: [json_object] $json.load($src_base/package.json)
+json = [json_object] $json.load($src_base/package.json)
+for m: [json_object] ($json["$cxx.target.cpu-$cxx.target.class"])
 {
   n = $member_name($m)
   v = $member_value($m)

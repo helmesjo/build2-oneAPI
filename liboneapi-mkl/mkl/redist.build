@@ -23,23 +23,30 @@ json{~'/(.+-manifest.*)/'}:
     | set comp [string]
 
   cat $path($manifest) \
-    | sed -n -e 's/^upstream-version:\s*(.*).*$/\1/p' \
-    | set version_full [string]
-  version_url  = $string.replace($version_full, '+', '%2B')
+    | sed -n -e 's/^version:\s*(.*).*$/\1/p' \
+    | set version [string]
+  version = [string] $regex.apply($version, '([0-9]+\.[0-9]+\.[0-9]+).*', '\1')
 
   json       = [json] $json.load($path($redist))
   base_url   = [string] ($json["baseUrl"])
   comp       = [json] ($json["$comp"])
   comp       = [json] ($comp["$cc.target.class"])
+  pkgVer     = [string] ($comp["version"])
+  verUrl     = $string.replace($pkgVer, '+', '%2B')
   subdir     = [string] ($comp["subdir"])
   basename   = [string] ($comp["basename"])
   ver_suffix = [string] ($comp["verSuffix"])
   extension  = [string] ($comp["extension"])
   manifest_url = \
-    [path] "$(base_url)/$(subdir)/$(basename)$(ver_suffix)$(version_url).$(extension)"
+    [path] "$(base_url)/$(subdir)/$(basename)$(ver_suffix)$(verUrl).$(extension)"
 
   depdb hash $json
   diag curl $manifest_url -> $>
+
+  if (!$string.starts_with($pkgVer, $version))
+    echo "[error] $n version mismatch: v$version \(local) != v$pkgVer \(remote)" >&2
+    exit 1
+  end
 
   curl -\# --fail --output $path($>) "$manifest_url"
 }}
