@@ -172,8 +172,8 @@ libs{mkl-thread-intel}: libs{mkl-core}
 # {
 #   cc.export.libs += libs{mkl-core}
 # }
-libs{mkl-thread-openmp}: libs{mkl-core}: include = ($cc.target.class == 'linux')
-libs{mkl-thread-openmp}:
+libs{mkl-thread-gnu}: libs{mkl-core}: include = ($cc.target.class == 'linux')
+libs{mkl-thread-gnu}:
 {
   cc.export.libs += libs{mkl-core}
 }

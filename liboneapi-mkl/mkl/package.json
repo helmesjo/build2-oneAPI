@@ -136,7 +136,7 @@
       "libs": ["libmkl_intel_thread.so.2"],
       "libi": []
     },
-    "mkl-thread-openmp": {
+    "mkl-thread-gnu": {
       "libs": ["libmkl_gnu_thread.so.2"],
       "libi": []
     },
