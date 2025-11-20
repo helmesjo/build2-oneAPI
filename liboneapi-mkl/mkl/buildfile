@@ -108,13 +108,6 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
     libi += [paths] $x
   }
 
-  # Meta-target for "all"
-  #
-  libs{mkl}: libs{$n}
-  {
-    cc.export.libs += libs{$n}
-  }
-
   # The "bundles" are either both shared & import libs (Windows),
   # or shared-only (implicitly loaded, just needs to respect RPATH).
   #
