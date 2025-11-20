@@ -27,6 +27,8 @@
 *.exe.manifest
 *.pc
 
+mkl/mkl-runtime/
+
 # Compilation database.
 #
 compile_commands.json
