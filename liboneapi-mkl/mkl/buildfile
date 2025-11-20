@@ -18,7 +18,9 @@ archive{$name-intel.oneapi.mkl.runtime...}: json{mkl.runtime...}
 extract{$name-devel}: archive{$name-intel.oneapi.mkl.devel...}
 extract{$name-runtime}: archive{$name-intel.oneapi.mkl.runtime...}
 
-import{$name-headers}: extract{$name-devel} extract{$name-runtime}: update = match
+import{$name-headers}: extract{$name-devel}: update = match
+import{$name-legals}: extract{$name-runtime}: update = match
+
 import{$name-headers}:
 {{
   o = $directory($>[0])
@@ -43,6 +45,38 @@ import{$name-headers}:
     --file $d \
     -- \
       echo $regex.merge($hdrs, '(.+)', '\1\n') >$d
+
+  diag import $>
+
+  for t : $filter_out($>, group)
+    touch $path($t)
+  end
+}}
+
+import{$name-legals}:
+{{
+  o = $directory($>[0])
+  d = $o/$name($>[0]).files
+
+  files = [paths]
+  for g : $filter($<, group)
+    if test -d $o/$name($g)/share/doc/$name/licensing
+      find "$o/$name($g)/share/doc/$name/licensing" -type f -name "*" \
+        | set -n f [paths]
+      files += $f
+    end
+  end
+
+  depdb dyndep \
+    --dyn-target \
+    --target-cwd "$o" \
+    --target-what 'imported legals' \
+    --target-default-type 'legal' \
+    --target-extension-type '=legal' \
+    --format lines \
+    --file $d \
+    -- \
+      echo $regex.merge($files, '(.+)', '\1\n') >$d
 
   diag import $>
 
@@ -77,7 +111,7 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   # The "bundles" are either both shared & import libs (Windows),
   # or shared-only (implicitly loaded, just needs to respect RPATH).
   #
-  libs{$n}: import{$name-headers}
+  libs{$n}: import{$name-legals} import{$name-headers}
   if (!$empty($libs) && !$empty($libi))
   {
     libs{$n}: $libs_dir/libs{$libs}: extract{$name-devel} extract{$name-runtime}
