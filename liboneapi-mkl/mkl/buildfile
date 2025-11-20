@@ -141,9 +141,13 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
       }
     }
   }
+  elif (!$empty($libi))
+  {
+    <libs{$n} $libi_dir/libi{$libi}>: extract{$name-devel} extract{$name-runtime}
+  }
   else
   {
-    fail "libs{$n}: No shared library specified. See '$src_base/packages.json'."
+    fail "$n: No shared or import libraries specified. See '$src_base/packages.json'."
   }
 
   # For pre-releases use the complete version to make sure they cannot
