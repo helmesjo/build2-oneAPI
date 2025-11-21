@@ -17,19 +17,19 @@ exe{test-mkl-ilp64}: $ilp64
 # thread tests
 #
 import thread_openmp = liboneapi-mkl%libs{mkl-thread-openmp}
-exe{test-mkl-thread-openmp}: cxx{mkl-thread-openmp} $thread-openmp
+exe{test-mkl-thread-openmp}: cxx{mkl-thread-openmp} $libs $thread_openmp
 
 # cluster tests
 #
 import cluster_lp64 = liboneapi-mkl%libs{mkl-cluster-lp64-intelmpi}
-exe{test-mkl-cluster-lp64}: cxx{mkl-cluster-lp64} $cluster_lp64
+exe{test-mkl-cluster-lp64}: cxx{mkl-cluster-lp64} $libs $cluster_lp64
 import cluster_ilp64 = liboneapi-mkl%libs{mkl-cluster-ilp64-intelmpi}
-exe{test-mkl-cluster-ilp64}: cxx{mkl-cluster-ilp64} $cluster_ilp64
+exe{test-mkl-cluster-ilp64}: cxx{mkl-cluster-ilp64} $libs $cluster_ilp64
 
 # sycl tests
 #
 import sycl = liboneapi-mkl%libs{mkl-sycl}
-exe{test-mkl-sycl}: cxx{mkl-sycl} $sycl
+exe{test-mkl-sycl}: cxx{mkl-sycl} $libs $sycl
 
 # Disable until intel-mpi (liboneapi-mpi) etc. has been packaged.
 #
