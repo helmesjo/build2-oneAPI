@@ -1,6 +1,6 @@
 import libs = liboneapi-mkl%libs{mkl-lp64 mkl-thread-seq mkl-rt}
 
-for t : cxx{* -mkl-sycl -mkl-cluster-*}
+for t : cxx{* -mkl-cluster-* -mkl-sycl -mkl-thread-openmp}
 {
   n = $name($t)
   import l = liboneapi-mkl%libs{$n}
@@ -13,6 +13,11 @@ import lp64 = liboneapi-mkl%libs{mkl-lp64}
 exe{test-mkl-lp64}: $lp64
 import ilp64 = liboneapi-mkl%libs{mkl-ilp64}
 exe{test-mkl-ilp64}: $ilp64
+
+# thread tests
+#
+import thread_openmp = liboneapi-mkl%libs{mkl-thread-openmp}
+exe{test-mkl-thread-openmp}: cxx{mkl-thread-openmp} $thread-openmp
 
 # cluster tests
 #

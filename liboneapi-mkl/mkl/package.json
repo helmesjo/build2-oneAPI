@@ -36,8 +36,8 @@
       "libi": ["mkl_intel_ilp64_dll.lib"]
     },
     "mkl-thread-seq": {
-      "libs": ["mkl_sequential.2.dll"],
-      "libi": ["mkl_sequential_dll.lib"]
+      "libs": ["mkl_sequential.2.dll", "mkl_intel_thread.2.dll"],
+      "libi": ["mkl_sequential_dll.lib", "mkl_intel_thread_dll.lib"]
     },
     "mkl-thread-intel": {
       "libs": ["mkl_intel_thread.2.dll"],
