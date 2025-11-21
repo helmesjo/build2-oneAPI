@@ -1,24 +1,35 @@
-import libs = liboneapi-mkl%libs{mkl-lp64 mkl-rt}
+import libs = liboneapi-mkl%libs{mkl-lp64 mkl-thread-seq mkl-rt}
 
-for t : cxx{* -mkl-sycl -mkl-thread-gnu}
+for t : cxx{* -mkl-sycl -mkl-cluster-*}
 {
   n = $name($t)
   import l = liboneapi-mkl%libs{$n}
   ./: exe{test-$n}: $t $libs $l
 }
 
+# long-pointer tests
+#
+import lp64 = liboneapi-mkl%libs{mkl-lp64}
+exe{test-mkl-lp64}: $lp64
 import ilp64 = liboneapi-mkl%libs{mkl-ilp64}
 exe{test-mkl-ilp64}: $ilp64
 
-import cluster_core = liboneapi-mkl%libs{mkl-cluster-core}
-import cluster_ilp64 = liboneapi-mkl%libs{mkl-cluster-ilp64}
-exe{test-mkl-cluster-ilp64}: $cluster_core $cluster_ilp64
-import cluster_lp64 = liboneapi-mkl%libs{mkl-cluster-lp64}
-exe{test-mkl-cluster-lp64}: $cluster_core $cluster_lp64
-
-# Disable until intel-mpi (liboneapi-mpi) has been packaged.
+# cluster tests
 #
-exe{test-mkl-cluster-ilp64}: test = false
-exe{test-mkl-cluster-lp64}:  test = false
+import cluster_lp64 = liboneapi-mkl%libs{mkl-cluster-lp64-intelmpi}
+exe{test-mkl-cluster-lp64}: cxx{mkl-cluster-lp64} $cluster_lp64
+import cluster_ilp64 = liboneapi-mkl%libs{mkl-cluster-ilp64-intelmpi}
+exe{test-mkl-cluster-ilp64}: cxx{mkl-cluster-ilp64} $cluster_ilp64
 
-exe{test-mkl-thread-gnu}: test = ($cc.target.class == 'linux')
+# sycl tests
+#
+import sycl = liboneapi-mkl%libs{mkl-sycl}
+exe{test-mkl-sycl}: cxx{mkl-sycl} $sycl
+
+# Disable until intel-mpi (liboneapi-mpi) etc. has been packaged.
+#
+./: exe{test-mkl-cluster-lp64}:  include = false
+./: exe{test-mkl-cluster-ilp64}: include = false
+./: exe{test-mkl-sycl}: include = false
+
+./: exe{test-mkl-thread-openmp}: include = ($cc.target.class == 'linux')

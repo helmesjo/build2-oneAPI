@@ -1,4 +1,4 @@
-// mkl-thread-gnu smoke test
+// mkl-thread-openmp smoke test
 #include <mkl.h>
 #undef NDEBUG
 #include <cassert>

@@ -97,8 +97,13 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
 {
   n = $member_name($m)
   v = $member_value($m)
+  loptions =
   libs = [paths]
   libi = [paths]
+  for x: [json_array] ($v["loptions"])
+  {
+    loptions += [paths] $x
+  }
   for x: [json_array] ($v["libs"])
   {
     libs += [paths] $x
@@ -114,30 +119,29 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   libs{$n}: import{$name-legals} import{$name-headers}
   if (!$empty($libs) && !$empty($libi))
   {
-    libs{$n}: $libs_dir/libs{$libs}: extract{$name-devel} extract{$name-runtime}
     <$libs_dir/libs{$libs} $libi_dir/libi{$libi}>: extract{$name-devel} extract{$name-runtime}
+    libs{$n}: $libs_dir/libs{$libs}
 
     # Export options.
     #
     libs{$n}:
     {
       cc.export.libs = $libs_dir/libs{$libs}
-      cc.export.poptions = $pub_hdrs
     }
   }
   elif (!$empty($libs))
   {
-    libs{$n}: $libs_dir/libs{$libs}: extract{$name-devel} extract{$name-runtime}
+    <$libs_dir/libs{$libs}>: extract{$name-devel} extract{$name-runtime}
+    libs{$n}: $libs_dir/libs{$libs}
 
     # Export options.
     #
     if ($cc.target.class != 'windows')
     {
-      cc.libs += -lpthread -lm -ldl
+      loptions =+ -lpthread -lm -ldl
       libs{$n}:
       {
-        cc.export.libs = $libs_dir/libs{$libs} -lpthread -lm -ldl
-        cc.export.poptions = $pub_hdrs
+        cc.export.libs = $libs_dir/libs{$libs} $loptions
       }
     }
   }
@@ -148,6 +152,13 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   else
   {
     fail "$n: No shared or import libraries specified. See '$src_base/packages.json'."
+  }
+
+  # Export options.
+  #
+  libs{$n}:
+  {
+    cc.export.poptions = $pub_hdrs
   }
 
   # For pre-releases use the complete version to make sure they cannot
@@ -175,8 +186,8 @@ libs{mkl-thread-intel}: libs{mkl-core}
 {
   cc.export.libs += libs{mkl-core}
 }
-libs{mkl-thread-gnu}: libs{mkl-core}: include = ($cc.target.class == 'linux')
-libs{mkl-thread-gnu}:
+libs{mkl-thread-openmp}: libs{mkl-core}: include = ($cc.target.class == 'linux')
+libs{mkl-thread-openmp}:
 {
   cc.export.libs += libs{mkl-core}
 }
@@ -200,21 +211,29 @@ libs{mkl-cluster-core}: libs{mkl-core}
 {
   cc.export.libs += libs{mkl-core}
 }
-libs{mkl-cluster-lp64}: libs{mkl-cluster-core}
+libs{mkl-cluster-lp64}: libs{mkl-lp64 mkl-cluster-core}
 {
-  cc.export.libs += libs{mkl-cluster-core}
+  cc.export.libs += libs{mkl-lp64 mkl-cluster-core}
 }
-libs{mkl-cluster-lp64}: libs{mkl-lp64}
+libs{mkl-cluster-lp64-intelmpi}: libs{mkl-cluster-lp64}
 {
-  cc.export.libs += libs{mkl-lp64}
+  cc.export.libs += libs{mkl-cluster-lp64}
 }
-libs{mkl-cluster-ilp64}: libs{mkl-cluster-core}
+libs{mkl-cluster-lp64-openmpi}: libs{mkl-cluster-lp64}
 {
-  cc.export.libs += libs{mkl-cluster-core}
+  cc.export.libs += libs{mkl-cluster-lp64}
 }
-libs{mkl-cluster-ilp64}: libs{mkl-ilp64}
+libs{mkl-cluster-ilp64}: libs{mkl-ilp64 mkl-cluster-core}
 {
-  cc.export.libs += libs{mkl-ilp64}
+  cc.export.libs += libs{mkl-ilp64 mkl-cluster-core}
+}
+libs{mkl-cluster-ilp64-intelmpi}: libs{mkl-cluster-ilp64}
+{
+  cc.export.libs += libs{mkl-cluster-ilp64}
+}
+libs{mkl-cluster-ilp64-openmpi}: libs{mkl-cluster-ilp64}
+{
+  cc.export.libs += libs{mkl-cluster-ilp64}
 }
 
 # Install into the mkl/ subdirectory of, say, /usr/include/

@@ -5,12 +5,9 @@
       "libi": ["mkl_rt.lib"]
     },
     "mkl-core": {
-      "libs": ["mkl_core.2.dll"],
-      "libi": ["mkl_core_dll.lib"]
-    },
-    "mkl-imalloc": {
-      "libs": ["libimalloc.dll"],
-      "libi": []
+      "libs": ["mkl_core.2.dll", "mkl_cdft_core.2.dll"],
+      "libi": ["mkl_core_dll.lib", "mkl_cdft_core_dll.lib"],
+      "depends": ["mkl-lp64"]
     },
     "mkl-dispatch": {
       "libs": [
@@ -68,43 +65,39 @@
         "mkl_sycl_vm_dll.lib"
       ]
     },
-    "mkl-cluster-core": {
-      "libs": ["mkl_cdft_core.2.dll"],
-      "libi": ["mkl_cdft_core_dll.lib"]
-    },
     "mkl-cluster-lp64": {
-      "libs": [
-        "mkl_blacs_lp64.2.dll",
-        "mkl_blacs_intelmpi_lp64.2.dll",
-        "mkl_blacs_msmpi_lp64.2.dll",
-        "mkl_scalapack_lp64.2.dll"
-      ],
-      "libi": [
-        "mkl_blacs_lp64_dll.lib",
-        "mkl_scalapack_lp64_dll.lib"
-      ]
+      "libs": ["mkl_scalapack_lp64.2.dll"],
+      "libi": ["mkl_scalapack_lp64_dll.lib"]
+    },
+    "mkl-cluster-lp64-intelmpi": {
+      "libs": ["mkl_blacs_intelmpi_lp64.2.dll"],
+      "depends": ["mkl-cluster-lp64"]
+    },
+    "mkl-cluster-lp64-msmpi": {
+      "libs": ["mkl_blacs_msmpi_lp64.2.dll"],
+      "depends": ["mkl-cluster-lp64"]
     },
     "mkl-cluster-ilp64": {
-      "libs": [
-        "mkl_blacs_ilp64.2.dll",
-        "mkl_blacs_intelmpi_ilp64.2.dll",
-        "mkl_blacs_msmpi_ilp64.2.dll",
-        "mkl_scalapack_ilp64.2.dll"
-      ],
-      "libi": [
-        "mkl_blacs_ilp64_dll.lib",
-        "mkl_scalapack_ilp64_dll.lib"
-      ]
+      "libs": ["mkl_scalapack_ilp64.2.dll"],
+      "libi": ["mkl_scalapack_ilp64_dll.lib"]
+    },
+    "mkl-cluster-ilp64-intelmpi": {
+      "libs": ["mkl_blacs_intelmpi_ilp64.2.dll"],
+      "depends": ["mkl-cluster-ilp64"]
+    },
+    "mkl-cluster-ilp64-msmpi": {
+      "libs": ["mkl_blacs_msmpi_ilp64.2.dll"],
+      "depends": ["mkl-cluster-ilp64"]
     }
   },
+
   "x86_64-linux": {
     "mkl-rt": {
-      "libs": ["libmkl_rt.so.2"],
-      "libi": []
+      "libs": ["libmkl_rt.so.2"]
     },
     "mkl-core": {
-      "libs": ["libmkl_core.so.2"],
-      "libi": []
+      "libs": ["libmkl_core.so.2", "libmkl_cdft_core.so.2"],
+      "depends": ["mkl-lp64"]
     },
     "mkl-dispatch": {
       "libs": [
@@ -117,32 +110,26 @@
         "libmkl_vml_def.so.2",
         "libmkl_vml_mc3.so.2",
         "libmkl_vml_cmpt.so.2"
-      ],
-      "libi": []
+      ]
     },
     "mkl-lp64": {
-      "libs": ["libmkl_intel_lp64.so.2"],
-      "libi": []
+      "libs": ["libmkl_intel_lp64.so.2"]
     },
     "mkl-ilp64": {
-      "libs": ["libmkl_intel_ilp64.so.2"],
-      "libi": []
+      "libs": ["libmkl_intel_ilp64.so.2"]
     },
     "mkl-thread-seq": {
-      "libs": ["libmkl_sequential.so.2"],
-      "libi": []
+      "libs": ["libmkl_sequential.so.2"]
     },
     "mkl-thread-intel": {
-      "libs": ["libmkl_intel_thread.so.2"],
-      "libi": []
+      "libs": ["libmkl_intel_thread.so.2"]
     },
-    "mkl-thread-gnu": {
+    "mkl-thread-openmp": {
       "libs": ["libmkl_gnu_thread.so.2"],
-      "libi": []
+      "loptions": ["-lgomp"]
     },
     "mkl-thread-tbb": {
-      "libs": ["libmkl_tbb_thread.so.2"],
-      "libi": []
+      "libs": ["libmkl_tbb_thread.so.2"]
     },
     "mkl-sycl": {
       "libs": [
@@ -155,28 +142,29 @@
         "libmkl_sycl_sparse.so.5",
         "libmkl_sycl_stats.so.5",
         "libmkl_sycl_vm.so.5"
-      ],
-      "libi": []
-    },
-    "mkl-cluster-core": {
-      "libs": ["libmkl_cdft_core.so.2"],
-      "libi": []
+      ]
     },
     "mkl-cluster-lp64": {
-      "libs": [
-        "libmkl_blacs_intelmpi_lp64.so.2",
-        "libmkl_blacs_openmpi_lp64.so.2",
-        "libmkl_scalapack_lp64.so.2"
-      ],
-      "libi": []
+      "libs": ["libmkl_scalapack_lp64.so.2"]
+    },
+    "mkl-cluster-lp64-intelmpi": {
+      "libs": ["libmkl_blacs_intelmpi_lp64.so.2"],
+      "depends": ["mkl-cluster-lp64"]
+    },
+    "mkl-cluster-lp64-openmpi": {
+      "libs": ["libmkl_blacs_openmpi_lp64.so.2"],
+      "depends": ["mkl-cluster-lp64"]
     },
     "mkl-cluster-ilp64": {
-      "libs": [
-        "libmkl_blacs_intelmpi_ilp64.so.2",
-        "libmkl_blacs_openmpi_ilp64.so.2",
-        "libmkl_scalapack_ilp64.so.2"
-      ],
-      "libi": []
+      "libs": ["libmkl_scalapack_ilp64.so.2"]
+    },
+    "mkl-cluster-ilp64-intelmpi": {
+      "libs": ["libmkl_blacs_intelmpi_ilp64.so.2"],
+      "depends": ["mkl-cluster-ilp64"]
+    },
+    "mkl-cluster-ilp64-openmpi": {
+      "libs": ["libmkl_blacs_openmpi_ilp64.so.2"],
+      "depends": ["mkl-cluster-ilp64"]
     }
   }
 }
