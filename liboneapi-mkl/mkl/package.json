@@ -9,6 +9,10 @@
       "libi": ["mkl_core_dll.lib", "mkl_cdft_core_dll.lib"],
       "depends": ["mkl-lp64"]
     },
+    "mkl-imalloc": {
+      "libs": ["libimalloc.dll"],
+      "libi": []
+    },
     "mkl-dispatch": {
       "libs": [
         "mkl_avx2.2.dll",
