@@ -11,12 +11,13 @@ json{$name-manifest}: $src_root/manifest manifest.json
 json{mkl.devel...}: json{$name-manifest}
 json{mkl.runtime...}: json{$name-manifest}
 
-package_infix  = ($cc.target.class == 'windows' ? 'win' : 'lin')
+package_infix = ($cc.target.class == 'windows' ? 'win' : 'lin')
+package_ver   = "$(version.major).$(version.minor).$(version.patch)"
 
-archive{$name-intel.oneapi.mkl.devel...}: json{mkl.devel...}
-archive{$name-intel.oneapi.mkl.runtime...}: json{mkl.runtime...}
-extract{$name-devel}: archive{$name-intel.oneapi.mkl.devel...}
-extract{$name-runtime}: archive{$name-intel.oneapi.mkl.runtime...}
+archive{$name-intel.oneapi.mkl.devel-$package_ver...}: json{mkl.devel...}
+archive{$name-intel.oneapi.mkl.runtime-$package_ver...}: json{mkl.runtime...}
+extract{$name-devel}: archive{$name-intel.oneapi.mkl.devel-$package_ver...}
+extract{$name-runtime}: archive{$name-intel.oneapi.mkl.runtime-$package_ver...}
 
 import{$name-headers}: extract{$name-devel}: update = match
 import{$name-legals}: extract{$name-runtime}: update = match
