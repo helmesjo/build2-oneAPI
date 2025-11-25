@@ -3,7 +3,14 @@
     "mkl-rt": {
       "libs": ["mkl_rt.2.dll"],
       "libi": ["mkl_rt.lib"],
-      "depends": []
+      "depends": [
+        "mkl-core",
+        "mkl-dispatch",
+        "mkl-imalloc",
+        "mkl-thread-seq",
+        "mkl-thread-intel",
+        "mkl-thread-tbb"
+      ]
     },
     "mkl-core": {
       "libs": ["mkl_core.2.dll", "mkl_cdft_core.2.dll"],
@@ -109,7 +116,14 @@
   "x86_64-linux": {
     "mkl-rt": {
       "libs": ["libmkl_rt.so.2"],
-      "depends": []
+      "depends": [
+        "mkl-core",
+        "mkl-dispatch",
+        "mkl-imalloc",
+        "mkl-thread-seq",
+        "mkl-thread-intel",
+        "mkl-thread-tbb"
+      ]
     },
     "mkl-core": {
       "libs": ["libmkl_core.so.2", "libmkl_cdft_core.so.2"],
