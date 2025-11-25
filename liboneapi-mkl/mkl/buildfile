@@ -162,7 +162,11 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   }
   elif (!$empty($libi))
   {
-    <libs{$n} $libi_dir/libi{$libi}>: extract{$name-devel} extract{$name-runtime}
+    l = "$libi_dir/$libi"
+    libs{$n}: $l
+    {
+      cc.export.libs =+ $l
+    }
   }
   else
   {
