@@ -1,9 +1,14 @@
 // mkl-ilp64 smoke test
 #include <mkl.h>
+
 #undef NDEBUG
 #include <cassert>
 
 int main() {
-  int prev = MKL_Set_Interface_Layer(MKL_INTERFACE_ILP64);
-  assert(prev == MKL_INTERFACE_ILP64);
+  int layer = mkl_set_interface_layer(MKL_INTERFACE_ILP64);
+  assert(layer == MKL_INTERFACE_ILP64);
+  double a = 2.0;
+  MKL_INT n = 1, inc = 1;
+  cblas_dscal(n, 3.0, &a, inc);
+  assert(a == 6.0);
 }
