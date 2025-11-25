@@ -119,7 +119,6 @@
       "depends": [
         "mkl-core",
         "mkl-dispatch",
-        "mkl-imalloc",
         "mkl-thread-seq",
         "mkl-thread-intel",
         "mkl-thread-tbb"
