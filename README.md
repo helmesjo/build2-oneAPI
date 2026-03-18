@@ -1,12 +1,21 @@
 # oneAPI - build2 amalgamation of the Intel oneAPI family
 
+> **NOTE:**  
+These packages are not open source and do not contain any source code. Instead,
+in order to "build" the exported target(s) they download (potentially large)
+pre-built binaries provided by Intel for the target platform.
+>
+> CI for these packages are disabled due to the above.  
+Supported platforms/compilers are Windows/MSVC & Linux. MacOS is (officially)
+not supported.
+
 `oneAPI` is a build2 amalgamation of packages for Intel oneAPI components,
 enabling unified programming across heterogeneous architectures.
 
 This file contains setup instructions and other details that are more
 appropriate for development rather than consumption. If you want to use
 `oneAPI` libraries/tools in your `build2`-based project, then instead
-see the accompanying package [`README.md`](liboneapi-mkl/README.md) file.
+see the official [documentation](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html).
 
 The development setup for `oneAPI` uses the standard `bdep`-based workflow.
 For example:
