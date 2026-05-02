@@ -9,8 +9,19 @@ pre-built binaries provided by Intel for the target platform.
 Supported platforms/compilers are Windows/MSVC & Linux. MacOS is (officially)
 not supported.
 
-`oneAPI` is a build2 amalgamation of packages for Intel oneAPI components,
-enabling unified programming across heterogeneous architectures.
+`oneAPI` is a build2 amalgamation of packages for Intel oneAPI components
+(proprietary only), enabling unified programming across heterogeneous
+architectures.
+
+Note that currently only this is included:
+- oneMKL (Math Kernel Library)
+
+These (proprietary only) should be added next:
+- DPC++/C++ Compiler + runtime
+- Fortran Compiler
+- MPI Library
+- IPP (Integrated Performance Primitives)
+- VTune Profiler
 
 This file contains setup instructions and other details that are more
 appropriate for development rather than consumption. If you want to use
