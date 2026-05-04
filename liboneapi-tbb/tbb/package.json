@@ -1,0 +1,56 @@
+{
+  "x86_64-windows": {
+    "tbb": {
+      "libs": ["tbb12.dll"],
+      "libi": ["tbb12.lib", "tbb.lib"],
+      "depends": [
+        "tbb-malloc",
+        "tbb-malloc-proxy",
+        "tbb-bind"
+      ]
+    },
+    "tbb-malloc": {
+      "libs": ["tbbmalloc.dll"],
+      "libi": ["tbbmalloc.lib"],
+      "depends": []
+    },
+    "tbb-malloc-proxy": {
+      "libs": ["tbbmalloc_proxy.dll"],
+      "libi": ["tbbmalloc_proxy.lib"],
+      "depends": []
+    },
+    "tbb-bind": {
+      "libs": ["tbbbind.dll", "tbbbind_2_0.dll", "tbbbind_2_5.dll"],
+      "libi": ["tbbbind.lib", "tbbbind_2_0.lib", "tbbbind_2_5.lib"],
+      "depends": []
+    },
+    "tbb-devel": {
+      "libs": [],
+      "libi": ["tbb12.lib", "tbb.lib", "tbbmalloc.lib", "tbbmalloc_proxy.lib", "tbbbind.lib", "tbbbind_2_0.lib", "tbbbind_2_5.lib"],
+      "depends": ["tbb"]
+    }
+  },
+
+  "x86_64-linux": {
+    "tbb": {
+      "libs": ["libtbb.so.12"],
+      "depends": ["tbb-malloc", "tbb-malloc-proxy", "tbb-bind"]
+    },
+    "tbb-malloc": {
+      "libs": ["libtbbmalloc.so.2"],
+      "depends": []
+    },
+    "tbb-malloc-proxy": {
+      "libs": ["libtbbmalloc_proxy.so.2"],
+      "depends": []
+    },
+    "tbb-bind": {
+      "libs": ["libtbbbind_2_5.so.3"],
+      "depends": []
+    },
+    "tbb-devel": {
+      "libs": ["libtbb.so", "libtbbmalloc.so", "libtbbmalloc_proxy.so", "libtbbbind_2_5.so"],
+      "depends": ["tbb"]
+    }
+  }
+}

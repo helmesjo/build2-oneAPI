@@ -2,4 +2,4 @@
 location: liboneapi-mkl/
 
 :
-location: liboneapi-openmp/
+location: liboneapi-tbb/

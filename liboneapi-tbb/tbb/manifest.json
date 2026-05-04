@@ -1,0 +1,22 @@
+{
+  "baseUrl": "https://installer.repos.intel.com/oneapi/tbb",
+  "liboneapi-tbb":
+  {
+    "windows":
+    {
+      "version": "2022.3.1+401",
+      "subdir":    "win",
+      "basename":  "intel.oneapi.win.tbb_oneapi.content",
+      "verSuffix": ",v=",
+      "extension": "json"
+    },
+    "linux":
+    {
+      "version": "2022.3.1+400",
+      "subdir":    "lin",
+      "basename":  "intel.oneapi.lin.tbb_oneapi.content",
+      "verSuffix": ",v=",
+      "extension": "json"
+    }
+  }
+}
