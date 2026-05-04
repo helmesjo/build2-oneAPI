@@ -3,7 +3,7 @@ name: liboneapi-mkl
 version: 2025.3.0-a.0.z
 upstream-version: 2025.3.0
 language: c++
-project: oneAPI
+project: intel-oneapi-toolkit
 summary: oneapi-mkl C++ library
 license: other: proprietary ; Not free/open source.
 package-description-file: PACKAGE-README.md

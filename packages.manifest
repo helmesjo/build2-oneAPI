@@ -1,2 +1,5 @@
 : 1
 location: liboneapi-mkl/
+
+:
+location: liboneapi-openmp/
