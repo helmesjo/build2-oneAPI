@@ -39,3 +39,14 @@ bdep init -C @gcc cc config.cxx=g++
 bdep update
 bdep test
 ```
+
+# Locating Package URLs
+
+1. Download & run the [offline installer](https://www.intel.com/content/www/us/en/developer/tools/oneapi/oneapi-toolkit-download.html?packages=oneapi-toolkit&oneapi-toolkit-os=linux&oneapi-lin=offline).
+2. In the installation directory, located the `installer.install.intel...log` file,
+   and in that file locate the `installer --log-dir` path:
+    ```
+    05/04/2026 19:06:37:773 : 22948 : MESSAGE : C:\Program Files (x86)\Intel\oneAPI\Installer\installer.exe is run with arguments: --log-dir C:/Users/me/AppData/Local/Temp/intel_oneapi_installer/2026.05.04.19.06.30.360
+    ```
+3. In the log directory, locate `installer...log` file and search for
+   `https://installer.repos.intel.com/oneapi`.
