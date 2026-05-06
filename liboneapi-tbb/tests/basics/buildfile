@@ -1,4 +1,4 @@
-import libs = liboneapi-tbb%libs{tbb}
+import libs = liboneapi-tbb%libs{tbb-rt}
 
 for t : cxx{* -mkl-cluster-* -mkl-sycl -mkl-thread-openmp}
 {

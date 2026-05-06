@@ -1,8 +1,8 @@
 {
   "x86_64-windows": {
     "mkl-rt": {
-      "libs": ["mkl_rt.2.dll"],
-      "libi": ["mkl_rt.lib"],
+      "libs": ["mkl-runtime/bin/mkl_rt.2.dll"],
+      "libi": ["mkl-devel/lib/mkl_rt.lib"],
       "depends": [
         "mkl-core",
         "mkl-dispatch",
@@ -13,102 +13,106 @@
       ]
     },
     "mkl-core": {
-      "libs": ["mkl_core.2.dll", "mkl_cdft_core.2.dll"],
-      "libi": ["mkl_core_dll.lib", "mkl_cdft_core_dll.lib"],
+      "libs": [
+        "mkl-runtime/bin/mkl_core.2.dll",
+        "mkl-runtime/bin/mkl_cdft_core.2.dll"],
+      "libi": [
+        "mkl-devel/lib/mkl_core_dll.lib",
+        "mkl-devel/lib/mkl_cdft_core_dll.lib"],
       "depends": ["mkl-dispatch"]
     },
     "mkl-imalloc": {
-      "libs": ["libimalloc.dll"],
+      "libs": ["mkl-runtime/bin/libimalloc.dll"],
       "libi": [],
       "depends": []
     },
     "mkl-dispatch": {
       "libs": [
-        "mkl_avx2.2.dll",
-        "mkl_avx512.2.dll",
-        "mkl_def.2.dll",
-        "mkl_mc3.2.dll",
-        "mkl_vml_avx2.2.dll",
-        "mkl_vml_avx512.2.dll",
-        "mkl_vml_def.2.dll",
-        "mkl_vml_mc3.2.dll",
-        "mkl_vml_cmpt.2.dll"
+        "mkl-runtime/bin/mkl_avx2.2.dll",
+        "mkl-runtime/bin/mkl_avx512.2.dll",
+        "mkl-runtime/bin/mkl_def.2.dll",
+        "mkl-runtime/bin/mkl_mc3.2.dll",
+        "mkl-runtime/bin/mkl_vml_avx2.2.dll",
+        "mkl-runtime/bin/mkl_vml_avx512.2.dll",
+        "mkl-runtime/bin/mkl_vml_def.2.dll",
+        "mkl-runtime/bin/mkl_vml_mc3.2.dll",
+        "mkl-runtime/bin/mkl_vml_cmpt.2.dll"
       ],
       "libi": [],
       "depends": []
     },
     "mkl-lp64": {
       "libs": [],
-      "libi": ["mkl_intel_lp64_dll.lib"],
+      "libi": ["mkl-devel/lib/mkl_intel_lp64_dll.lib"],
       "depends": []
     },
     "mkl-ilp64": {
       "libs": [],
-      "libi": ["mkl_intel_ilp64_dll.lib"],
+      "libi": ["mkl-devel/lib/mkl_intel_ilp64_dll.lib"],
       "depends": []
     },
     "mkl-thread-seq": {
-      "libs": ["mkl_sequential.2.dll"],
-      "libi": ["mkl_sequential_dll.lib"],
+      "libs": ["mkl-runtime/bin/mkl_sequential.2.dll"],
+      "libi": ["mkl-devel/lib/mkl_sequential_dll.lib"],
       "depends": ["mkl-core"]
     },
     "mkl-thread-intel": {
-      "libs": ["mkl_intel_thread.2.dll"],
-      "libi": ["mkl_intel_thread_dll.lib"],
+      "libs": ["mkl-runtime/bin/mkl_intel_thread.2.dll"],
+      "libi": ["mkl-devel/lib/mkl_intel_thread_dll.lib"],
       "depends": ["mkl-core"]
     },
     "mkl-thread-tbb": {
-      "libs": ["mkl_tbb_thread.2.dll"],
-      "libi": ["mkl_tbb_thread_dll.lib"],
+      "libs": ["mkl-runtime/bin/mkl_tbb_thread.2.dll"],
+      "libi": ["mkl-devel/lib/mkl_tbb_thread_dll.lib"],
       "depends": ["mkl-core"]
     },
     "mkl-sycl": {
       "libs": [
-        "mkl_sycl_blas.5.dll",
-        "mkl_sycl_data_fitting.5.dll",
-        "mkl_sycl_dft.5.dll",
-        "mkl_sycl_lapack.5.dll",
-        "mkl_sycl_rng.5.dll",
-        "mkl_sycl_sparse.5.dll",
-        "mkl_sycl_stats.5.dll",
-        "mkl_sycl_vm.5.dll"
+        "mkl-runtime/bin/mkl_sycl_blas.5.dll",
+        "mkl-runtime/bin/mkl_sycl_data_fitting.5.dll",
+        "mkl-runtime/bin/mkl_sycl_dft.5.dll",
+        "mkl-runtime/bin/mkl_sycl_lapack.5.dll",
+        "mkl-runtime/bin/mkl_sycl_rng.5.dll",
+        "mkl-runtime/bin/mkl_sycl_sparse.5.dll",
+        "mkl-runtime/bin/mkl_sycl_stats.5.dll",
+        "mkl-runtime/bin/mkl_sycl_vm.5.dll"
       ],
       "libi": [
-        "mkl_sycl_blas_dll.lib",
-        "mkl_sycl_data_fitting_dll.lib",
-        "mkl_sycl_dft_dll.lib",
-        "mkl_sycl_lapack_dll.lib",
-        "mkl_sycl_rng_dll.lib",
-        "mkl_sycl_sparse_dll.lib",
-        "mkl_sycl_stats_dll.lib",
-        "mkl_sycl_vm_dll.lib"
+        "mkl-devel/lib/mkl_sycl_blas_dll.lib",
+        "mkl-devel/lib/mkl_sycl_data_fitting_dll.lib",
+        "mkl-devel/lib/mkl_sycl_dft_dll.lib",
+        "mkl-devel/lib/mkl_sycl_lapack_dll.lib",
+        "mkl-devel/lib/mkl_sycl_rng_dll.lib",
+        "mkl-devel/lib/mkl_sycl_sparse_dll.lib",
+        "mkl-devel/lib/mkl_sycl_stats_dll.lib",
+        "mkl-devel/lib/mkl_sycl_vm_dll.lib"
       ],
       "depends": ["mkl-core"]
     },
     "mkl-cluster-lp64": {
-      "libs": ["mkl_scalapack_lp64.2.dll"],
-      "libi": ["mkl_scalapack_lp64_dll.lib"],
+      "libs": ["mkl-runtime/bin/mkl_scalapack_lp64.2.dll"],
+      "libi": ["mkl-devel/lib/mkl_scalapack_lp64_dll.lib"],
       "depends": ["mkl-lp64"]
     },
     "mkl-cluster-lp64-intelmpi": {
-      "libs": ["mkl_blacs_intelmpi_lp64.2.dll"],
+      "libs": ["mkl-runtime/bin/mkl_blacs_intelmpi_lp64.2.dll"],
       "depends": ["mkl-cluster-lp64"]
     },
     "mkl-cluster-lp64-msmpi": {
-      "libs": ["mkl_blacs_msmpi_lp64.2.dll"],
+      "libs": ["mkl-runtime/bin/mkl_blacs_msmpi_lp64.2.dll"],
       "depends": ["mkl-cluster-lp64"]
     },
     "mkl-cluster-ilp64": {
-      "libs": ["mkl_scalapack_ilp64.2.dll"],
-      "libi": ["mkl_scalapack_ilp64_dll.lib"],
+      "libs": ["mkl-runtime/bin/mkl_scalapack_ilp64.2.dll"],
+      "libi": ["mkl-devel/lib/mkl_scalapack_ilp64_dll.lib"],
       "depends": ["mkl-ilp64"]
     },
     "mkl-cluster-ilp64-intelmpi": {
-      "libs": ["mkl_blacs_intelmpi_ilp64.2.dll"],
+      "libs": ["mkl-runtime/bin/mkl_blacs_intelmpi_ilp64.2.dll"],
       "depends": ["mkl-cluster-ilp64"]
     },
     "mkl-cluster-ilp64-msmpi": {
-      "libs": ["mkl_blacs_msmpi_ilp64.2.dll"],
+      "libs": ["mkl-runtime/bin/mkl_blacs_msmpi_ilp64.2.dll"],
       "depends": ["mkl-cluster-ilp64"]
     }
   },
