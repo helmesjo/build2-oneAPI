@@ -4,6 +4,7 @@
 #include <cassert>
 
 int main() {
-  int prev = MKL_Set_Threading_Layer(MKL_THREADING_TBB);
-  assert(prev == MKL_THREADING_TBB || prev == MKL_THREADING_INTEL);
+  (void)MKL_Set_Threading_Layer(MKL_THREADING_TBB);
+  int prev = MKL_Set_Threading_Layer(MKL_THREADING_SEQUENTIAL);
+  assert(prev == MKL_THREADING_TBB);
 }

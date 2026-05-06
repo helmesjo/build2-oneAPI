@@ -1,6 +1,6 @@
 import libs = liboneapi-mkl%libs{mkl-rt}
 
-for t : cxx{* -mkl-cluster-* -mkl-sycl -mkl-thread-openmp}
+for t : cxx{* -mkl-cluster-* -mkl-sycl -mkl-thread-*} cxx{mkl-thread-seq}
 {
   n = $name($t)
   ./: exe{test-$n}: $t $libs
@@ -8,6 +8,8 @@ for t : cxx{* -mkl-cluster-* -mkl-sycl -mkl-thread-openmp}
 
 # thread tests
 #
+import thread_intel = liboneapi-mkl%libs{mkl-thread-intel}
+exe{test-mkl-thread-intel}: cxx{mkl-thread-intel} $libs $thread_intel
 import thread_openmp = liboneapi-mkl%libs{mkl-thread-openmp}
 exe{test-mkl-thread-openmp}: cxx{mkl-thread-openmp} $libs $thread_openmp
 
@@ -25,6 +27,7 @@ exe{test-mkl-sycl}: cxx{mkl-sycl} $libs $sycl
 
 # Disable until intel-mpi (liboneapi-mpi) etc. has been packaged.
 #
+./: exe{test-mkl-thread-intel}:  include = false
 ./: exe{test-mkl-cluster-lp64}:  include = false
 ./: exe{test-mkl-cluster-ilp64}: include = false
 ./: exe{test-mkl-sycl}: include = false
