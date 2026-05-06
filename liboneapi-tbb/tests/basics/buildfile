@@ -1,32 +1,19 @@
 import libs = liboneapi-tbb%libs{tbb-rt}
 
-for t : cxx{* -mkl-cluster-* -mkl-sycl -mkl-thread-openmp}
+for t : cxx{*}
 {
   n = $name($t)
   ./: exe{test-$n}: $t $libs
 }
 
-# thread tests
-#
-# import thread_openmp = liboneapi-mkl%libs{mkl-thread-openmp}
-# exe{test-mkl-thread-openmp}: cxx{mkl-thread-openmp} $libs $thread_openmp
+import tbb_malloc  = liboneapi-tbb%libs{tbb-malloc}
+exe{test-tbb-malloc}: $tbb_malloc
 
-# # cluster tests
-# #
-# import cluster_lp64 = liboneapi-mkl%libs{mkl-cluster-lp64-intelmpi}
-# exe{test-mkl-cluster-lp64}: cxx{mkl-cluster-lp64} $libs $cluster_lp64
-# import cluster_ilp64 = liboneapi-mkl%libs{mkl-cluster-ilp64-intelmpi}
-# exe{test-mkl-cluster-ilp64}: cxx{mkl-cluster-ilp64} $libs $cluster_ilp64
+import tbb_bind  = liboneapi-tbb%libs{tbb-bind}
+exe{test-tbb-bind}: $tbb_bind
 
-# # sycl tests
-# #
-# import sycl = liboneapi-mkl%libs{mkl-sycl}
-# exe{test-mkl-sycl}: cxx{mkl-sycl} $libs $sycl
+import tbb_rt  = liboneapi-tbb%libs{tbb-rt}
+exe{test-tbb-rt}: $tbb_rt
 
-# # Disable until intel-mpi (liboneapi-mpi) etc. has been packaged.
-# #
-# ./: exe{test-mkl-cluster-lp64}:  include = false
-# ./: exe{test-mkl-cluster-ilp64}: include = false
-# ./: exe{test-mkl-sycl}: include = false
-
-# ./: exe{test-mkl-thread-openmp}: include = ($cc.target.class == 'linux')
+import tbb_malloc_proxy  = liboneapi-tbb%libs{tbb-malloc-proxy}
+exe{test-tbb-malloc-proxy}: $tbb_malloc_proxy

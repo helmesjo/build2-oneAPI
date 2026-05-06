@@ -5,7 +5,9 @@
 #include <cassert>
 
 int main() {
+#if _WIN32
   char **log = nullptr;
   int status = TBB_malloc_replacement_log(&log);
   assert(status == 0 || status == 1); // 0 = success, 1 = no replacement
+#endif
 }

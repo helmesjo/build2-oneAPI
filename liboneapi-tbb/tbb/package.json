@@ -40,34 +40,35 @@
 
   "x86_64-linux": {
     "tbb-rt": {
-      "libs": ["libtbb.so.12"],
+      "libs": ["tbb-runtime/lib/libtbb.so.12"],
       "depends": [
         "tbb-malloc",
         "tbb-malloc-proxy",
-        "tbb-bind"]
+        "tbb-bind"
+      ]
     },
     "tbb-malloc": {
-      "libs": ["libtbbmalloc.so.2"],
+      "libs": ["tbb-runtime/lib/libtbbmalloc.so.2"],
       "depends": []
     },
     "tbb-malloc-proxy": {
-      "libs": ["libtbbmalloc_proxy.so.2"],
+      "libs": ["tbb-runtime/lib/libtbbmalloc_proxy.so.2"],
       "depends": []
     },
     "tbb-bind": {
       "libs": [
-        "libtbbbind.so.3",
-        "libtbbbind_2_0.so.3",
-        "libtbbbind_2_5.so.3"],
+        "tbb-runtime/lib/libtbbbind.so.3",
+        "tbb-runtime/lib/libtbbbind_2_0.so.3",
+        "tbb-runtime/lib/libtbbbind_2_5.so.3"],
       "depends": []
     },
     "tbb-devel": {
-      "libs": [],
-      "libi": [
-        "libtbb.so",
-        "libtbbmalloc.so",
-        "libtbbmalloc_proxy.so",
-        "libtbbbind_2_5.so"],
+      "libs": [
+        "tbb-runtime/lib/libtbb.so",
+        "tbb-runtime/lib/libtbbmalloc.so",
+        "tbb-runtime/lib/libtbbmalloc_proxy.so",
+        "tbb-runtime/lib/libtbbbind_2_5.so"
+      ],
       "depends": ["tbb-rt"]
     }
   }
