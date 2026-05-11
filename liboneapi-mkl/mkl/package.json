@@ -8,8 +8,7 @@
         "mkl-dispatch",
         "mkl-imalloc",
         "mkl-thread-seq",
-        "mkl-thread-intel",
-        "mkl-thread-tbb"
+        "mkl-thread-intel"
       ]
     },
     "mkl-core": {
@@ -160,7 +159,7 @@
       "libs": ["mkl-runtime/lib/libmkl_intel_thread.so.2"],
       "depends": ["mkl-core"]
     },
-    "mkl-thread-openmp": {
+    "mkl-thread-gnu": {
       "libs": ["mkl-runtime/lib/libmkl_gnu_thread.so.2"],
       "loptions": ["-lgomp"],
       "depends": ["mkl-core"]
