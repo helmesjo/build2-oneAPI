@@ -1,5 +1,11 @@
-intf_libs = # Interface dependencies.
-impl_libs = # Implementation dependencies.
+import openmp = liboneapi-openmp%libs{openmp-rt}
+
+# inter-dependencies
+
+libs{mkl-thread-intel}: $openmp
+{
+  cxx.export.libs += $openmp
+}
 
 define [see_through] import: group
 
@@ -114,6 +120,8 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
     depends += [names] $x
   }
 
+  ./: libs{$n}
+
   # The "bundles" are either both shared & import libs (Windows),
   # or shared-only (implicitly loaded, just needs to respect RPATH).
   #
@@ -159,10 +167,7 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   }
   elif (!$empty($libi))
   {
-    libs{$n}: $libi
-    {
-      cc.export.libs =+ $libi
-    }
+    <libs{$n} libi{$libi}>: extract{$name-devel}
   }
   else
   {
@@ -173,6 +178,7 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   #
   libs{$n}:
   {
+    cc.type = cc
     cc.export.poptions = $pub_hdrs
   }
 

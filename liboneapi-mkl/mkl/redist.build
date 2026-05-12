@@ -74,7 +74,7 @@ json{~'/([a-z]+\.[a-z]+.*)/'}:
       end
     end
   end
-  echo "Failed to find id '$n' with payload file 'manifest.json' in json:$\n$json.serialize($packages)" >&2
+  echo "$json.serialize($packages)$\nFailed to find id '$n' with payload file 'manifest.json' in json" >&2
   exit 1
 }}
 
