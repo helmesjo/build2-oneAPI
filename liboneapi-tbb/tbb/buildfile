@@ -22,11 +22,11 @@ package_ver   = "$(version.major).$(version.minor).$(version.patch)"
 
 ./: archive{$name-intel.oneapi.$(name).devel-$package_ver...}: json{$(name).devel...}
 ./: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}: json{$(name).runtime...}
-./: extract{$name-devel}: archive{$name-intel.oneapi.$(name).devel-$package_ver...}
-./: extract{$name-runtime}: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}
+extract{$name-devel}: archive{$name-intel.oneapi.$(name).devel-$package_ver...}
+extract{$name-runtime}: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}
 
-./: import{$name-headers}: extract{$name-devel}: update = match
-./: import{$name-legals}: extract{$name-runtime}: update = match
+import{$name-headers}: extract{$name-devel}: update = match
+import{$name-legals}: extract{$name-runtime}: update = match
 
 import{$name-headers}:
 {{
