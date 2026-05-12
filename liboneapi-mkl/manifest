@@ -13,3 +13,4 @@ package-email: packaging@build2.org ; Mailing list.
 builds: none; Times out downloading large binaries
 depends: * build2 >= 0.17.0
 depends: * bpkg >= 0.17.0
+depends: liboneapi-openmp ^ 2025.3.2-

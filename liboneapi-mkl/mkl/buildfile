@@ -1,5 +1,11 @@
-intf_libs = # Interface dependencies.
-impl_libs = # Implementation dependencies.
+import openmp = liboneapi-openmp%libs{openmp-rt}
+
+# inter-dependencies
+
+libs{mkl-thread-intel}: $openmp
+{
+  cxx.export.libs += $openmp
+}
 
 define [see_through] import: group
 
