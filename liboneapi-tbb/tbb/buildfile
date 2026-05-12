@@ -20,13 +20,13 @@ json{$(name).runtime...}: json{$name-manifest}
 package_infix = ($cc.target.class == 'windows' ? 'win' : 'lin')
 package_ver   = "$(version.major).$(version.minor).$(version.patch)"
 
-archive{$name-intel.oneapi.$(name).devel-$package_ver...}: json{$(name).devel...}
-archive{$name-intel.oneapi.$(name).runtime-$package_ver...}: json{$(name).runtime...}
-extract{$name-devel}: archive{$name-intel.oneapi.$(name).devel-$package_ver...}
-extract{$name-runtime}: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}
+./: archive{$name-intel.oneapi.$(name).devel-$package_ver...}: json{$(name).devel...}
+./: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}: json{$(name).runtime...}
+./: extract{$name-devel}: archive{$name-intel.oneapi.$(name).devel-$package_ver...}
+./: extract{$name-runtime}: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}
 
-import{$name-headers}: extract{$name-devel}: update = match
-import{$name-legals}: extract{$name-runtime}: update = match
+./: import{$name-headers}: extract{$name-devel}: update = match
+./: import{$name-legals}: extract{$name-runtime}: update = match
 
 import{$name-headers}:
 {{
@@ -120,7 +120,7 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
     depends += [names] $x
   }
 
-  ./: libs{$n}
+  ./: libs{$n}: clean = false
 
   # The "bundles" are either both shared & import libs (Windows),
   # or shared-only (implicitly loaded, just needs to respect RPATH).
