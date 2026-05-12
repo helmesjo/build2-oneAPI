@@ -1,0 +1,7 @@
+project = liboneapi-openmp
+
+using version
+using config
+using test
+using install
+using dist

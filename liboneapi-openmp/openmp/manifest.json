@@ -1,0 +1,24 @@
+{
+  "baseUrl": "https://installer.repos.intel.com/oneapi/compiler",
+  "liboneapi-openmp":
+  {
+    "windows":
+    {
+      "version": "2025.3.2+833",
+      "subdir":    "win",
+      "basename":  "intel.oneapi.win.compiler.content",
+      "id":        "intel.oneapi.win.openmp",
+      "verSuffix": ",v=",
+      "extension": "json"
+    },
+    "linux":
+    {
+      "version": "2025.3.2+833",
+      "subdir":    "lin",
+      "basename":  "intel.oneapi.lin.compiler.content",
+      "id":        "intel.oneapi.lin.openmp",
+      "verSuffix": ",v=",
+      "extension": "json"
+    }
+  }
+}

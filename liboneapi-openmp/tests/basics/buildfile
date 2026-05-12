@@ -1,0 +1,11 @@
+import libs = liboneapi-openmp%libs{openmp-rt}
+
+for t : cxx{* -openmp-omptarget}
+{
+  n = $name($t)
+  ./: exe{test-$n}: $t $libs
+}
+
+import omptarget = liboneapi-openmp%libs{openmp-omptarget}
+exe{test-openmp-omptarget}: cxx{openmp-omptarget} $omptarget: \
+  include = ($cxx.find_system_header("omp.h") != [null])

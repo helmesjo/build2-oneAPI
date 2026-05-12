@@ -1,0 +1,37 @@
+{
+  "x86_64-windows": {
+    "openmp-rt": {
+      "libs": [
+        "openmp-runtime/bin/libiomp5md.dll",
+        "openmp-runtime/bin/libiomp5md_db.dll",
+        "openmp-runtime/bin/libiompstubs5md.dll"
+      ],
+      "libi": [
+        "openmp-runtime/lib/libiomp5md.lib",
+        "openmp-runtime/lib/libiompstubs5md.lib"
+      ]
+    },
+    "openmp-omptarget": {
+      "libs": [
+        "openmp-runtime/bin/omptarget.dll",
+        "openmp-runtime/bin/omptarget.rtl.level0.dll",
+        "openmp-runtime/bin/omptarget.rtl.opencl.dll",
+        "openmp-runtime/bin/omptarget.rtl.unified_runtime.dll",
+        "openmp-runtime/bin/omptarget.sycl.wrap.dll"
+      ],
+      "libi": [ "openmp-runtime/lib/omptarget.lib" ],
+      "depends": ["openmp-rt"]
+    }
+  },
+
+  "x86_64-linux": {
+    "tbb-rt": {
+      "libs": ["tbb-runtime/lib/libtbb.so.12"],
+      "depends": [
+        "tbb-malloc",
+        "tbb-malloc-proxy",
+        "tbb-bind"
+      ]
+    }
+  }
+}

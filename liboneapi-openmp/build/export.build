@@ -1,0 +1,6 @@
+$out_root/
+{
+  include openmp/
+}
+
+export $out_root/openmp/$import.target

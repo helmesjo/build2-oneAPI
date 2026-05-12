@@ -1,0 +1,15 @@
+: 1
+name: liboneapi-openmp
+version: 2025.3.2-a.0.z
+upstream-version: 2025.3.2
+language: c++
+project: intel-oneapi-toolkit
+summary: oneapi-openmp C++ library
+license: other: proprietary ; Not free/open source.
+package-description-file: PACKAGE-README.md
+url: https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html
+package-url: https://github.com/build2-packaging/oneAPI
+package-email: packaging@build2.org ; Mailing list.
+builds: none; Times out downloading large binaries
+depends: * build2 >= 0.17.0
+depends: * bpkg >= 0.17.0
