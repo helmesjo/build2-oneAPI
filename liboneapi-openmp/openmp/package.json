@@ -25,13 +25,19 @@
   },
 
   "x86_64-linux": {
-    "tbb-rt": {
-      "libs": ["tbb-runtime/lib/libtbb.so.12"],
-      "depends": [
-        "tbb-malloc",
-        "tbb-malloc-proxy",
-        "tbb-bind"
+    "openmp-rt": {
+      "libs": [
+        "openmp-runtime/lib/libiomp5.so",
+        "openmp-runtime/lib/libiomp5_db.so",
+        "openmp-runtime/lib/libiompstubs5.so"
       ]
+    },
+    "openmp-omptarget": {
+      "libs": [
+        "openmp-runtime/lib/libomptarget.so",
+        "openmp-runtime/lib/libomptarget.sycl.wrap.so"
+      ],
+      "depends": ["openmp-rt"]
     }
   }
 }

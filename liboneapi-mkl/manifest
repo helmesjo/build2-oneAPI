@@ -1,7 +1,7 @@
 : 1
 name: liboneapi-mkl
-version: 2025.3.0-a.0.z
-upstream-version: 2025.3.0
+version: 2026.0.0-a.0.z
+upstream-version: 2026.0.0
 language: c++
 project: intel-oneapi-toolkit
 summary: oneapi-mkl C++ library
@@ -13,4 +13,4 @@ package-email: packaging@build2.org ; Mailing list.
 builds: none; Times out downloading large binaries
 depends: * build2 >= 0.17.0
 depends: * bpkg >= 0.17.0
-depends: liboneapi-openmp ^ 2025.3.2-
+depends: liboneapi-openmp ^ 2026.0.0-

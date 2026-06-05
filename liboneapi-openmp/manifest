@@ -1,7 +1,7 @@
 : 1
 name: liboneapi-openmp
-version: 2025.3.2-a.0.z
-upstream-version: 2025.3.2
+version: 2026.0.0-a.0.z
+upstream-version: 2026.0.0
 language: c++
 project: intel-oneapi-toolkit
 summary: oneapi-openmp C++ library

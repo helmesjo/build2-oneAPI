@@ -12,7 +12,7 @@
     },
     "linux":
     {
-      "version": "2022.3.1+400",
+      "version": "2023.0.0+724",
       "subdir":    "lin",
       "basename":  "intel.oneapi.lin.tbb_oneapi.content",
       "verSuffix": ",v=",

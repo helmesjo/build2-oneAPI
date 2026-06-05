@@ -13,7 +13,7 @@
     },
     "linux":
     {
-      "version": "2025.3.2+833",
+      "version": "2026.0.0+947",
       "subdir":    "lin",
       "basename":  "intel.oneapi.lin.compiler.content",
       "id":        "intel.oneapi.lin.openmp",

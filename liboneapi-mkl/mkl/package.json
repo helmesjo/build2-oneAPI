@@ -118,67 +118,65 @@
 
   "x86_64-linux": {
     "mkl-rt": {
-      "libs": ["mkl-runtime/lib/libmkl_rt.so.2"],
-      "depends": [
-        "mkl-core",
-        "mkl-dispatch",
-        "mkl-thread-seq"
-      ]
+      "libs": ["mkl-runtime/lib/libmkl_rt.so.3"],
+      "depends": []
     },
     "mkl-core": {
-      "libs": ["mkl-runtime/lib/libmkl_core.so.2", "mkl-runtime/lib/libmkl_cdft_core.so.2"],
-      "depends": ["mkl-dispatch"]
+      "libs": ["mkl-runtime/lib/libmkl_core.so.3"],
+      "depends": ["mkl-lp64"]
     },
     "mkl-dispatch": {
       "libs": [
-        "mkl-runtime/lib/libmkl_avx2.so.2",
-        "mkl-runtime/lib/libmkl_avx512.so.2",
-        "mkl-runtime/lib/libmkl_def.so.2",
-        "mkl-runtime/lib/libmkl_mc3.so.2",
-        "mkl-runtime/lib/libmkl_vml_avx2.so.2",
-        "mkl-runtime/lib/libmkl_vml_avx512.so.2",
-        "mkl-runtime/lib/libmkl_vml_def.so.2",
-        "mkl-runtime/lib/libmkl_vml_mc3.so.2",
-        "mkl-runtime/lib/libmkl_vml_cmpt.so.2"
+        "mkl-runtime/lib/libmkl_avx2.so.3",
+        "mkl-runtime/lib/libmkl_avx512.so.3",
+        "mkl-runtime/lib/libmkl_avx10.so.3",
+        "mkl-runtime/lib/libmkl_def.so.3",
+        "mkl-runtime/lib/libmkl_mc3.so.3",
+        "mkl-runtime/lib/libmkl_vml_avx2.so.3",
+        "mkl-runtime/lib/libmkl_vml_avx512.so.3",
+        "mkl-runtime/lib/libmkl_vml_avx10.so.3",
+        "mkl-runtime/lib/libmkl_vml_def.so.3",
+        "mkl-runtime/lib/libmkl_vml_mc3.so.3",
+        "mkl-runtime/lib/libmkl_vml_cmpt.so.3"
       ],
       "depends": []
     },
     "mkl-lp64": {
-      "libs": ["mkl-runtime/lib/libmkl_intel_lp64.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_intel_lp64.so.3"],
       "depends": []
     },
     "mkl-ilp64": {
-      "libs": ["mkl-runtime/lib/libmkl_intel_ilp64.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_intel_ilp64.so.3"],
       "depends": []
     },
     "mkl-thread-seq": {
-      "libs": ["mkl-runtime/lib/libmkl_sequential.so.2"],
-      "depends": ["mkl-lp64"]
+      "libs": ["mkl-runtime/lib/libmkl_sequential.so.3"],
+      "depends": ["mkl-core"]
     },
     "mkl-thread-intel": {
-      "libs": ["mkl-runtime/lib/libmkl_intel_thread.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_intel_thread.so.3"],
       "depends": ["mkl-core"]
     },
     "mkl-thread-gnu": {
-      "libs": ["mkl-runtime/lib/libmkl_gnu_thread.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_gnu_thread.so.3"],
       "loptions": ["-lgomp"],
       "depends": ["mkl-core"]
     },
     "mkl-thread-tbb": {
-      "libs": ["mkl-runtime/lib/libmkl_tbb_thread.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_tbb_thread.so.3"],
       "depends": ["mkl-core"]
     },
     "mkl-sycl": {
       "libs": [
-        "mkl-runtime/lib/libmkl_sycl_blas.so.5",
-        "mkl-runtime/lib/libmkl_sycl_data_fitting.so.5",
-        "mkl-runtime/lib/libmkl_sycl_dft.so.5",
-        "mkl-runtime/lib/libmkl_sycl_distributed_dft.so.1",
-        "mkl-runtime/lib/libmkl_sycl_lapack.so.5",
-        "mkl-runtime/lib/libmkl_sycl_rng.so.5",
-        "mkl-runtime/lib/libmkl_sycl_sparse.so.5",
-        "mkl-runtime/lib/libmkl_sycl_stats.so.5",
-        "mkl-runtime/lib/libmkl_sycl_vm.so.5"
+        "mkl-runtime/lib/libmkl_sycl_blas.so.6",
+        "mkl-runtime/lib/libmkl_sycl_data_fitting.so.6",
+        "mkl-runtime/lib/libmkl_sycl_dft.so.6",
+        "mkl-runtime/lib/libmkl_sycl_distributed_dft.so.2",
+        "mkl-runtime/lib/libmkl_sycl_lapack.so.6",
+        "mkl-runtime/lib/libmkl_sycl_rng.so.6",
+        "mkl-runtime/lib/libmkl_sycl_sparse.so.6",
+        "mkl-runtime/lib/libmkl_sycl_stats.so.6",
+        "mkl-runtime/lib/libmkl_sycl_vm.so.6"
       ],
       "depends": ["mkl-core"]
     },

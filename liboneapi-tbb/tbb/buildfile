@@ -1,12 +1,3 @@
-import openmp = liboneapi-openmp%libs{openmp-rt}
-
-# inter-dependencies
-
-libs{mkl-thread-intel}: $openmp
-{
-  cxx.export.libs += $openmp
-}
-
 define [see_through] import: group
 
 name = $string.replace($project, 'liboneapi-', '')

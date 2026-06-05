@@ -12,7 +12,7 @@
     },
     "linux":
     {
-      "version": "2025.3.0+461",
+      "version": "2026.0.0+908",
       "subdir":    "lin",
       "basename":  "intel.oneapi.lin.onemkl.content",
       "verSuffix": ",v=",

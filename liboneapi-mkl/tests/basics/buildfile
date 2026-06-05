@@ -1,6 +1,6 @@
 import libs = liboneapi-mkl%libs{mkl-rt}
 
-for t : cxx{* -mkl-cluster-* -mkl-sycl -mkl-thread-gnu}
+for t : cxx{* -mkl-cluster-* -mkl-sycl -mkl-thread-gnu -mkl-thread-intel}
 {
   n = $name($t)
   ./: exe{test-$n}: $t $libs
@@ -12,7 +12,7 @@ import thread_intel = liboneapi-mkl%libs{mkl-thread-intel}
 exe{test-mkl-thread-intel}: cxx{mkl-thread-intel} $libs $thread_intel
 
 import thread_gnu = liboneapi-mkl%libs{mkl-thread-gnu}
-exe{test-mkl-thread-gnu}: cxx{mkl-thread-gnu} $thread_gnu
+exe{test-mkl-thread-gnu}: cxx{mkl-thread-gnu} $libs $thread_gnu
 ./: exe{test-mkl-thread-gnu}: include = ($cc.target.class == 'linux')
 
 # cluster tests
