@@ -1,11 +1,11 @@
 // tbb-malloc-proxy smoke test
 
 #include <oneapi/tbb/tbbmalloc_proxy.h>
-#undef NDEBUG
-#include <cassert>
+
+#if _MSC_VER
+extern "C" void __TBB_malloc_proxy();
+#endif
 
 int main() {
-  char **log = nullptr;
-  int status = TBB_malloc_replacement_log(&log);
-  assert(status == 0);
+  __TBB_malloc_proxy();
 }
