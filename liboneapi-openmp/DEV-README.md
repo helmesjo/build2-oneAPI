@@ -30,14 +30,11 @@ openmp-runtime/ after the version-segment strip in redist.build.
   openmp-runtime/bin/libiomp5md_db.dll
   openmp-runtime/bin/libiompstubs5md.dll
   openmp-runtime/bin/omptarget.dll
-  openmp-runtime/bin/omptarget.rtl.level0.dll
-  openmp-runtime/bin/omptarget.rtl.opencl.dll
-  openmp-runtime/bin/omptarget.rtl.unified_runtime.dll
   openmp-runtime/bin/omptarget.sycl.wrap.dll
 
 Note: libiomp5.so carries no SONAME version suffix on Linux.
-Note: the Linux tarball has no .rtl.level0/.rtl.opencl/.rtl.unified_runtime
-equivalents; those are Windows-only DLLs in this version.
+Note: omptarget.rtl.level0/opencl/unified_runtime DLLs were present in earlier
+releases but are absent in 2026.0.0 on both platforms.
 
 ## build2 targets
 
@@ -50,11 +47,8 @@ equivalents; those are Windows-only DLLs in this version.
                       -                                    libi: libiompstubs5md.lib
 
   openmp-omptarget    libomptarget.so                      omptarget.dll
-                      libomptarget.sycl.wrap.so            omptarget.rtl.level0.dll
-                      depends: openmp-rt                   omptarget.rtl.opencl.dll
-                                                           omptarget.rtl.unified_runtime.dll
-                                                           omptarget.sycl.wrap.dll
-                                                           libi: omptarget.lib
+                      libomptarget.sycl.wrap.so            omptarget.sycl.wrap.dll
+                      depends: openmp-rt                   libi: omptarget.lib
                                                            depends: openmp-rt
 
 ## Platform notes
@@ -63,5 +57,5 @@ equivalents; those are Windows-only DLLs in this version.
   intel.oneapi.lin.compilers-common.runtime (libimf, libsvml, libirng,
   libintlc) and intel.oneapi.lin.dpcpp-cpp-common.runtime (libsycl,
   libur_loader) - neither packaged yet.
-- Windows omptarget ships four .rtl.* DLLs; Linux has none (offload
-  plugins are either absent or loaded differently in this release).
+- Windows omptarget shipped .rtl.* DLLs in earlier releases. They are absent
+  in 2026.0.0 on both platforms.

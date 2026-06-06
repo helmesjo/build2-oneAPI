@@ -4,7 +4,7 @@
   {
     "windows":
     {
-      "version": "2025.3.0+453",
+      "version": "2026.0.0+901",
       "subdir":    "win",
       "basename":  "intel.oneapi.win.onemkl.content",
       "verSuffix": ",v=",

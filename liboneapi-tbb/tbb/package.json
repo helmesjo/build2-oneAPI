@@ -5,11 +5,7 @@
       "libi": [
         "tbb-runtime/lib/tbb12.lib",
         "tbb-runtime/lib/tbb.lib"],
-      "depends": [
-        "tbb-malloc",
-        "tbb-malloc-proxy",
-        "tbb-bind"
-      ]
+      "depends": []
     },
     "tbb-malloc": {
       "libs": ["tbb-runtime/bin/tbbmalloc.dll"],
@@ -23,7 +19,7 @@
       "libi": [
         "tbb-devel/lib/tbbmalloc_proxy.lib"
       ],
-      "depends": []
+      "depends": ["tbb-malloc"]
     },
     "tbb-bind": {
       "libs": [
@@ -41,11 +37,7 @@
   "x86_64-linux": {
     "tbb-rt": {
       "libs": ["tbb-runtime/lib/libtbb.so.12"],
-      "depends": [
-        "tbb-malloc",
-        "tbb-malloc-proxy",
-        "tbb-bind"
-      ]
+      "depends": []
     },
     "tbb-malloc": {
       "libs": ["tbb-runtime/lib/libtbbmalloc.so.2"],
@@ -53,7 +45,7 @@
     },
     "tbb-malloc-proxy": {
       "libs": ["tbb-runtime/lib/libtbbmalloc_proxy.so.2"],
-      "depends": []
+      "depends": ["tbb-malloc"]
     },
     "tbb-bind": {
       "libs": [

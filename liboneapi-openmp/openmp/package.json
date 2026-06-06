@@ -14,9 +14,6 @@
     "openmp-omptarget": {
       "libs": [
         "openmp-runtime/bin/omptarget.dll",
-        "openmp-runtime/bin/omptarget.rtl.level0.dll",
-        "openmp-runtime/bin/omptarget.rtl.opencl.dll",
-        "openmp-runtime/bin/omptarget.rtl.unified_runtime.dll",
         "openmp-runtime/bin/omptarget.sycl.wrap.dll"
       ],
       "libi": [ "openmp-runtime/lib/omptarget.lib" ],

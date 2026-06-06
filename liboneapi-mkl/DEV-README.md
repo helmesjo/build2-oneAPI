@@ -19,10 +19,10 @@ Content manifest basename:
 
 _installdir/mkl/<ver>/ maps to mkl-runtime/ after the version-segment strip.
 
-Computation / dispatch (linux .so.3, windows .2.dll):
+Computation / dispatch (linux .so.3, windows .3.dll; mkl_cdft_core windows .2.dll):
   mkl_rt, mkl_core, mkl_cdft_core
-  mkl_avx2, mkl_avx512, mkl_avx10 (linux only, new in 2026.0), mkl_def, mkl_mc3
-  mkl_vml_avx2, mkl_vml_avx512, mkl_vml_avx10 (linux only), mkl_vml_def,
+  mkl_avx2, mkl_avx512, mkl_avx10 (new in 2026.0), mkl_def, mkl_mc3
+  mkl_vml_avx2, mkl_vml_avx512, mkl_vml_avx10 (new in 2026.0), mkl_vml_def,
   mkl_vml_mc3, mkl_vml_cmpt
 
 Interface (linux .so.3, windows import-lib only):
@@ -33,7 +33,7 @@ Threading (linux .so.3, windows .2.dll):
   mkl_sequential, mkl_intel_thread, mkl_tbb_thread
   mkl_gnu_thread                 (linux only, requires -lgomp)
 
-SYCL (linux .so.6, windows .5.dll):
+SYCL (linux .so.6, windows .6.dll):
   mkl_sycl_blas, mkl_sycl_data_fitting, mkl_sycl_dft, mkl_sycl_lapack,
   mkl_sycl_rng, mkl_sycl_sparse, mkl_sycl_stats, mkl_sycl_vm
   mkl_sycl_distributed_dft      (linux .so.2, absent on windows)

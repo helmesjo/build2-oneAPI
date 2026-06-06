@@ -1,19 +1,9 @@
-import libs = liboneapi-tbb%libs{tbb-rt}
+import tbb_rt           = liboneapi-tbb%libs{tbb-rt}
+import tbb_malloc       = liboneapi-tbb%libs{tbb-malloc}
+import tbb_malloc_proxy = liboneapi-tbb%libs{tbb-malloc-proxy}
+import tbb_bind         = liboneapi-tbb%libs{tbb-bind}
 
-for t : cxx{*}
-{
-  n = $name($t)
-  ./: exe{test-$n}: $t $libs
-}
-
-import tbb_malloc  = liboneapi-tbb%libs{tbb-malloc}
-exe{test-tbb-malloc}: $tbb_malloc
-
-import tbb_bind  = liboneapi-tbb%libs{tbb-bind}
-exe{test-tbb-bind}: $tbb_bind
-
-import tbb_rt  = liboneapi-tbb%libs{tbb-rt}
-exe{test-tbb-rt}: $tbb_rt
-
-import tbb_malloc_proxy  = liboneapi-tbb%libs{tbb-malloc-proxy}
-exe{test-tbb-malloc-proxy}: $tbb_malloc_proxy
+./: exe{test-tbb-rt}:           cxx{tbb-rt}           $tbb_rt
+./: exe{test-tbb-malloc}:       cxx{tbb-malloc}       $tbb_rt $tbb_malloc
+./: exe{test-tbb-malloc-proxy}: cxx{tbb-malloc-proxy} $tbb_rt $tbb_malloc_proxy
+./: exe{test-tbb-bind}:         cxx{tbb-bind}         $tbb_rt $tbb_bind

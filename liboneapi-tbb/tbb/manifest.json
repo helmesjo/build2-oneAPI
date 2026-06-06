@@ -4,7 +4,7 @@
   {
     "windows":
     {
-      "version": "2022.3.1+401",
+      "version": "2023.0.0+716",
       "subdir":    "win",
       "basename":  "intel.oneapi.win.tbb_oneapi.content",
       "verSuffix": ",v=",

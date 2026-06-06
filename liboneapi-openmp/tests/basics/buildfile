@@ -9,8 +9,8 @@ for t : cxx{* -openmp-omptarget}
 import omptarget = liboneapi-openmp%libs{openmp-omptarget}
 exe{test-openmp-omptarget}: cxx{openmp-omptarget} $omptarget
 
-# Requires intel.oneapi.lin.compilers-common.runtime (libimf, libsvml, libirng,
-# libintlc) and intel.oneapi.lin.dpcpp-cpp-common.runtime (libsycl, libur_loader)
-# - neither packaged yet.
+# Requires intel.oneapi.{lin,win}.dpcpp-cpp-common.runtime (libsycl/sycl.dll,
+# libur_loader) which is not yet packaged. On Linux also requires
+# intel.oneapi.lin.compilers-common.runtime (libimf, libsvml, libirng, libintlc).
 #
 ./: exe{test-openmp-omptarget}: include = false

@@ -51,17 +51,15 @@ together in the runtime tarball (not yet verified).
   Target              Linux libs                        Windows libs / libi
   ------              ----------                        -------------------
   tbb-rt              tbb-runtime/lib/libtbb.so.12      tbb-runtime/bin/tbb12.dll
-                      depends: tbb-malloc,              libi: tbb-runtime/lib/tbb12.lib
-                               tbb-malloc-proxy,        libi: tbb-runtime/lib/tbb.lib
-                               tbb-bind                 depends: tbb-malloc,
-                                                                  tbb-malloc-proxy,
-                                                                  tbb-bind
+                                                        libi: tbb-runtime/lib/tbb12.lib
+                                                        libi: tbb-runtime/lib/tbb.lib
 
   tbb-malloc          libtbbmalloc.so.2                 tbbmalloc.dll
                                                         libi: tbbmalloc.lib
 
   tbb-malloc-proxy    libtbbmalloc_proxy.so.2           tbbmalloc_proxy.dll
-                                                        libi: tbb-devel/lib/tbbmalloc_proxy.lib
+                      depends: tbb-malloc               libi: tbb-devel/lib/tbbmalloc_proxy.lib
+                                                        depends: tbb-malloc
 
   tbb-bind            libtbbbind.so.3                   tbbbind.dll
                       libtbbbind_2_0.so.3               tbbbind_2_0.dll
