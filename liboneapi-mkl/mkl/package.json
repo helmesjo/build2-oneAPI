@@ -43,13 +43,11 @@
       "depends": []
     },
     "mkl-lp64": {
-      "libs": [],
-      "libi": ["mkl-devel/lib/mkl_intel_lp64_dll.lib"],
+      "liba": ["mkl-devel/lib/mkl_intel_lp64_dll.lib"],
       "depends": []
     },
     "mkl-ilp64": {
-      "libs": [],
-      "libi": ["mkl-devel/lib/mkl_intel_ilp64_dll.lib"],
+      "liba": ["mkl-devel/lib/mkl_intel_ilp64_dll.lib"],
       "depends": []
     },
     "mkl-thread-seq": {

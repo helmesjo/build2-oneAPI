@@ -102,6 +102,7 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   loptions =
   libs = [paths]
   libi = [paths]
+  liba = [paths]
   depends = [names]
   for x: [json_array] ($v["loptions"])
   {
@@ -114,6 +115,10 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   for x: [json_array] ($v["libi"])
   {
     libi += [paths] $out_base/$x
+  }
+  for x: [json_array] ($v["liba"])
+  {
+    liba += [paths] $out_base/$x
   }
   for x: [json_array] ($v["depends"])
   {
@@ -167,11 +172,21 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   }
   elif (!$empty($libi))
   {
-    <libs{$n} libi{$libi}>: extract{$name-devel}
+    fail "$n: 'libi' without 'libs' is not supported; use 'liba' for static-link archives."
   }
-  else
+  elif ($empty($liba))
   {
-    fail "$n: No shared or import libraries specified. See '$src_base/packages.json'."
+    fail "$n: No shared, import, or static libraries specified. See '$src_base/packages.json'."
+  }
+
+  if (!$empty($liba))
+  {
+    <liba{$liba}>: extract{$name-devel}
+    libs{$n}: liba{$liba}
+    libs{$n}:
+    {
+      cc.export.libs += liba{$liba}
+    }
   }
 
   # Export options.

@@ -7,8 +7,10 @@
         "openmp-runtime/bin/libiompstubs5md.dll"
       ],
       "libi": [
-        "openmp-runtime/lib/libiomp5md.lib",
         "openmp-runtime/lib/libiompstubs5md.lib"
+      ],
+      "liba": [
+        "openmp-runtime/lib/libiomp5md.lib"
       ]
     },
     "openmp-omptarget": {
