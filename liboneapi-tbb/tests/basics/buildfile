@@ -3,7 +3,15 @@ import tbb_malloc       = liboneapi-tbb%libs{tbb-malloc}
 import tbb_malloc_proxy = liboneapi-tbb%libs{tbb-malloc-proxy}
 import tbb_bind         = liboneapi-tbb%libs{tbb-bind}
 
-./: exe{test-tbb-rt}:           cxx{tbb-rt}           $tbb_rt
+# tbb-rt/tbb-bind: C++ API headers call internal DLL symbols.
+#            NOTE: On Windows only MSVC is supported due to C++ name mangling.
+#
+./: exe{test-tbb-rt}: \
+  include = ($cc.target.class != 'windows' || $cxx.target.system == 'win32-msvc')
+exe{test-tbb-rt}: cxx{tbb-rt} $tbb_rt
+
 ./: exe{test-tbb-malloc}:       cxx{tbb-malloc}       $tbb_rt $tbb_malloc
 ./: exe{test-tbb-malloc-proxy}: cxx{tbb-malloc-proxy} $tbb_rt $tbb_malloc_proxy
-./: exe{test-tbb-bind}:         cxx{tbb-bind}         $tbb_rt $tbb_bind
+./: exe{test-tbb-bind}: \
+  include = ($cc.target.class != 'windows' || $cxx.target.system == 'win32-msvc')
+exe{test-tbb-bind}: cxx{tbb-bind} $tbb_rt $tbb_bind

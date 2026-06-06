@@ -6,14 +6,22 @@ for t : cxx{* -mkl-cluster-* -mkl-sycl -mkl-thread-gnu -mkl-thread-tbb -mkl-lp64
   ./: exe{test-$n}: $t $libs
 }
 
-# lp64/ilp64 tests: layered mode to verify interface import libs link correctly
+# lp64/ilp64: layered mode. On Windows only MSVC is supported due to C++ name mangling incompatibility with MinGW GCC.
 #
 import lp64       = liboneapi-mkl%libs{mkl-lp64}
 import ilp64      = liboneapi-mkl%libs{mkl-ilp64}
 import thread_seq = liboneapi-mkl%libs{mkl-thread-seq}
 
-./: exe{test-mkl-lp64}:  cxx{mkl-lp64}  $lp64  $thread_seq
-./: exe{test-mkl-ilp64}: cxx{mkl-ilp64} $ilp64 $thread_seq
+./: exe{test-mkl-lp64}:
+{
+  include = ($cc.target.class != 'windows' || $cxx.target.system == 'win32-msvc')
+}
+exe{test-mkl-lp64}: cxx{mkl-lp64} $lp64 $thread_seq
+./: exe{test-mkl-ilp64}:
+{
+  include = ($cc.target.class != 'windows' || $cxx.target.system == 'win32-msvc')
+}
+exe{test-mkl-ilp64}: cxx{mkl-ilp64} $ilp64 $thread_seq
 
 # thread tests
 #
