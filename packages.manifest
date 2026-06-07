@@ -6,3 +6,6 @@ location: liboneapi-openmp/
 
 :
 location: liboneapi-tbb/
+
+:
+location: liboneapi-compilers-common/

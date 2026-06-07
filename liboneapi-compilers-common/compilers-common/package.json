@@ -1,0 +1,24 @@
+{
+  "x86_64-windows": {
+    "compilers-common-rt": {
+      "libs": [
+        "compilers-common-runtime/bin/imf.dll",
+        "compilers-common-runtime/bin/svml_dispmd.dll",
+        "compilers-common-runtime/bin/libmmt.dll",
+        "compilers-common-runtime/bin/intlc.dll"
+      ]
+    }
+  },
+
+  "x86_64-linux": {
+    "compilers-common-rt": {
+      "libs": [
+        "compilers-common-runtime/lib/libimf.so",
+        "compilers-common-runtime/lib/libsvml.so",
+        "compilers-common-runtime/lib/libirng.so",
+        "compilers-common-runtime/lib/libintlc.so.5",
+        "compilers-common-runtime/lib/libirc.so"
+      ]
+    }
+  }
+}

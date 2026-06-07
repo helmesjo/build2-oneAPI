@@ -1,0 +1,3 @@
+import libs = liboneapi-compilers-common%libs{compilers-common-rt}
+
+exe{test-compilers-common-rt}: cxx{compilers-common-rt} $libs

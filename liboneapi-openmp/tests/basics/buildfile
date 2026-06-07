@@ -17,7 +17,6 @@ import omptarget = liboneapi-openmp%libs{openmp-omptarget}
 exe{test-openmp-omptarget}: cxx{openmp-omptarget} $omptarget
 
 # Requires intel.oneapi.{lin,win}.dpcpp-cpp-common.runtime (libsycl/sycl.dll,
-# libur_loader) which is not yet packaged. On Linux also requires
-# intel.oneapi.lin.compilers-common.runtime (libimf, libsvml, libirng, libintlc).
+# libur_loader) which is not yet packaged.
 #
 ./: exe{test-openmp-omptarget}: include = false

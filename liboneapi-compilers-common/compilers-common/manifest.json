@@ -1,0 +1,24 @@
+{
+  "baseUrl": "https://installer.repos.intel.com/oneapi/compiler",
+  "liboneapi-compilers-common":
+  {
+    "windows":
+    {
+      "version": "2026.0.0+944",
+      "subdir":    "win",
+      "basename":  "intel.oneapi.win.compiler.content",
+      "id":        "intel.oneapi.win.compilers-common.runtime",
+      "verSuffix": ",v=",
+      "extension": "json"
+    },
+    "linux":
+    {
+      "version": "2026.0.0+947",
+      "subdir":    "lin",
+      "basename":  "intel.oneapi.lin.compiler.content",
+      "id":        "intel.oneapi.lin.compilers-common.runtime",
+      "verSuffix": ",v=",
+      "extension": "json"
+    }
+  }
+}
