@@ -4,19 +4,23 @@
   {
     "windows":
     {
-      "version": "2023.0.0+716",
-      "subdir":    "win",
-      "basename":  "intel.oneapi.win.tbb_oneapi.content",
-      "verSuffix": ",v=",
-      "extension": "json"
+      "version":    "2023.0.0+716",
+      "subdir":     "win",
+      "basename":   "intel.oneapi.win.tbb_oneapi.content",
+      "devel_id":   "intel.oneapi.win.tbb.devel",
+      "runtime_id": "intel.oneapi.win.tbb.runtime",
+      "verSuffix":  ",v=",
+      "extension":  "json"
     },
     "linux":
     {
-      "version": "2023.0.0+724",
-      "subdir":    "lin",
-      "basename":  "intel.oneapi.lin.tbb_oneapi.content",
-      "verSuffix": ",v=",
-      "extension": "json"
+      "version":    "2023.0.0+724",
+      "subdir":     "lin",
+      "basename":   "intel.oneapi.lin.tbb_oneapi.content",
+      "devel_id":   "intel.oneapi.lin.tbb.devel",
+      "runtime_id": "intel.oneapi.lin.tbb.runtime",
+      "verSuffix":  ",v=",
+      "extension":  "json"
     }
   }
 }

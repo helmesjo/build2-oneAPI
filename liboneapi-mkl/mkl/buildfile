@@ -14,15 +14,20 @@ name = $string.replace($project, 'liboneapi-', '')
 source redist.build
 
 json{$name-manifest}: $src_root/manifest manifest.json
-json{$(name).devel...}: json{$name-manifest}
-json{$(name).runtime...}: json{$name-manifest}
+
+manifest_json = [json_object] $json.load($src_base/manifest.json)
+devel_id      = [string] ($manifest_json["$project"]["$cc.target.class"]["devel_id"])
+runtime_id    = [string] ($manifest_json["$project"]["$cc.target.class"]["runtime_id"])
+
+json{$devel_id...}:   json{$name-manifest}
+json{$runtime_id...}: json{$name-manifest}
 
 package_infix = ($cc.target.class == 'windows' ? 'win' : 'lin')
 package_ver   = "$(version.major).$(version.minor).$(version.patch)"
 
-./: archive{$name-intel.oneapi.$(name).devel-$package_ver...}: json{$(name).devel...}
-./: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}: json{$(name).runtime...}
-extract{$name-devel}: archive{$name-intel.oneapi.$(name).devel-$package_ver...}
+./: archive{$name-intel.oneapi.$(name).devel-$package_ver...}:   json{$devel_id...}
+./: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}: json{$runtime_id...}
+extract{$name-devel}:   archive{$name-intel.oneapi.$(name).devel-$package_ver...}
 extract{$name-runtime}: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}
 
 import{$name-headers}: extract{$name-devel}: update = match

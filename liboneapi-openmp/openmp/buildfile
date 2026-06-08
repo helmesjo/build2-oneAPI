@@ -15,13 +15,17 @@ name = $string.replace($project, 'liboneapi-', '')
 
 source redist.build
 
+json{$name-manifest}: $src_root/manifest manifest.json
+
+manifest_json = [json_object] $json.load($src_base/manifest.json)
+runtime_id    = [string] ($manifest_json["$project"]["$cc.target.class"]["runtime_id"])
+
+json{$runtime_id...}: json{$name-manifest}
+
 package_infix = ($cc.target.class == 'windows' ? 'win' : 'lin')
 package_ver   = "$(version.major).$(version.minor).$(version.patch)"
 
-json{$name-manifest}: $src_root/manifest manifest.json
-json{intel.oneapi.$(package_infix).$(name)...}: json{$name-manifest}
-
-./: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}: json{intel.oneapi.$(package_infix).$(name)...}
+./: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}: json{$runtime_id...}
 extract{$name-runtime}: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}
 
 import{$name-legals}: extract{$name-runtime}: update = match

@@ -8,7 +8,7 @@
       "subdir":   "win",
       "basename": "intel.oneapi.win.compiler.content",
       "devel_id": "intel.oneapi.win.compilers-common",
-      "id":       "intel.oneapi.win.compilers-common-runtime",
+      "runtime_id":    "intel.oneapi.win.compilers-common-runtime",
       "verSuffix": ",v=",
       "extension": "json"
     },
@@ -18,7 +18,7 @@
       "subdir":   "lin",
       "basename": "intel.oneapi.lin.compiler.content",
       "devel_id": "intel.oneapi.lin.compilers-common",
-      "id":       "intel.oneapi.lin.compilers-common.runtime",
+      "runtime_id":    "intel.oneapi.lin.compilers-common.runtime",
       "verSuffix": ",v=",
       "extension": "json"
     }

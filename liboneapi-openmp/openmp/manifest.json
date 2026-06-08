@@ -7,7 +7,7 @@
       "version": "2026.0.0+944",
       "subdir":    "win",
       "basename":  "intel.oneapi.win.compiler.content",
-      "id":        "intel.oneapi.win.openmp",
+      "runtime_id": "intel.oneapi.win.openmp",
       "verSuffix": ",v=",
       "extension": "json"
     },
@@ -16,7 +16,7 @@
       "version": "2026.0.0+947",
       "subdir":    "lin",
       "basename":  "intel.oneapi.lin.compiler.content",
-      "id":        "intel.oneapi.lin.openmp",
+      "runtime_id": "intel.oneapi.lin.openmp",
       "verSuffix": ",v=",
       "extension": "json"
     }
