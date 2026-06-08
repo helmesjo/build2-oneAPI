@@ -2,10 +2,14 @@
   "x86_64-windows": {
     "compilers-common-rt": {
       "libs": [
-        "compilers-common-runtime/bin/imf.dll",
+        "compilers-common-runtime/bin/libmmd.dll",
         "compilers-common-runtime/bin/svml_dispmd.dll",
-        "compilers-common-runtime/bin/libmmt.dll",
-        "compilers-common-runtime/bin/intlc.dll"
+        "compilers-common-runtime/bin/libirngmd.dll"
+      ],
+      "libi": [
+        "compilers-common-devel/lib/libmmd.lib",
+        "compilers-common-devel/lib/svml_dispmd.lib",
+        "compilers-common-devel/lib/libirngmd.lib"
       ]
     }
   },

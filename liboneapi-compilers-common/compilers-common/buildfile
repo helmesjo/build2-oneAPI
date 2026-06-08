@@ -1,20 +1,61 @@
-intf_libs = # Interface dependencies.
-impl_libs = # Implementation dependencies.
-
 define [see_through] import: group
 
 name = $string.replace($project, 'liboneapi-', '')
 
 source redist.build
 
+json{$name-manifest}: $src_root/manifest manifest.json
+
+manifest_json = [json_object] $json.load($src_base/manifest.json)
+runtime_id    = [string] ($manifest_json["$project"]["$cc.target.class"]["id"])
+devel_id      = [string] ($manifest_json["$project"]["$cc.target.class"]["devel_id"])
+
+json{$devel_id...}:   json{$name-manifest}
+json{$runtime_id...}: json{$name-manifest}
+
 package_infix = ($cc.target.class == 'windows' ? 'win' : 'lin')
 package_ver   = "$(version.major).$(version.minor).$(version.patch)"
 
-json{$name-manifest}: $src_root/manifest manifest.json
-json{intel.oneapi.$(package_infix).$(name).runtime...}: json{$name-manifest}
-
-./: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}: json{intel.oneapi.$(package_infix).$(name).runtime...}
+./: archive{$name-intel.oneapi.$(name).devel-$package_ver...}:   json{$devel_id...}
+./: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}: json{$runtime_id...}
+extract{$name-devel}:   archive{$name-intel.oneapi.$(name).devel-$package_ver...}
 extract{$name-runtime}: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}
+
+import{$name-headers}: extract{$name-devel}: update = match
+
+import{$name-headers}:
+{{
+  o = $directory($>[0])
+  d = $o/$name($>[0]).files
+
+  hdrs = [paths]
+  for g : $filter($<, group)
+    for inc : include opt/compiler/include
+      if test -d $o/$name($g)/$inc
+        find "$o/$name($g)/$inc" -type f -name "*.h*" \
+          | set -n f [paths]
+        hdrs += $f
+      end
+    end
+  end
+
+  depdb dyndep \
+    --dyn-target \
+    --target-cwd "$o" \
+    --target-what 'imported headers' \
+    --target-extension-type 'h=h' \
+    --target-extension-type 'hpp=hxx' \
+    --format lines \
+    --file $d \
+    -- \
+      echo $regex.merge($hdrs, '(.+)', '\1\n') >$d
+
+  diag import $>
+
+  for t : $filter_out($>, group)
+    touch $path($t)
+  end
+}}
 
 pub_hdrs = [strings]
 
@@ -55,7 +96,7 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   # or shared-only (implicitly loaded, just needs to respect RPATH).
   #
   [rule_hint=cxx.link] \
-  libs{$n}: extract{$name-runtime}
+  libs{$n}: import{$name-headers}
 
   if (!$empty($depends))
   {
@@ -68,7 +109,7 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   }
   if (!$empty($libs) && !$empty($libi))
   {
-    <libs{$libs} libi{$libi}>: extract{$name-runtime}
+    <libs{$libs} libi{$libi}>: extract{$name-devel} extract{$name-runtime}
     libs{$n}: libs{$libs}
 
     # Export options.
@@ -105,7 +146,7 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
 
   if (!$empty($liba))
   {
-    <liba{$liba}>: extract{$name-runtime}
+    <liba{$liba}>: extract{$name-devel}
     libs{$n}: liba{$liba}
     libs{$n}:
     {
