@@ -6,6 +6,7 @@
   --------  ------------                       -------
   linux     intel.oneapi.lin.tbb.runtime       2023.0.0+724
   linux     intel.oneapi.lin.tbb.devel         2023.0.0+724
+  windows   intel.oneapi.win.tbb.runtime       2023.0.0+716
   windows   intel.oneapi.win.tbb.devel         2023.0.0+716
 
 Content manifest basename:
@@ -43,8 +44,9 @@ under tbb-runtime/ for its libs.
   tbb-devel/lib/cmake/tbb/            - CMake integration
   tbb-devel/lib/pkgconfig/tbb.pc
 
-Windows has no separate devel extract; headers and import libs ship
-together in the runtime tarball (not yet verified).
+Windows ships a separate `tbb.devel` extract alongside `tbb.runtime`.
+Some import libs (`tbb12.lib`, `tbb.lib`) ship in the runtime tarball;
+others (`tbbmalloc_proxy.lib`, `tbbbind*.lib`) ship in the devel tarball.
 
 ## build2 targets
 

@@ -9,36 +9,39 @@
 
 ## Download mechanism
 
-redist.build implements a three-step download per component:
+`redist.build` implements a three-step download per component:
 
   1. Fetch content manifest JSON from Intel CDN:
        {baseUrl}/{subdir}/{basename}{verSuffix}{version}.ext
      e.g. https://installer.repos.intel.com/oneapi/mkl/lin/
             intel.oneapi.lin.onemkl.content,v=2026.0.0+908.json
 
-  2. Parse the content manifest's packages[] array to find the right
-     component by ID suffix (e.g. "mkl.runtime"), then fetch that
-     component's manifest.json.
+  2. Each package's `manifest.json` names its components explicitly via
+     `runtime_id` (and `devel_id` where applicable). Parse the content
+     manifest's `packages[]` array to find the entry whose ID ends with
+     the given `runtime_id` or `devel_id`, then fetch that component's
+     `manifest.json`.
 
-  3. From the component manifest.json, locate cupPayload.cup and
-     download it (cached as a .tar in $out_root/).
+  3. From the component `manifest.json`, locate `cupPayload.cup` and
+     download it (cached as a `.tar` in `$out_root/`).
 
-  4. Extract with bsdtar, stripping the path prefix up to and including
+  4. Extract with `bsdtar`, stripping the path prefix up to and including
      the version segment:
        _installdir/<component>/<ver>/<rest>  ->  <extract-name>/<rest>
 
 ## Content manifest basenames
 
-  Package  linux                              windows
-  -------  -----                              -------
-  mkl      intel.oneapi.lin.onemkl.content    intel.oneapi.win.onemkl.content
-  tbb      intel.oneapi.lin.tbb_oneapi.content intel.oneapi.win.tbb_oneapi.content
-  openmp   intel.oneapi.lin.compiler.content  intel.oneapi.win.compiler.content
+  Package             linux                                windows
+  -------             -----                                -------
+  mkl                 intel.oneapi.lin.onemkl.content      intel.oneapi.win.onemkl.content
+  tbb                 intel.oneapi.lin.tbb_oneapi.content  intel.oneapi.win.tbb_oneapi.content
+  openmp              intel.oneapi.lin.compiler.content    intel.oneapi.win.compiler.content
+  compilers-common    intel.oneapi.lin.compiler.content    intel.oneapi.win.compiler.content
 
 ## Updating to a new release
 
-The only field that changes per release in each package's manifest.json is
-'version' (e.g. "2026.0.0+908"). The +build suffix is not derivable from
+The only field that changes per release in each package's `manifest.json` is
+`version` (e.g. `2026.0.0+908`). The `+build` suffix is not derivable from
 the upstream version alone; the installer must be run once to fetch it.
 
 ### Step 1: obtain the offline installer
@@ -85,21 +88,24 @@ Run from an administrator cmd.exe prompt:
 ### Step 3: update manifest.json
 
 Match the listed component IDs against the per-package DEV-READMEs to find
-the relevant version+build strings. Update the 'version' field in each
-manifest.json accordingly.
+the relevant version+build strings. Update the `version` field in each
+`manifest.json` accordingly.
 
-  Package             Windows component ID             Linux component ID
-  -------             --------------------             ------------------
-  liboneapi-mkl       intel.oneapi.win.mkl.devel       intel.oneapi.lin.mkl.devel
-  liboneapi-tbb       intel.oneapi.win.tbb.devel       intel.oneapi.lin.tbb.devel
-  liboneapi-openmp    intel.oneapi.win.cpp-dpcpp-       intel.oneapi.lin.openmp
-                        common (openmp is a sub-
-                        component, not listed
-                        separately)
+  Package                  Windows component ID                        Linux component ID
+  -------                  --------------------                        ------------------
+  liboneapi-mkl            intel.oneapi.win.mkl.devel                  intel.oneapi.lin.mkl.devel
+                           intel.oneapi.win.mkl.runtime                intel.oneapi.lin.mkl.runtime
+  liboneapi-tbb            intel.oneapi.win.tbb.devel                  intel.oneapi.lin.tbb.devel
+                           intel.oneapi.win.tbb.runtime                intel.oneapi.lin.tbb.runtime
+  liboneapi-openmp         intel.oneapi.win.openmp                     intel.oneapi.lin.openmp
+  liboneapi-compilers-     intel.oneapi.win.compilers-common           intel.oneapi.lin.compilers-common
+    common                 intel.oneapi.win.compilers-common-runtime   intel.oneapi.lin.compilers-common.runtime
 
-For openmp on Windows the top-level listing shows
-intel.oneapi.win.cpp-dpcpp-common. The actual openmp sub-component shares
-the same version+build string, so use that value.
+Note: `compilers-common` uses a hyphen before `runtime` on Windows
+(`compilers-common-runtime`) but a dot on Linux (`compilers-common.runtime`).
+This naming inconsistency is why all packages now use explicit `runtime_id`
+and `devel_id` fields in `manifest.json` rather than relying on suffix
+matching.
 
 Also update the Versions table in each package's DEV-README.md to record the
 verified version+build strings.
