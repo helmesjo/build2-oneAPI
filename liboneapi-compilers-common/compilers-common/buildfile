@@ -94,9 +94,13 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
 
   # The "bundles" are either both shared & import libs (Windows),
   # or shared-only (implicitly loaded, just needs to respect RPATH).
+  # Also explicitly append the extract-targets as inner-most prerequisites
+  # to make sure they are always unpacked first.
   #
   [rule_hint=cxx.link] \
-  libs{$n}: import{$name-headers}
+  libs{$n}: import{$name-headers}: \
+              extract{$name-devel} extract{$name-runtime}: \
+              update = match
 
   if (!$empty($depends))
   {
