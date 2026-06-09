@@ -9,3 +9,6 @@ location: liboneapi-tbb/
 
 :
 location: liboneapi-compilers-common/
+
+:
+location: liboneapi-ifort/

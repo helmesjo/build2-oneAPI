@@ -1,0 +1,225 @@
+import intf_libs += liboneapi-compilers-common%libs{compilers-common-rt}
+
+# inter-dependencies
+
+libs{ifort-rt}: $intf_libs
+{
+  cc.export.libs += $intf_libs
+}
+
+define [see_through] import: group
+
+name = $string.replace($project, 'liboneapi-', '')
+
+source redist.build
+
+json{$name-manifest}: $src_root/manifest manifest.json
+
+manifest_json = [json_object] $json.load($src_base/manifest.json)
+devel_id   = [string] ($manifest_json["$project"]["$cc.target.class"]["devel_id"])
+# runtime_id = [string] ($manifest_json["$project"]["$cc.target.class"]["runtime_id"])
+
+json{$devel_id...}:   json{$name-manifest}
+# json{$runtime_id...}: json{$name-manifest}
+
+package_infix = ($cc.target.class == 'windows' ? 'win' : 'lin')
+package_ver   = "$(version.major).$(version.minor).$(version.patch)"
+
+./: archive{$name-intel.oneapi.$(name).devel-$package_ver...}:   json{$devel_id...}
+# ./: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}: json{$runtime_id...}
+extract{$name-devel}:   archive{$name-intel.oneapi.$(name).devel-$package_ver...}
+# extract{$name-runtime}: archive{$name-intel.oneapi.$(name).runtime-$package_ver...}
+
+import{$name-legals}: extract{$name-devel}: update = match
+
+import{$name-legals}:
+{{
+  o = $directory($>[0])
+  d = $o/$name($>[0]).files
+
+  files = [paths]
+  for g : $filter($<, group)
+    if test -d $o/$name($g)/share/doc/compiler/licensing
+      find "$o/$name($g)/share/doc/compiler/licensing" -type f -name "*" \
+        | set -n f [paths]
+      files += $f
+    end
+  end
+
+  depdb dyndep \
+    --dyn-target \
+    --target-cwd "$o" \
+    --target-what 'imported legals' \
+    --target-default-type 'legal' \
+    --target-extension-type '=legal' \
+    --format lines \
+    --file $d \
+    -- \
+      echo $regex.merge($files, '(.+)', '\1\n') >$d
+
+  diag import $>
+
+  for t : $filter_out($>, group)
+    touch $path($t)
+  end
+}}
+
+pub_hdrs = [strings]
+
+json = [json_object] $json.load($src_base/package.json)
+for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
+{
+  n = $member_name($m)
+  v = $member_value($m)
+  loptions =
+  libs = [paths]
+  libi = [paths]
+  loba = [paths]
+  depends = [names]
+  for x: [json_array] ($v["loptions"])
+  {
+    loptions += [paths] $x
+  }
+  for x: [json_array] ($v["libs"])
+  {
+    libs += [paths] $out_base/$x
+  }
+  for x: [json_array] ($v["libi"])
+  {
+    libi += [paths] $out_base/$x
+  }
+  for x: [json_array] ($v["loba"])
+  {
+    loba += [paths] $out_base/$x
+  }
+  for x: [json_array] ($v["depends"])
+  {
+    depends += [names] $x
+  }
+
+  ./: libs{$n}: clean = false
+
+  # The "bundles" are either both shared & import libs (Windows),
+  # or shared-only (implicitly loaded, just needs to respect RPATH).
+  #
+  [rule_hint=cxx.link] \
+  libs{$n}: import{$name-legals}
+
+  if (!$empty($depends))
+  {
+    # Inter-dependencies
+    #
+    libs{$n}: libs{$depends}
+    {
+      cc.export.libs += libs{$depends}
+    }
+  }
+  if (!$empty($libs) && !$empty($libi))
+  {
+    <libs{$libs} libi{$libi}>: extract{$name-devel}
+    libs{$n}: libs{$libs}
+
+    # Export options.
+    #
+    libs{$n}:
+    {
+      cc.export.libs =+ libs{$libs}
+    }
+  }
+  elif (!$empty($libs))
+  {
+    <libs{$libs}>: extract{$name-devel}
+    libs{$n}: libs{$libs}
+
+    # Export options.
+    #
+    if ($cc.target.class != 'windows')
+    {
+      loptions =+ -lpthread -lm -ldl
+      libs{$n}:
+      {
+        cc.export.libs =+ libs{$libs} $loptions
+      }
+    }
+  }
+  elif (!$empty($libi))
+  {
+    fail "$n: 'libi' without 'libs' is not supported; use 'loba' for static-link archives."
+  }
+  elif ($empty($loba))
+  {
+    fail "$n: No shared, import, or static libraries specified. See '$src_base/package.json'."
+  }
+
+  if (!$empty($loba))
+  {
+    <liba{$loba}>: extract{$name-devel}
+    libs{$n}: liba{$loba}
+    libs{$n}:
+    {
+      cc.export.libs += liba{$loba}
+    }
+  }
+
+  # Export options.
+  #
+  libs{$n}:
+  {
+    cc.type = cc
+    cc.export.poptions = $pub_hdrs
+  }
+
+  # For pre-releases use the complete version to make sure they cannot
+  # be used in place of another pre-release or the final version. See
+  # the version module for details on the version.* variable values.
+  #
+  if $version.pre_release
+    lib{$name}: bin.lib.version = "-$version.project_id"
+  else
+    lib{$name}: bin.lib.version = "-$version.major.$version.minor"
+}
+
+# Compiler executables extracted from ifort-devel/bin/.
+# Only files with the platform exe extension become exe{} targets; other
+# files (e.g. ifx.cfg) are ignored because they have no matching extension
+# mapping and no default type is set.
+#
+if ($cc.target.class == 'windows')
+{
+  $name-devel/bin/exe{*}: extension = exe
+}
+
+./: $name-devel/bin/exe{*}
+<$name-devel/bin/exe{ifx}>: extract{$name-devel} $name-devel/fsdir{bin}
+{{
+  o = $posix_representation($directory($>[0]))
+
+  xe_base = $extension($path($>[0]))
+  xe      = ($empty($xe_base) ? '' : '.' + $xe_base)
+
+  find "$o" -maxdepth 1 -type f -name '*$xe' \
+    | set -n e [paths]
+
+  depdb dyndep \
+    --dyn-target \
+    --target-cwd "$o" \
+    --target-what 'imported executables' \
+    --target-extension-type '$xe_base=exe' \
+    --format lines \
+    -- \
+      echo $regex.merge($e, '(.+)', '\1\n')
+
+  diag import ($>)
+  for t : $filter_out($>, group)
+    touch $path($t)
+  end
+}}
+
+# Install into the $(name)/ subdirectory of, say, /usr/include/
+# recreating subdirectories.
+#
+{hxx ixx txx}{*}:
+{
+  install         = include/$(name)/
+  install.subdirs = true
+}

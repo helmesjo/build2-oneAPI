@@ -1,0 +1,24 @@
+{
+  "baseUrl": "https://installer.repos.intel.com/oneapi/compiler",
+  "liboneapi-ifort":
+  {
+    "windows":
+    {
+      "version":    "2026.0.0+944",
+      "subdir":     "win",
+      "basename":   "intel.oneapi.win.compiler.content",
+      "devel_id":   "intel.oneapi.win.ifort-compiler",
+      "verSuffix":  ",v=",
+      "extension":  "json"
+    },
+    "linux":
+    {
+      "version":    "2026.0.0+947",
+      "subdir":     "lin",
+      "basename":   "intel.oneapi.lin.compiler.content",
+      "devel_id":   "intel.oneapi.lin.ifort-compiler",
+      "verSuffix":  ",v=",
+      "extension":  "json"
+    }
+  }
+}

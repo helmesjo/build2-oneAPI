@@ -1,0 +1,1 @@
+$path($ifx) -c $path($source) -o hello.o &hello.o
