@@ -1,1 +1,1 @@
-$path($ifx) -c $path($source) -o hello.o &hello.o
+$path($ifx) -c $path($source) -o hello.o &hello.o >! 2>! == 0

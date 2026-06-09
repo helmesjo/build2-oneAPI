@@ -2,12 +2,11 @@
   "x86_64-windows": {
     "ifort-rt": {
       "libs": [
-        "ifort-runtime/bin/libifcoremd.dll",
-        "ifort-runtime/bin/libifportmd.dll"
+        "ifort-devel/bin/libifcoremd.dll",
+        "ifort-devel/bin/libifportmd.dll"
       ],
       "libi": [
-        "ifort-devel/lib/libifcoremd.lib",
-        "ifort-devel/lib/libifportmd.lib"
+        "ifort-devel/lib/libifcoremd.lib"
       ]
     }
   },
