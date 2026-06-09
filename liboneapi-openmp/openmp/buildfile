@@ -1,7 +1,5 @@
 import intf_libs += liboneapi-compilers-common%libs{compilers-common-rt}
 
-impl_libs = # Implementation dependencies.
-
 # inter-dependencies
 
 libs{openmp-omptarget}: $intf_libs
@@ -62,7 +60,7 @@ import{$name-legals}:
   end
 }}
 
-pub_hdrs = [strings] "-I$out_base/$name-devel/include/oneapi" "-I$out_base/$name-devel/include"
+pub_hdrs = [strings]
 
 json = [json_object] $json.load($src_base/package.json)
 for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])

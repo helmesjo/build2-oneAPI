@@ -74,7 +74,7 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   loptions =
   libs = [paths]
   libi = [paths]
-  loba = [paths]
+  liba = [paths]
   depends = [names]
   for x: [json_array] ($v["loptions"])
   {
@@ -88,9 +88,9 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   {
     libi += [paths] $out_base/$x
   }
-  for x: [json_array] ($v["loba"])
+  for x: [json_array] ($v["liba"])
   {
-    loba += [paths] $out_base/$x
+    liba += [paths] $out_base/$x
   }
   for x: [json_array] ($v["depends"])
   {
@@ -148,20 +148,20 @@ for m: [json_object] ($json["$cc.target.cpu-$cc.target.class"])
   }
   elif (!$empty($libi))
   {
-    fail "$n: 'libi' without 'libs' is not supported; use 'loba' for static-link archives."
+    fail "$n: 'libi' without 'libs' is not supported; use 'liba' for static-link archives."
   }
-  elif ($empty($loba))
+  elif ($empty($liba))
   {
     fail "$n: No shared, import, or static libraries specified. See '$src_base/package.json'."
   }
 
-  if (!$empty($loba))
+  if (!$empty($liba))
   {
-    <liba{$loba}>: extract{$name-devel}
-    libs{$n}: liba{$loba}
+    <liba{$liba}>: extract{$name-devel}
+    libs{$n}: liba{$liba}
     libs{$n}:
     {
-      cc.export.libs += liba{$loba}
+      cc.export.libs += liba{$liba}
     }
   }
 
@@ -193,8 +193,7 @@ if ($cc.target.class == 'windows')
   $name-devel/bin/exe{*}: extension = exe
 }
 
-./: $name-devel/bin/exe{*}
-<$name-devel/bin/exe{ifx}>: extract{$name-devel} $name-devel/fsdir{bin}
+<$name-devel/bin/exe{ifx}>: $name-devel/fsdir{bin}
 {{
   o = $posix_representation($directory($>[0]))
 
