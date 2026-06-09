@@ -140,3 +140,22 @@ Windows (VS Developer Command Prompt):
   Output sorted: liba first, then libi:
 
     `(for /r ..\intel-oneapi-toolkit-msvc\liboneapi-mkl\mkl %f in (*.lib) do @(dumpbin /ARCHIVEMEMBERS "%f" 2>nul | findstr /c:".obj" >nul && echo liba: %f || echo libi: %f)) | sort`
+
+### Probing for inter-target DLL/SO dependencies
+
+After extracting the component tarballs, run these commands from the project
+root to find which shared libraries within the same package each library
+directly imports. The result drives the `depends` entries in `package.json`.
+
+Linux:
+
+  For each non-symlink .so, print intra-package DT_NEEDED entries as
+  `<lib> depends: <dep> ...`:
+
+    `b=$(bdep config list | grep default | awk '{ print $2 }')/liboneapi-mkl; pkglibs=$(find $b -name "*.so*" ! -type l -exec basename {} \;); for f in $(find $b -name "*.so*" ! -type l); do deps=$(readelf -d "$f" 2>/dev/null | grep NEEDED | grep -oP '\[\K[^\]]+' | while read d; do echo "$pkglibs" | grep -qxF "$d" && printf '%s ' "$d"; done); [ -n "$deps" ] && echo "$(basename $f) depends: $deps"; done; echo done`
+
+Windows (VS Developer Command Prompt):
+
+  For each DLL, print one `<dll> depends: <dep>` line per intra-package import:
+
+    `for /f "tokens=2" %c in ('bdep config list ^| findstr default') do @for /f %f in ('dir /s /b "%c\liboneapi-mkl\*.dll" 2^>nul') do @for /f %i in ('dumpbin /IMPORTS "%f" 2^>nul ^| findstr /ri "\.dll"') do @for /f %g in ('dir /s /b "%c\liboneapi-mkl\%i" 2^>nul') do @echo %~nxf depends: %~nxg`
