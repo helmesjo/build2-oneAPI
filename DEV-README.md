@@ -31,12 +31,18 @@
 
 ## Content manifest basenames
 
-  Package             linux                                windows
-  -------             -----                                -------
-  mkl                 intel.oneapi.lin.onemkl.content      intel.oneapi.win.onemkl.content
+  Package             linux                                 windows
+  -------             -----                                 -------
+  dnnl (*)            intel.oneapi.lin.onednn.content       intel.oneapi.win.onednn.content
+  mkl                 intel.oneapi.lin.onemkl.content       intel.oneapi.win.onemkl.content
   tbb                 intel.oneapi.lin.tbb_oneapi.content  intel.oneapi.win.tbb_oneapi.content
   openmp              intel.oneapi.lin.compiler.content    intel.oneapi.win.compiler.content
-  compilers-common    intel.oneapi.lin.compiler.content    intel.oneapi.win.compiler.content
+  compilers-common    intel.oneapi.lin.compiler.content     intel.oneapi.win.compiler.content
+
+(*) oneDNN is open source (Apache-2.0). Upstream: https://github.com/uxlfoundation/oneDNN
+    Not packaged here; consider building from source rather than wrapping Intel's binary.
+    Single component (no devel/runtime split): intel.oneapi.win.dnnl / intel.oneapi.lin.dnnl.
+    Note: the content manifest basename uses "onednn" while the component ID uses "dnnl".
 
 ## Updating to a new release
 
