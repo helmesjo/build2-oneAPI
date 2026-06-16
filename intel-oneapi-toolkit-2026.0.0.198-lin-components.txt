@@ -1,0 +1,16 @@
+ID                                  Version        Installed Name
+=============================================================================================================
+intel.oneapi.lin.dpcpp_dbg          2026.0.0+220   false     Intel® Distribution for GDB*
+intel.oneapi.lin.dpl                2022.12.0+345  false     Intel® oneAPI DPC++ Library
+intel.oneapi.lin.tbb.devel          2023.0.0+724   false     Intel® oneAPI Threading Building Blocks
+intel.oneapi.lin.ccl.devel          2022.0.0+49301 false     Intel® oneAPI Collective Communications Library
+intel.oneapi.lin.dpcpp-cpp-compiler 2026.0.0+947   false     Intel® oneAPI DPC++/C++ Compiler
+ └─intel.oneapi.lin.dpl             2022.12.0+345  false      └─Intel® oneAPI DPC++ Library
+intel.oneapi.lin.ifort-compiler     2026.0.0+947   false     Intel® Fortran Compiler
+intel.oneapi.lin.ipp.devel          2026.0.0+717   false     Intel® Integrated Performance Primitives
+intel.oneapi.lin.ippcp.devel        2026.0.0+471   false     Intel® Cryptography Primitives Library
+intel.oneapi.lin.mkl.devel          2026.0.0+908   false     Intel® oneAPI Math Kernel Library
+intel.oneapi.lin.vtune              2026.0.0+325   false     Intel® VTune(TM) Profiler
+intel.oneapi.lin.dnnl               2026.0.0+688   false     Intel® oneAPI Deep Neural Network Library
+ └─intel.oneapi.lin.tbb.devel       2023.0.0+724   false      └─Intel® oneAPI Threading Building Blocks
+intel.oneapi.lin.mpi.devel          2021.18.0+745  false     Intel® MPI Library
