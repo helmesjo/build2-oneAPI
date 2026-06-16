@@ -1,0 +1,61 @@
+import libs = liboneapi-mkl%libs{mkl}
+
+for t : cxx{* -mkl-cluster-* -mkl-sycl -mkl-thread-gnu -mkl-thread-tbb -mkl-lp64 -mkl-ilp64 -mkl-gf-lp64 -mkl-gf-ilp64}
+{
+  n = $name($t)
+  ./: exe{test-$n}: $t $libs
+}
+
+# lp64/ilp64: layered mode. On Windows only MSVC is supported due to C++ name mangling incompatibility with MinGW GCC.
+#
+import lp64       = liboneapi-mkl%libs{mkl-lp64}
+import ilp64      = liboneapi-mkl%libs{mkl-ilp64}
+import thread_seq = liboneapi-mkl%libs{mkl-thread-seq}
+
+./: exe{test-mkl-lp64}:
+{
+  include = ($cc.target.class != 'windows' || $cxx.target.system == 'win32-msvc')
+}
+exe{test-mkl-lp64}: cxx{mkl-lp64} $lp64 $thread_seq
+./: exe{test-mkl-ilp64}:
+{
+  include = ($cc.target.class != 'windows' || $cxx.target.system == 'win32-msvc')
+}
+exe{test-mkl-ilp64}: cxx{mkl-ilp64} $ilp64 $thread_seq
+
+# gf-lp64/gf-ilp64: GNU Fortran interface, Linux only.
+#
+import gf_lp64  = liboneapi-mkl%libs{mkl-gf-lp64}
+import gf_ilp64 = liboneapi-mkl%libs{mkl-gf-ilp64}
+
+./: exe{test-mkl-gf-lp64}:  include = ($cc.target.class == 'linux')
+./: exe{test-mkl-gf-ilp64}: include = ($cc.target.class == 'linux')
+exe{test-mkl-gf-lp64}:  cxx{mkl-gf-lp64}  $gf_lp64  $thread_seq
+exe{test-mkl-gf-ilp64}: cxx{mkl-gf-ilp64} $gf_ilp64 $thread_seq
+
+# thread tests
+#
+import thread_tbb = liboneapi-mkl%libs{mkl-thread-tbb}
+exe{test-mkl-thread-tbb}: cxx{mkl-thread-tbb} $libs $thread_tbb
+
+import thread_gnu = liboneapi-mkl%libs{mkl-thread-gnu}
+./: exe{test-mkl-thread-gnu}: include = ($cc.target.class == 'linux')
+exe{test-mkl-thread-gnu}: cxx{mkl-thread-gnu} $libs $thread_gnu
+
+# cluster tests
+#
+import cluster_lp64 = liboneapi-mkl%libs{mkl-cluster-lp64-intelmpi}
+exe{test-mkl-cluster-lp64}: cxx{mkl-cluster-lp64} $libs $cluster_lp64
+import cluster_ilp64 = liboneapi-mkl%libs{mkl-cluster-ilp64-intelmpi}
+exe{test-mkl-cluster-ilp64}: cxx{mkl-cluster-ilp64} $libs $cluster_ilp64
+
+# sycl tests
+#
+import sycl = liboneapi-mkl%libs{mkl-sycl}
+exe{test-mkl-sycl}: cxx{mkl-sycl} $libs $sycl
+
+# Disable until intel-mpi (liboneapi-mpi) etc. has been packaged.
+#
+./: exe{test-mkl-cluster-lp64}:  include = false
+./: exe{test-mkl-cluster-ilp64}: include = false
+./: exe{test-mkl-sycl}: include = false

@@ -1,0 +1,26 @@
+{
+  "baseUrl": "https://installer.repos.intel.com/oneapi/mkl",
+  "liboneapi-mkl":
+  {
+    "windows":
+    {
+      "version":  "2026.0.0+901",
+      "subdir":   "win",
+      "basename": "intel.oneapi.win.onemkl.content",
+      "devel_id": "intel.oneapi.win.mkl.devel",
+      "runtime_id":    "intel.oneapi.win.mkl.runtime",
+      "verSuffix": ",v=",
+      "extension": "json"
+    },
+    "linux":
+    {
+      "version":  "2026.0.0+908",
+      "subdir":   "lin",
+      "basename": "intel.oneapi.lin.onemkl.content",
+      "devel_id": "intel.oneapi.lin.mkl.devel",
+      "runtime_id":    "intel.oneapi.lin.mkl.runtime",
+      "verSuffix": ",v=",
+      "extension": "json"
+    }
+  }
+}

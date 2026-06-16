@@ -10,3 +10,6 @@ location: liboneapi-openmp/
 :
 location: liboneapi-ifort/
 
+:
+location: liboneapi-mkl/
+
