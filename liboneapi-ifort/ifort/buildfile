@@ -240,11 +240,10 @@ exe{~'/(.+)/'}: $name-devel/fsdir{bin} extract{$name-devel}
 # ifx.cfg is read at startup from the same directory as ifx.
 cfg{*}: install = bin/
 
-# Install into the $(name)/ subdirectory of, say, /usr/include/
-# recreating subdirectories.
+# Recreate the upstream include/ hierarchy under, e.g., /usr/include/.
 #
-{hxx ixx txx}{*}:
+{h hxx}{*}:
 {
-  install         = include/$(name)/
+  install         = include/
   install.subdirs = true
 }
