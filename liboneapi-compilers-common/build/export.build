@@ -1,0 +1,6 @@
+$out_root/
+{
+  include compilers-common/
+}
+
+export $out_root/compilers-common/$import.target

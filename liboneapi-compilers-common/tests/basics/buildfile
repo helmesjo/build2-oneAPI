@@ -1,0 +1,10 @@
+import libs   = liboneapi-compilers-common%libs{compilers-common}
+import xpti   = liboneapi-compilers-common%libs{compilers-common-xpti}
+import malloc = liboneapi-compilers-common%libs{compilers-common-malloc}
+
+exe{test-compilers-common}: cxx{compilers-common} $libs
+
+./: exe{test-compilers-common-xpti}:   include = ($cc.target.class == 'linux')
+./: exe{test-compilers-common-malloc}: include = ($cc.target.class == 'linux')
+exe{test-compilers-common-xpti}:   cxx{compilers-common-xpti}   $xpti
+exe{test-compilers-common-malloc}: cxx{compilers-common-malloc} $malloc
