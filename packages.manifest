@@ -7,3 +7,6 @@ location: liboneapi-compilers-common/
 :
 location: liboneapi-openmp/
 
+:
+location: liboneapi-ifort/
+

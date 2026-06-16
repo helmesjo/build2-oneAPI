@@ -1,0 +1,9 @@
+$out_root/
+{
+  include ifort/
+}
+
+if ($target_type($import.target) == exe)
+  export $out_root/ifort/ifort-devel/bin/$import.target
+else
+  export $out_root/ifort/$import.target

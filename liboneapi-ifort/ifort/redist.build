@@ -4,16 +4,6 @@ json{*}: extension = json
 define archive: file
 archive{*}: extension = tar
 
-define cfg: file
-cfg{*}: extension = cfg
-
-# for build2 to not error out when it
-# sees the libi target (import library)
-if ($cc.target.class != 'windows')
-{
-  define libi: file
-}
-
 define extract: group
 
 json{~'/(.+-manifest.*)/'}:
@@ -136,6 +126,7 @@ extract{~'/(.+)/'}:
     --target-what 'extracted files' \
     --target-default-type 'file' \
     --target-extension-type '=file' \
+    --target-extension-type 'cfg=file' \
     --target-extension-type 'h=file' \
     --target-extension-type 'hpp=file' \
     --target-extension-type 'cuh=file' \
@@ -161,3 +152,4 @@ extract{~'/(.+)/'}:
   bsdtar -C "$o/$n/" -xmf "$a" --strip-components=3 $pattern
   touch $d
 }}
+

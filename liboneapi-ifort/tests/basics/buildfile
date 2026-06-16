@@ -1,0 +1,16 @@
+import libs = liboneapi-ifort%libs{ifort}
+import! ifx = liboneapi-ifort%exe{ifx}
+import! fpp = liboneapi-ifort%exe{fpp}
+
+./: exe{test-ifort}: cxx{ifort} $libs
+
+define f90: file
+f90{*}: extension = f90
+
+./: $ifx $fpp f90{hello} testscript
+{
+  ifx = $ifx
+  fpp = $fpp
+  source = f90{hello}
+  test = true
+}
