@@ -1,0 +1,6 @@
+$out_root/
+{
+  include tbb/
+}
+
+export $out_root/tbb/$import.target

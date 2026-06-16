@@ -1,0 +1,15 @@
+: 1
+name: liboneapi-tbb
+version: 2023.0.0-a.0.z
+upstream-version: 2023.0.0
+language: c++
+project: intel-oneapi-toolkit
+summary: Intel oneAPI TBB parallel algorithms and scalable allocator
+license: other: Intel Simplified Software License ; Not free/open source.
+description-file: README.md
+url: https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html
+package-url: https://github.com/build2-packaging/intel-oneapi-toolkit
+package-email: packaging@build2.org ; Mailing list.
+builds: none; Times out downloading large binaries
+depends: * build2 >= 0.17.0
+depends: * bpkg >= 0.17.0
