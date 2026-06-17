@@ -30,7 +30,7 @@ json{~'/(.+-manifest.*)/'}:
   json       = [json] $json.load($path($redist))
   base_url   = [string] ($json["baseUrl"])
   comp       = [json] ($json["$comp"])
-  comp       = [json] ($comp["$cc.target.class"])
+  comp       = [json] ($comp["$cc.target.cpu-$cc.target.class"])
   pkgVer     = [string] ($comp["version"])
   verUrl     = $string.replace($pkgVer, '+', '%2B')
   subdir     = [string] ($comp["subdir"])

@@ -2,7 +2,7 @@
   "baseUrl": "https://installer.repos.intel.com/oneapi/compiler",
   "liboneapi-ifort":
   {
-    "windows":
+    "x86_64-windows":
     {
       "version":    "2026.0.0+944",
       "subdir":     "win",
@@ -11,7 +11,7 @@
       "verSuffix":  ",v=",
       "extension":  "json"
     },
-    "linux":
+    "x86_64-linux":
     {
       "version":    "2026.0.0+947",
       "subdir":     "lin",

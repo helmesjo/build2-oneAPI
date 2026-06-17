@@ -2,7 +2,7 @@
   "baseUrl": "https://installer.repos.intel.com/oneapi/mkl",
   "liboneapi-mkl":
   {
-    "windows":
+    "x86_64-windows":
     {
       "version":  "2026.0.0+901",
       "subdir":   "win",
@@ -12,7 +12,7 @@
       "verSuffix": ",v=",
       "extension": "json"
     },
-    "linux":
+    "x86_64-linux":
     {
       "version":  "2026.0.0+908",
       "subdir":   "lin",
