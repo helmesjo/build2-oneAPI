@@ -90,8 +90,10 @@ json{~'/([a-z]+\.[a-z]+.*)/'}:
 
 archive{~'/(.+)/'}:
 {{
-  tar  = [path] $out_root/$leaf($path($>))
-  part = [path] $(tar).part
+  pkg   = $project_name.variable($project)
+  cache = [dir_path] $(config.$(pkg).cache)
+  tar   = [path] $cache/$leaf($path($>))
+  part  = [path] $(tar).part
 
   # extract details from redist.json
   json     = ($<[0])
@@ -109,6 +111,7 @@ archive{~'/(.+)/'}:
   diag curl $url -> $path($>)
 
   # download if missing or broken
+  mkdir --no-cleanup -p $directory($part)
   bsdtar -tf $tar >- 2>&1 || \
     curl -\# --fail --output $part "$url"
   test -f $part && \

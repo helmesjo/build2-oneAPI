@@ -44,6 +44,37 @@
     Single component (no devel/runtime split): intel.oneapi.win.dnnl / intel.oneapi.lin.dnnl.
     Note: the content manifest basename uses "onednn" while the component ID uses "dnnl".
 
+## Cache directory
+
+Downloaded component archives are placed in `$out_root` by default. They are
+not registered as build2 targets, so `bdep clean` leaves them untouched. Set
+one of the two `dir_path` variables below to redirect them to a different
+location (for example, a directory shared across multiple build configurations):
+
+  Variable                              Scope
+  --------                              -----
+  config.liboneapi.cache                global: applies to all packages when set
+  config.liboneapi_<pkg>.cache          per-package: overrides the global value
+
+Resolution order (evaluated in `root.build` for each package):
+
+  1. `config.liboneapi_<pkg>.cache` if explicitly set, otherwise
+  2. `config.liboneapi.cache` if explicitly set, otherwise
+  3. `$out_root` (the package output directory)
+
+The package name substitution follows build2 variable naming rules: hyphens
+in the package name are replaced with underscores. For example,
+`liboneapi-compilers-common` uses `config.liboneapi_compilers_common.cache`.
+
+Set the global variable once to share a cache across all packages:
+
+  bdep init -C @gcc cc config.cxx=g++ \
+    "config.liboneapi.cache=/path/to/cache-dir"
+
+Or override a single package:
+
+  b "config.liboneapi_mkl.cache=/path/to/mkl-cache-dir"
+
 ## Updating to a new release
 
 The only field that changes per release in each package's `manifest.json` is
