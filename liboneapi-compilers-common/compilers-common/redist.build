@@ -113,7 +113,7 @@ archive{~'/(.+)/'}:
     curl -\# --fail --output $part "$url"
   test -f $part && \
     rm -f $tar && mv $part $tar &!$tar || true
-  test -f $path($>) || \
+  rm -f $path($>) && \
     ln --symbolic $tar $path($>)
   touch $path($>)
 }}
@@ -136,6 +136,7 @@ extract{~'/(.+)/'}:
     --target-what 'extracted files' \
     --target-default-type 'file' \
     --target-extension-type '=file' \
+    --target-extension-type 'cfg=file' \
     --target-extension-type 'h=file' \
     --target-extension-type 'hpp=file' \
     --target-extension-type 'cuh=file' \

@@ -9,9 +9,6 @@ libs{ifort}: $intf_libs
 
 define [see_through] import: group
 
-define cfg: file
-cfg{*}: extension = cfg
-
 name = $string.replace($project, 'liboneapi-', '')
 
 source redist.build
