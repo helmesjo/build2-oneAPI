@@ -6,7 +6,7 @@ language: c++
 project: intel-oneapi-toolkit
 summary: Intel Fortran Compiler (ifx) and Fortran runtime libraries
 license: other: proprietary ; Not free/open source.
-package-description-file: PACKAGE-README.md
+description-file: README.md
 url: https://www.intel.com/content/www/us/en/developer/tools/oneapi/fortran-compiler.html
 package-url: https://github.com/build2-packaging/oneAPI
 package-email: packaging@build2.org ; Mailing list.
