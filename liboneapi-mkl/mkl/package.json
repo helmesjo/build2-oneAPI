@@ -101,6 +101,7 @@
     },
     "mkl-cluster-lp64-intelmpi": {
       "libs": ["mkl-runtime/bin/mkl_blacs_intelmpi_lp64.2.dll"],
+      "liba": ["mkl-devel/lib/mkl_blacs_intelmpi_lp64.lib"],
       "depends": ["mkl-cluster-lp64"]
     },
     "mkl-cluster-lp64-msmpi": {
@@ -120,7 +121,8 @@
     },
     "mkl-cluster-ilp64-intelmpi": {
       "libs": ["mkl-runtime/bin/mkl_blacs_intelmpi_ilp64.2.dll"],
-      "depends": ["mkl-cluster-ilp64"]
+      "liba": ["mkl-devel/lib/mkl_blacs_intelmpi_ilp64.lib"],
+      "depends": ["mkl-cluster-ilp64", "mkl-cluster-lp64-intelmpi"]
     },
     "mkl-cluster-ilp64-msmpi": {
       "libs": ["mkl-runtime/bin/mkl_blacs_msmpi_ilp64.2.dll"],

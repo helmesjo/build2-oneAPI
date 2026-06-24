@@ -1,5 +1,6 @@
 import openmp = liboneapi-openmp%libs{openmp}
-import tbb   = liboneapi-tbb%libs{tbb}
+import tbb    = liboneapi-tbb%libs{tbb}
+import mpi    = liboneapi-mpi%libs{mpi}
 
 # inter-dependencies
 
@@ -11,6 +12,16 @@ libs{mkl-thread-intel}: $openmp
 libs{mkl-thread-tbb}: $tbb
 {
   cxx.export.libs += $tbb
+}
+
+libs{mkl-cluster-lp64-intelmpi}: $mpi
+{
+  cxx.export.libs += $mpi
+}
+
+libs{mkl-cluster-ilp64-intelmpi}: $mpi
+{
+  cxx.export.libs += $mpi
 }
 
 define [see_through] import: group

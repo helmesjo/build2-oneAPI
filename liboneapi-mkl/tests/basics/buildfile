@@ -33,6 +33,17 @@ exe{test-mkl-lp64}: cxx{mkl-lp64} $lp64 $thread_seq
 }
 exe{test-mkl-ilp64}: cxx{mkl-ilp64} $ilp64 $thread_seq
 
+# Intel's layered-mode static archives were built with /MT; suppress the
+# default-lib conflict when linking with /MD.
+#
+if ($cc.target.class == 'windows')
+{
+  exe{test-mkl-lp64 test-mkl-ilp64 test-mkl-cluster-lp64 test-mkl-cluster-ilp64}:
+  {
+    cxx.loptions += /NODEFAULTLIB:libcmt
+  }
+}
+
 # gf-lp64/gf-ilp64: GNU Fortran interface, Linux only.
 #
 import gf_lp64  = liboneapi-mkl%libs{mkl-gf-lp64}
@@ -65,8 +76,7 @@ exe{test-mkl-cluster-ilp64}: cxx{mkl-cluster-ilp64} $libs $cluster_ilp64
 import sycl = liboneapi-mkl%libs{mkl-sycl}
 exe{test-mkl-sycl}: cxx{mkl-sycl} $libs $sycl
 
-# Disable until intel-mpi (liboneapi-mpi) etc. has been packaged.
-#
-./: exe{test-mkl-cluster-lp64}:  include = false
-./: exe{test-mkl-cluster-ilp64}: include = false
+./: exe{test-mkl-cluster-lp64}
+./: exe{test-mkl-cluster-ilp64}
+
 ./: exe{test-mkl-sycl}: include = false
