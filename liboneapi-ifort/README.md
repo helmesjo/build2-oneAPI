@@ -1,4 +1,4 @@
-# liboneapi-ifort - A C++ library
+# liboneapi-ifort - Intel Fortran Compiler (ifx/fpp) and runtime
 
 > **NOTE:**  
 This package is not open source and does not contain any source code. Instead,
