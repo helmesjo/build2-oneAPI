@@ -1,4 +1,4 @@
-# liboneapi-compilers-common - A C++ library
+# liboneapi-compilers-common - Intel oneAPI compiler common runtime libraries
 
 > **NOTE:**  
 This package is not open source and does not contain any source code. Instead,
