@@ -18,10 +18,10 @@ Currently packaged:
 - OpenMP runtime (libiomp5)
 - Fortran compiler runtime (ifort/ifx)
 - Compiler common runtime (libimf, libsvml, libintlc, xpti, qkmalloc)
+- MPI Library
 
 Not yet packaged:
 - DPC++/C++ Compiler + runtime
-- MPI Library
 - IPP (Integrated Performance Primitives)
 - VTune Profiler
 

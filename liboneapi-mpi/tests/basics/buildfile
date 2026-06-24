@@ -1,0 +1,26 @@
+import mpi     = liboneapi-mpi%libs{mpi}
+import mpicxx  = liboneapi-mpi%libs{mpicxx}
+import mpifort = liboneapi-mpi%libs{mpifort}
+import! mpiexec   = liboneapi-mpi%exe{mpiexec}
+import! impi_info = liboneapi-mpi%exe{impi_info}
+
+./: exe{test-mpi}: cxx{mpi} $mpi
+
+./: exe{test-mpicxx}:
+{
+  include = ($cc.target.class == 'linux')
+}
+exe{test-mpicxx}: cxx{mpicxx} $mpicxx
+
+./: exe{test-mpifort}:
+{
+  include = ($cc.target.class == 'linux')
+}
+exe{test-mpifort}: cxx{mpifort} $mpifort
+
+./: $mpiexec $impi_info testscript
+{
+  mpiexec   = $mpiexec
+  impi_info = $impi_info
+  test      = true
+}

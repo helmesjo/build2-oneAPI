@@ -1,0 +1,26 @@
+{
+  "baseUrl": "https://installer.repos.intel.com/oneapi/mpi",
+  "liboneapi-mpi":
+  {
+    "x86_64-windows":
+    {
+      "version":   "2021.18.0+740",
+      "subdir":    "win",
+      "basename":    "intel.oneapi.win.mpi_oneapi.content",
+      "devel_id":    "intel.oneapi.win.mpi.devel",
+      "runtime_id":  "intel.oneapi.win.mpi.runtime",
+      "verSuffix": ",v=",
+      "extension": "json"
+    },
+    "x86_64-linux":
+    {
+      "version":   "2021.18.0+745",
+      "subdir":    "lin",
+      "basename":    "intel.oneapi.lin.mpi_oneapi.content",
+      "devel_id":    "intel.oneapi.lin.mpi.devel",
+      "runtime_id":  "intel.oneapi.lin.mpi.runtime",
+      "verSuffix": ",v=",
+      "extension": "json"
+    }
+  }
+}

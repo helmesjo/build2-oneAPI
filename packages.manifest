@@ -13,3 +13,5 @@ location: liboneapi-ifort/
 :
 location: liboneapi-mkl/
 
+:
+location: liboneapi-mpi/

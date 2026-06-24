@@ -1,0 +1,20 @@
+# Uncomment to suppress warnings coming from external libraries.
+#
+#cxx.internal.scope = current
+
+cxx.std = latest
+
+using c
+using cxx
+
+h{*}:   extension = h
+c{*}:   extension = c
+hxx{*}: extension = hpp
+cxx{*}: extension = cpp
+
+config [dir_path] config.liboneapi_mpi.cache ?= \
+  (!$null($config.liboneapi.cache) ? $config.liboneapi.cache : $out_root)
+
+# The test target for cross-testing (running tests under Wine, etc).
+#
+test.target = $cxx.target

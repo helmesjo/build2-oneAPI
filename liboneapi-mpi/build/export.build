@@ -1,0 +1,9 @@
+$out_root/
+{
+  include mpi/
+}
+
+if ($target_type($import.target) == exe)
+  export $out_root/mpi/mpi-runtime/bin/$import.target
+else
+  export $out_root/mpi/$import.target
