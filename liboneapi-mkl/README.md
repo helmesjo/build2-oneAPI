@@ -1,4 +1,4 @@
-# liboneapi-mkl - A C++ library
+# liboneapi-mkl - Intel oneAPI Math Kernel Library
 
 > **NOTE:**  
 This package is not open source and does not contain any source code. Instead,
@@ -42,22 +42,22 @@ libs{mkl-core}
 libs{mkl-dispatch}
 libs{mkl-lp64}
 libs{mkl-ilp64}
-libs{mkl-gf-lp64}
-libs{mkl-gf-ilp64}
+libs{mkl-gf-lp64}           (Linux only)
+libs{mkl-gf-ilp64}          (Linux only)
 libs{mkl-imalloc}
 libs{mkl-thread-seq}
 libs{mkl-thread-intel}
-libs{mkl-thread-gnu}
+libs{mkl-thread-gnu}        (Linux only)
 libs{mkl-thread-tbb}
 libs{mkl-sycl}
 libs{mkl-cluster-lp64}
 libs{mkl-cluster-lp64-intelmpi}
-libs{mkl-cluster-lp64-openmpi}
-libs{mkl-cluster-lp64-msmpi}
+libs{mkl-cluster-lp64-openmpi}  (Linux only)
+libs{mkl-cluster-lp64-msmpi}    (Windows only)
 libs{mkl-cluster-ilp64}
 libs{mkl-cluster-ilp64-intelmpi}
-libs{mkl-cluster-ilp64-openmpi}
-libs{mkl-cluster-ilp64-msmpi}
+libs{mkl-cluster-ilp64-openmpi} (Linux only)
+libs{mkl-cluster-ilp64-msmpi}   (Windows only)
 ```
 
 

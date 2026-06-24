@@ -4,13 +4,14 @@ version: 2026.0.0-a.0.z
 upstream-version: 2026.0.0
 language: c++
 project: intel-oneapi-toolkit
-summary: oneapi-mkl C++ library
-license: other: proprietary ; Not free/open source.
+summary: Intel oneAPI Math Kernel Library (BLAS, LAPACK, FFT, VML)
+license: other: Intel Simplified Software License ; Not free/open source.
 description-file: README.md
 url: https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html
-package-url: https://github.com/build2-packaging/oneAPI
+package-url: https://github.com/build2-packaging/intel-oneapi-toolkit
 package-email: packaging@build2.org ; Mailing list.
 builds: none; Times out downloading large binaries
 depends: * build2 >= 0.17.0
 depends: * bpkg >= 0.17.0
 depends: liboneapi-openmp ^ 2026.0.0-
+depends: liboneapi-tbb ^ 2023.0.0-
