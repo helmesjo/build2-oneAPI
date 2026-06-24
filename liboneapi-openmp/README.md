@@ -1,4 +1,4 @@
-# liboneapi-openmp - A C++ library
+# liboneapi-openmp - Intel OpenMP runtime (libiomp5)
 
 > **NOTE:**  
 This package is not open source and does not contain any source code. Instead,

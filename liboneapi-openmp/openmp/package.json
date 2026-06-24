@@ -3,14 +3,11 @@
     "openmp": {
       "libs": [
         "openmp-runtime/bin/libiomp5md.dll",
-        "openmp-runtime/bin/libiomp5md_db.dll",
         "openmp-runtime/bin/libiompstubs5md.dll"
       ],
       "libi": [
+        "openmp-runtime/lib/libiomp5md.lib",
         "openmp-runtime/lib/libiompstubs5md.lib"
-      ],
-      "liba": [
-        "openmp-runtime/lib/libiomp5md.lib"
       ]
     },
     "openmp-omptarget": {
@@ -27,7 +24,6 @@
     "openmp": {
       "libs": [
         "openmp-runtime/lib/libiomp5.so",
-        "openmp-runtime/lib/libiomp5_db.so",
         "openmp-runtime/lib/libiompstubs5.so"
       ]
     },
