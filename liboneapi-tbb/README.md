@@ -1,4 +1,4 @@
-# liboneapi-tbb - A C++ library
+# liboneapi-tbb - Intel oneAPI Threading Building Blocks
 
 > **NOTE:**  
 This package is not open source and does not contain any source code. Instead,

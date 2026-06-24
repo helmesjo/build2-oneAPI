@@ -8,8 +8,7 @@ json{$name-manifest}: $src_root/manifest manifest.json
 
 manifest_json = [json_object] $json.load($src_base/manifest.json)
 
-package_infix = ($cc.target.class == 'windows' ? 'win' : 'lin')
-package_ver   = "$(version.major).$(version.minor).$(version.patch)"
+package_ver = "$(version.major).$(version.minor).$(version.patch)"
 
 for plat: [json_object] ($manifest_json["$project"])
 {
@@ -206,7 +205,7 @@ for plat: [json_object] $json
     }
     elif ($empty($liba))
     {
-      fail "$n: No shared, import, or static libraries specified. See '$src_base/packages.json'."
+      fail "$n: No shared, import, or static libraries specified. See '$src_base/package.json'."
     }
 
     if (!$empty($liba))
