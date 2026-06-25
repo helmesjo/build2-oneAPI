@@ -140,6 +140,8 @@ extract{~'/(.+)/'}:
     --target-default-type 'file' \
     --target-extension-type '=file' \
     --target-extension-type 'cfg=file' \
+    --target-extension-type 'f90=file' \
+    --target-extension-type 'mod=file' \
     --target-extension-type 'h=file' \
     --target-extension-type 'hpp=file' \
     --target-extension-type 'cuh=file' \
