@@ -58,18 +58,18 @@ exe{test-mkl-gf-ilp64}: cxx{mkl-gf-ilp64} $gf_ilp64 $thread_seq
 #
 import thread_tbb = liboneapi-mkl%libs{mkl-thread-tbb}
 ./: exe{test-mkl-thread-tbb}
-exe{test-mkl-thread-tbb}: cxx{mkl-thread-tbb} $libs $thread_tbb
+exe{test-mkl-thread-tbb}: cxx{mkl-thread-tbb} $libs $lp64 $thread_tbb
 
 import thread_gnu = liboneapi-mkl%libs{mkl-thread-gnu}
 ./: exe{test-mkl-thread-gnu}: include = ($cc.target.class == 'linux')
-exe{test-mkl-thread-gnu}: cxx{mkl-thread-gnu} $libs $thread_gnu
+exe{test-mkl-thread-gnu}: cxx{mkl-thread-gnu} $libs $lp64 $thread_gnu
 
 # cluster tests
 #
-import cluster_lp64 = liboneapi-mkl%libs{mkl-cluster-lp64-intelmpi}
-exe{test-mkl-cluster-lp64}: cxx{mkl-cluster-lp64} $libs $cluster_lp64
+import cluster_lp64  = liboneapi-mkl%libs{mkl-cluster-lp64-intelmpi}
 import cluster_ilp64 = liboneapi-mkl%libs{mkl-cluster-ilp64-intelmpi}
-exe{test-mkl-cluster-ilp64}: cxx{mkl-cluster-ilp64} $libs $cluster_ilp64
+exe{test-mkl-cluster-lp64}:  cxx{mkl-cluster-lp64}  $lp64  $thread_seq $cluster_lp64
+exe{test-mkl-cluster-ilp64}: cxx{mkl-cluster-ilp64} $ilp64 $thread_seq $cluster_ilp64
 
 # sycl tests
 #

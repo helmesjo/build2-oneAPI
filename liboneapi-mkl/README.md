@@ -32,32 +32,79 @@ import libs = liboneapi-mkl%libs{mkl}
 ```
 
 
+## Linking strategies
+
+MKL supports two mutually exclusive linking strategies.
+
+**SDL (Single Dynamic Library):** Link only `libs{mkl}`. The runtime
+library dispatches to the appropriate computational kernels automatically.
+Use this for BLAS, LAPACK, DFT, and VML. ScaLAPACK and BLACS are not
+available in SDL mode.
+
+**Layered:** Link an interface layer, a threading layer, and core
+explicitly. Use this when you need to control the threading layer or when
+using ScaLAPACK. Import and compose the targets you need:
+
+```
+import libs += liboneapi-mkl%libs{mkl-lp64}       \
+               liboneapi-mkl%libs{mkl-thread-seq}
+
+exe{myapp}: ... $libs
+```
+
+For ScaLAPACK with Intel MPI (lp64 interface, sequential threading):
+
+```
+import libs += liboneapi-mkl%libs{mkl-lp64}                  \
+               liboneapi-mkl%libs{mkl-thread-seq}            \
+               liboneapi-mkl%libs{mkl-cluster-lp64-intelmpi}
+
+exe{myapp}: ... $libs
+```
+
+The threading target (`mkl-thread-seq`, `mkl-thread-intel`, etc.) brings
+in `mkl-core` transitively. The cluster target (`mkl-cluster-lp64-*`)
+brings in ScaLAPACK and BLACS, and the interface layer (`mkl-lp64`)
+transitively.
+
+
 ## Importable targets
 
 This package provides the following importable targets:
 
 ```
+# Single Dynamic Library (SDL)
 libs{mkl}
-libs{mkl-core}
-libs{mkl-dispatch}
+
+# Layered: interface layer (pick one)
 libs{mkl-lp64}
 libs{mkl-ilp64}
-libs{mkl-gf-lp64}           (Linux only)
-libs{mkl-gf-ilp64}          (Linux only)
-libs{mkl-imalloc}
+libs{mkl-gf-lp64}                  (Linux only)
+libs{mkl-gf-ilp64}                 (Linux only)
+
+# Layered: threading layer (pick one)
 libs{mkl-thread-seq}
 libs{mkl-thread-intel}
-libs{mkl-thread-gnu}        (Linux only)
+libs{mkl-thread-gnu}               (Linux only)
 libs{mkl-thread-tbb}
-libs{mkl-sycl}
+
+# Layered: ScaLAPACK
 libs{mkl-cluster-lp64}
 libs{mkl-cluster-lp64-intelmpi}
-libs{mkl-cluster-lp64-openmpi}  (Linux only)
-libs{mkl-cluster-lp64-msmpi}    (Windows only)
+libs{mkl-cluster-lp64-openmpi}     (Linux only)
+libs{mkl-cluster-lp64-msmpi}       (Windows only)
 libs{mkl-cluster-ilp64}
 libs{mkl-cluster-ilp64-intelmpi}
-libs{mkl-cluster-ilp64-openmpi} (Linux only)
-libs{mkl-cluster-ilp64-msmpi}   (Windows only)
+libs{mkl-cluster-ilp64-openmpi}    (Linux only)
+libs{mkl-cluster-ilp64-msmpi}      (Windows only)
+
+# Pulled in transitively, rarely imported directly
+libs{mkl-core}
+libs{mkl-dispatch}
+libs{mkl-imalloc}                  (Windows only)
+
+# SYCL
+libs{mkl-sycl}
 ```
 
 

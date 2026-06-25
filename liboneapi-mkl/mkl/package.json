@@ -137,7 +137,7 @@
     },
     "mkl-core": {
       "libs": ["mkl-runtime/lib/libmkl_core.so.3"],
-      "depends": ["mkl-lp64"]
+      "depends": []
     },
     "mkl-dispatch": {
       "libs": [

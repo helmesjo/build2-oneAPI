@@ -65,7 +65,7 @@ Windows only: libimalloc.dll
   mkl                      []                     mkl-core, mkl-dispatch,
                                                   mkl-imalloc, mkl-thread-seq,
                                                   mkl-thread-intel
-  mkl-core                 mkl-lp64               mkl-dispatch
+  mkl-core                 []                     mkl-dispatch
   mkl-dispatch             []                     []
   mkl-lp64                 []                     []  (import-lib only on windows)
   mkl-ilp64                []                     []  (import-lib only on windows)
@@ -93,14 +93,22 @@ liboneapi-openmp{openmp} declared in buildfile (not package.json).
 
 Two valid strategies; do NOT mix them:
 
-  SDL:     link only mkl  (-lmkl_rt); it dlopen's everything at runtime.
-  Layered: link interface + threading + core in that order
+  SDL:     link only mkl  (-lmkl_rt); it dispatches everything at runtime
+           via dlopen. ScaLAPACK/BLACS are NOT supported in SDL mode
+           (Intel's own CMake config omits cluster libs from the SDL link
+           line entirely).
+  Layered: link interface + threading + core explicitly, in that order:
              e.g. -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
+           ScaLAPACK requires layered mode; add scalapack before the group
+           and blacs inside it:
+             -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential
+             -lmkl_core -lmkl_blacs_intelmpi_lp64
 
-On Linux, mkl_core.so.3 externalizes the DFTI symbol
-mkl_dft_dfti_error_class_external to the interface layer (lp64/ilp64);
-mkl-core therefore depends on mkl-lp64. On Windows mkl_core.2.dll
-self-contains this symbol so no such dependency is needed there.
+None of the MKL shared libraries (core, interface layers, threading layers,
+ScaLAPACK/BLACS) carry DT_NEEDED entries on each other. All inter-MKL
+symbol resolution happens through the global namespace at runtime via RPATH.
+The package.json depends entries reflect link-time symbol requirements only,
+not OS-level library dependencies.
 
 mkl_cdft_core (cluster FFT) is bundled inside mkl-core on Windows
 (mkl_cdft_core.2.dll ships alongside mkl_core.2.dll). On Linux it is
