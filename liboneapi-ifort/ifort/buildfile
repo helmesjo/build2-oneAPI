@@ -9,6 +9,12 @@ libs{ifort}: $intf_libs
 
 define [see_through] import: group
 
+define f90: file
+f90{*}: extension = f90
+
+define mod: file
+mod{*}: extension = mod
+
 name = $string.replace($project, 'liboneapi-', '')
 
 source redist.build
@@ -100,7 +106,45 @@ import{$name-cfgs}:
   end
 }}
 
-pub_hdrs = [strings]
+import{$name-includes}: extract{$name-devel}: update = match
+
+import{$name-includes}:
+{{
+  o = $directory($>[0])
+  d = $o/$name($>[0]).files
+
+  files = [paths]
+  for g : $filter($<, group)
+    if test -d $o/$name($g)/opt/compiler/include
+      find "$o/$name($g)/opt/compiler/include" -type f \
+        | sed -n -e 's/^(.+\.(h|f90|mod))$/\1/p' \
+        | set -n f [paths]
+      files += $f
+    end
+  end
+
+  depdb dyndep \
+    --dyn-target \
+    --target-cwd "$o" \
+    --target-what 'imported includes' \
+    --target-extension-type 'h=h' \
+    --target-extension-type 'f90=f90' \
+    --target-extension-type 'mod=mod' \
+    --format lines \
+    --file $d \
+    -- \
+      echo $regex.merge($files, '(.+)', '\1\n') >$d
+
+  diag import $>
+
+  for t : $filter_out($>, group)
+    touch $path($t)
+  end
+}}
+
+pub_hdrs = [strings] \
+  "-I$out_base/$name-devel/opt/compiler/include" \
+  "-I$out_base/$name-devel/opt/compiler/include/intel64"
 
 ./: json{package}
 json = [json_object] $json.load($src_base/package.json)
@@ -153,7 +197,7 @@ for plat: [json_object] $json
       # to make sure they are always unpacked first.
       #
       [rule_hint=cxx.link] \
-      libs{$n}: import{$name-legals}: \
+      libs{$n}: import{$name-legals} import{$name-includes}: \
                   extract{$name-devel}:
       {
         include = $enabled
@@ -224,8 +268,9 @@ for plat: [json_object] $json
       #
       libs{$n}:
       {
-        cc.type = cc
-        cc.export.poptions = $pub_hdrs
+        cc.type              = cc
+        cc.export.poptions   = $pub_hdrs
+        cc.pkgconfig.include = include/ifort/ include/ifort/intel64/
       }
 
       # For pre-releases use the complete version to make sure they cannot
@@ -276,9 +321,23 @@ exe{~'/(.+)/'}: $name-devel/fsdir{bin} extract{$name-devel}
 cfg{*}: install = bin/
 
 # Recreate the upstream include/ hierarchy under, e.g., /usr/include/.
+# Path qualification is required here to anchor the install at
+# opt/compiler/include/ rather than the full out-relative path.
 #
-{h hxx}{*}:
+$name-devel/opt/compiler/include/{h}{*}:
 {
-  install         = include/
+  install         = include/ifort/
+  install.subdirs = true
+}
+
+$name-devel/opt/compiler/include/f90{*}:
+{
+  install         = include/ifort/
+  install.subdirs = true
+}
+
+$name-devel/opt/compiler/include/intel64/mod{*}:
+{
+  install         = include/ifort/intel64/
   install.subdirs = true
 }
