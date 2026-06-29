@@ -69,7 +69,7 @@
         "compilers-common-runtime/lib/libimf.so",
         "compilers-common-runtime/lib/libsvml.so",
         "compilers-common-runtime/lib/libirng.so",
-        "compilers-common-runtime/lib/libintlc.so.5",
+        "compilers-common-runtime/lib/libintlc.so",
         "compilers-common-runtime/lib/libirc.so"
       ]
     },

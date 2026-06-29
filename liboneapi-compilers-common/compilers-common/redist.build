@@ -167,3 +167,41 @@ extract{~'/(.+)/'}:
   bsdtar -C "$o/$n/" -xmf "$a" --strip-components=3 $pattern
   touch $d
 }}
+
+# On Linux, install versioned SONAME companions alongside the base .so.
+# build2's default install only copies the base file. This also copies any
+# real versioned binaries (e.g. libtbb.so.12.18) and recreates versioned
+# symlinks (e.g. libtbb.so.12) pointing at the installed binary.
+#
+if ($cc.target.class != 'windows')
+{
+  libs{~'/lib(.+)/'}:
+  % install
+  {{
+    dst = $install.resolve($install.lib, [dir_path])
+
+    diag install $>
+
+    mkdir --no-cleanup -p "$dst"
+
+    for src : [paths] $path($>)
+      find "$directory($src)" -maxdepth 1 -name "$leaf($src).*" -type f \
+        | set real_files [paths]
+      find "$directory($src)" -maxdepth 1 -name "$leaf($src).*" -type l \
+        | set sym_files [paths]
+
+      if (!$empty($real_files))
+        real = $front($real_files)
+        cp --no-cleanup "$real" "$dst/"
+        rm -f "$dst/$leaf($src)"
+        ln --no-cleanup -s "$leaf($real)" "$dst/$leaf($src)"
+        for s : $sym_files
+          rm -f "$dst/$leaf($s)"
+          ln --no-cleanup -s "$leaf($real)" "$dst/$leaf($s)"
+        end
+      else
+        cp --no-cleanup "$src" "$dst/"
+      end
+    end
+  }}
+}

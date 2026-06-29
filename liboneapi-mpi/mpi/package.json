@@ -11,16 +11,16 @@
   {
     "mpi":
     {
-      "libs": ["mpi-runtime/lib/libmpi.so.12"]
+      "libs": ["mpi-runtime/lib/libmpi.so"]
     },
     "mpicxx":
     {
-      "libs":    ["mpi-runtime/lib/libmpicxx.so.12"],
+      "libs":    ["mpi-runtime/lib/libmpicxx.so"],
       "depends": ["mpi"]
     },
     "mpifort":
     {
-      "libs":    ["mpi-runtime/lib/libmpifort.so.12"],
+      "libs":    ["mpi-runtime/lib/libmpifort.so"],
       "depends": ["mpi"]
     }
   },

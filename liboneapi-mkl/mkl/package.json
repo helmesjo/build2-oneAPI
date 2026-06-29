@@ -132,11 +132,11 @@
 
   "x86_64-linux": {
     "mkl": {
-      "libs": ["mkl-runtime/lib/libmkl_rt.so.3"],
+      "libs": ["mkl-runtime/lib/libmkl_rt.so"],
       "depends": []
     },
     "mkl-core": {
-      "libs": ["mkl-runtime/lib/libmkl_core.so.3"],
+      "libs": ["mkl-runtime/lib/libmkl_core.so"],
       "depends": []
     },
     "mkl-dispatch": {
@@ -156,74 +156,74 @@
       "depends": []
     },
     "mkl-lp64": {
-      "libs": ["mkl-runtime/lib/libmkl_intel_lp64.so.3"],
+      "libs": ["mkl-runtime/lib/libmkl_intel_lp64.so"],
       "depends": []
     },
     "mkl-ilp64": {
-      "libs": ["mkl-runtime/lib/libmkl_intel_ilp64.so.3"],
+      "libs": ["mkl-runtime/lib/libmkl_intel_ilp64.so"],
       "depends": []
     },
     "mkl-gf-lp64": {
-      "libs": ["mkl-runtime/lib/libmkl_gf_lp64.so.3"],
+      "libs": ["mkl-runtime/lib/libmkl_gf_lp64.so"],
       "depends": []
     },
     "mkl-gf-ilp64": {
-      "libs": ["mkl-runtime/lib/libmkl_gf_ilp64.so.3"],
+      "libs": ["mkl-runtime/lib/libmkl_gf_ilp64.so"],
       "depends": []
     },
     "mkl-thread-seq": {
-      "libs": ["mkl-runtime/lib/libmkl_sequential.so.3"],
+      "libs": ["mkl-runtime/lib/libmkl_sequential.so"],
       "depends": ["mkl-core"]
     },
     "mkl-thread-intel": {
-      "libs": ["mkl-runtime/lib/libmkl_intel_thread.so.3"],
+      "libs": ["mkl-runtime/lib/libmkl_intel_thread.so"],
       "depends": ["mkl-core"]
     },
     "mkl-thread-gnu": {
-      "libs": ["mkl-runtime/lib/libmkl_gnu_thread.so.3"],
+      "libs": ["mkl-runtime/lib/libmkl_gnu_thread.so"],
       "loptions": ["-Wl,--no-as-needed", "-lgomp"],
       "depends": ["mkl-core"]
     },
     "mkl-thread-tbb": {
-      "libs": ["mkl-runtime/lib/libmkl_tbb_thread.so.3"],
+      "libs": ["mkl-runtime/lib/libmkl_tbb_thread.so"],
       "depends": ["mkl-core"]
     },
     "mkl-sycl": {
       "libs": [
-        "mkl-runtime/lib/libmkl_sycl_blas.so.6",
-        "mkl-runtime/lib/libmkl_sycl_data_fitting.so.6",
-        "mkl-runtime/lib/libmkl_sycl_dft.so.6",
-        "mkl-runtime/lib/libmkl_sycl_distributed_dft.so.2",
-        "mkl-runtime/lib/libmkl_sycl_lapack.so.6",
-        "mkl-runtime/lib/libmkl_sycl_rng.so.6",
-        "mkl-runtime/lib/libmkl_sycl_sparse.so.6",
-        "mkl-runtime/lib/libmkl_sycl_stats.so.6",
-        "mkl-runtime/lib/libmkl_sycl_vm.so.6"
+        "mkl-runtime/lib/libmkl_sycl_blas.so",
+        "mkl-runtime/lib/libmkl_sycl_data_fitting.so",
+        "mkl-runtime/lib/libmkl_sycl_dft.so",
+        "mkl-runtime/lib/libmkl_sycl_distributed_dft.so",
+        "mkl-runtime/lib/libmkl_sycl_lapack.so",
+        "mkl-runtime/lib/libmkl_sycl_rng.so",
+        "mkl-runtime/lib/libmkl_sycl_sparse.so",
+        "mkl-runtime/lib/libmkl_sycl_stats.so",
+        "mkl-runtime/lib/libmkl_sycl_vm.so"
       ],
       "depends": ["mkl-core"]
     },
     "mkl-cluster-lp64": {
-      "libs": ["mkl-runtime/lib/libmkl_scalapack_lp64.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_scalapack_lp64.so"],
       "depends": ["mkl-lp64"]
     },
     "mkl-cluster-lp64-intelmpi": {
-      "libs": ["mkl-runtime/lib/libmkl_blacs_intelmpi_lp64.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_blacs_intelmpi_lp64.so"],
       "depends": ["mkl-cluster-lp64"]
     },
     "mkl-cluster-lp64-openmpi": {
-      "libs": ["mkl-runtime/lib/libmkl_blacs_openmpi_lp64.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_blacs_openmpi_lp64.so"],
       "depends": ["mkl-cluster-lp64"]
     },
     "mkl-cluster-ilp64": {
-      "libs": ["mkl-runtime/lib/libmkl_scalapack_ilp64.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_scalapack_ilp64.so"],
       "depends": ["mkl-ilp64"]
     },
     "mkl-cluster-ilp64-intelmpi": {
-      "libs": ["mkl-runtime/lib/libmkl_blacs_intelmpi_ilp64.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_blacs_intelmpi_ilp64.so"],
       "depends": ["mkl-cluster-ilp64"]
     },
     "mkl-cluster-ilp64-openmpi": {
-      "libs": ["mkl-runtime/lib/libmkl_blacs_openmpi_ilp64.so.2"],
+      "libs": ["mkl-runtime/lib/libmkl_blacs_openmpi_ilp64.so"],
       "depends": ["mkl-cluster-ilp64"]
     }
   }

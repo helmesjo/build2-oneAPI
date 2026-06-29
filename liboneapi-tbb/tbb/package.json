@@ -36,22 +36,22 @@
 
   "x86_64-linux": {
     "tbb": {
-      "libs": ["tbb-runtime/lib/libtbb.so.12.18"],
+      "libs": ["tbb-runtime/lib/libtbb.so"],
       "depends": []
     },
     "tbb-malloc": {
-      "libs": ["tbb-runtime/lib/libtbbmalloc.so.2.18"],
+      "libs": ["tbb-runtime/lib/libtbbmalloc.so"],
       "depends": []
     },
     "tbb-malloc-proxy": {
-      "libs": ["tbb-runtime/lib/libtbbmalloc_proxy.so.2.18"],
+      "libs": ["tbb-runtime/lib/libtbbmalloc_proxy.so"],
       "depends": ["tbb-malloc"]
     },
     "tbb-bind": {
       "libs": [
-        "tbb-runtime/lib/libtbbbind.so.3.18",
-        "tbb-runtime/lib/libtbbbind_2_0.so.3.18",
-        "tbb-runtime/lib/libtbbbind_2_5.so.3.18"],
+        "tbb-runtime/lib/libtbbbind.so",
+        "tbb-runtime/lib/libtbbbind_2_0.so",
+        "tbb-runtime/lib/libtbbbind_2_5.so"],
       "depends": []
     }
   }
