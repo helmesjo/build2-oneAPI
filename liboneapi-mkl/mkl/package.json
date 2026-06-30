@@ -133,11 +133,11 @@
   "x86_64-linux": {
     "mkl": {
       "libs": ["mkl-runtime/lib/libmkl_rt.so"],
-      "depends": []
+      "depends": ["mkl-core", "mkl-dispatch", "mkl-thread-seq"]
     },
     "mkl-core": {
       "libs": ["mkl-runtime/lib/libmkl_core.so"],
-      "depends": []
+      "depends": ["mkl-lp64"]
     },
     "mkl-dispatch": {
       "libs": [
