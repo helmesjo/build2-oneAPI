@@ -28,6 +28,13 @@ Then import the library in your `buildfile`:
 import libs = liboneapi-mpi%libs{mpi}
 ```
 
+Or import the job launcher or diagnostic tool as a build tool:
+
+```
+import! mpiexec   = liboneapi-mpi%exe{mpiexec}
+import! impi_info = liboneapi-mpi%exe{impi_info}
+```
+
 
 ## Importable targets
 
@@ -35,9 +42,10 @@ This package provides the following importable targets:
 
 ```
 libs{mpi}
-libs{mpi-mt}      (Windows only: thread-multiple-safe variant)
 libs{mpicxx}      (Linux only: C++ bindings)
 libs{mpifort}     (Linux only: Fortran bindings)
+exe{mpiexec}
+exe{impi_info}
 ```
 
 
