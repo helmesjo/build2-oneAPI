@@ -250,11 +250,6 @@ $name-devel/include/{h hxx}{*}:
 
 # Executables declared in package.json.
 #
-if ($cc.target.class == 'windows')
-{
-  $name-runtime/bin/exe{*}: extension = exe
-}
-
 for plat: [json_object] ($json["exes"])
 {
   plat_key = $member_name($plat)
@@ -263,6 +258,8 @@ for plat: [json_object] ($json["exes"])
   for m: [json_object] ($member_value($plat))
   {
     p = $member_value($m)
+    if ($cc.target.class == 'windows')
+      p = "$(p).exe"
 
     ./: exe{$p}: include = $enabled
     <exe{$p}>: extract{$name-runtime}: include = $enabled
