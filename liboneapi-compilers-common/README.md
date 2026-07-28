@@ -41,7 +41,7 @@ This package provides the following importable targets:
 libs{compilers-common}
 libs{compilers-common-icx}
 libs{compilers-common-xpti}
-libs{compilers-common-ur}
+libs{compilers-common-ur}       (Windows only)
 libs{compilers-common-malloc}
 ```
 
