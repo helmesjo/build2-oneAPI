@@ -21,7 +21,7 @@ To start using `liboneapi-ifort` in your project, add the following `depends`
 value to your `manifest`, adjusting the version constraint as appropriate:
 
 ```
-depends: liboneapi-ifort ^2026.0.0-
+depends: liboneapi-ifort ^2026.0.0
 ```
 
 Then import the Fortran runtime for linking against Fortran-compiled code:

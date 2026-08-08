@@ -23,7 +23,7 @@ To start using `liboneapi-compilers-common` in your project, add the following
 appropriate:
 
 ```
-depends: liboneapi-compilers-common ^2026.0.0-
+depends: liboneapi-compilers-common ^2026.0.0
 ```
 
 Then import the library in your `buildfile`:
